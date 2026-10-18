@@ -1,0 +1,14 @@
+[build]
+  command = "npm run build"
+  publish = "dist/obsidian-trust-bank-frontend/browser"
+
+[[redirects]]
+  from = "/api/*"
+  to = "https://backend-9cmi.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
