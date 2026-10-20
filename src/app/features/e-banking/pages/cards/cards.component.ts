@@ -55,7 +55,7 @@ import { Card } from '../../../../core/models/bank.models';
               <!-- Card Header: Brand & Contactless Symbol -->
               <div class="flex items-center justify-between mb-6 relative z-10">
                 <div class="flex items-center gap-2">
-                  <span class="text-xs font-black tracking-widest text-[#0BB4D2]">VAULTATLANTIC</span>
+                  <span class="text-xs font-black tracking-widest text-[#0BB4D2]">VAULTPROVENANCE</span>
                   <span class="px-2 py-0.5 rounded text-[9px] font-extrabold uppercase bg-white/10 text-slate-200 border border-white/20">
                     {{ c.tier || 'STANDARD' }}
                   </span>

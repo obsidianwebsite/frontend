@@ -54,7 +54,7 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
 
       <!-- ========================================================================= -->
       <!-- STATIC MASTER ADMIN SIDEBAR NAVIGATION (Desktop lg+)                      -->
-      <!-- Dedicated full-height fixed left rail, soothing VaultAtlantic palette     -->
+      <!-- Dedicated full-height fixed left rail, soothing VaultProvenance palette     -->
       <!-- ========================================================================= -->
       <aside 
         class="fixed inset-y-0 left-0 w-64 xl:w-72 bg-[#003432] text-slate-200 border-r border-[#002625] z-40 flex flex-col h-screen select-none transition-transform duration-300 ease-in-out shadow-xl"
@@ -93,7 +93,7 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
             </div>
             <div class="overflow-hidden flex-1 min-w-0">
               <div class="font-bold text-xs text-white truncate">{{ currentUser()?.fullName || 'Systems Administrator' }}</div>
-              <div class="text-[10px] text-slate-300 font-mono truncate">{{ currentUser()?.email || 'admin@vaultatlantic.com' }}</div>
+              <div class="text-[10px] text-slate-300 font-mono truncate">{{ currentUser()?.email || 'admin@vaultprovenance.com' }}</div>
               <div class="flex items-center gap-1.5 mt-0.5">
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                 <span class="text-[9px] font-bold text-emerald-300 uppercase">Administrator Mode</span>
@@ -293,7 +293,7 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
         <footer class="hidden lg:block bg-white border-t border-slate-200 py-4 px-8 text-xs text-slate-500">
           <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
             <div>
-              &copy; 2026 <strong>VaultAtlantic Bank Plc</strong> &bull; Administrative Systems
+              &copy; 2026 <strong>VaultProvenance Bank Plc</strong> &bull; Administrative Systems
             </div>
             <div class="text-[11px] text-slate-400">
               Nottingham, UK &bull; Internal Compliance Console
@@ -365,7 +365,7 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
             <div class="flex items-center justify-between">
               <div>
                 <h3 class="font-bold text-base text-[#003432]">Admin Queues &amp; Settings</h3>
-                <p class="text-xs text-slate-500">VaultAtlantic Operational Controls</p>
+                <p class="text-xs text-slate-500">VaultProvenance Operational Controls</p>
               </div>
               <button (click)="moreSheetOpen.set(false)" class="p-2 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>

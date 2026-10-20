@@ -68,7 +68,7 @@ interface ChatMessage {
                   <span>VaultBot</span>
                   <span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-400/20 text-emerald-300 font-bold uppercase tracking-wider">AI Live</span>
                 </div>
-                <div class="text-[10px] text-teal-200/80">VaultAtlantic Concierge &amp; Treasury AI</div>
+                <div class="text-[10px] text-teal-200/80">VaultProvenance Concierge &amp; Treasury AI</div>
               </div>
             </div>
 
@@ -246,7 +246,7 @@ export class ChatbotWidgetComponent implements AfterViewChecked {
     {
       id: 'welcome',
       sender: 'bot',
-      text: '### Welcome to VaultAtlantic!\nI am **VaultBot AI**, your 24/7 sovereign banking concierge and treasury assistant.\n\nAsk me about your live account balance, SWIFT wire coordinates, statutory **COT / IMF** clearance codes, payment cards, commercial loans, or connect directly with our human compliance officers.',
+      text: '### Welcome to VaultProvenance!\nI am **VaultBot AI**, your 24/7 sovereign banking concierge and treasury assistant.\n\nAsk me about your live account balance, SWIFT wire coordinates, statutory **COT / IMF** clearance codes, payment cards, commercial loans, or connect directly with our human compliance officers.',
       time: 'Just now',
       suggestedActions: [
         { label: 'Check Balance', link: '/e-banking/overview' },
@@ -265,7 +265,7 @@ export class ChatbotWidgetComponent implements AfterViewChecked {
       {
         id: 'welcome-' + Date.now(),
         sender: 'bot',
-        text: '### Conversation Reset\nHow may I assist you with your VaultAtlantic accounts or institutional services today?',
+        text: '### Conversation Reset\nHow may I assist you with your VaultProvenance accounts or institutional services today?',
         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         suggestedActions: [
           { label: 'Account Overview', link: '/e-banking/overview' },

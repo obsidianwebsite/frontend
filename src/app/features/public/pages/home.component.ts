@@ -127,7 +127,7 @@ import { RouterLink } from '@angular/router';
             <div class="lg:col-span-7 space-y-6">
               <div class="space-y-2">
                 <h2 class="text-3xl sm:text-4xl font-black font-nunito text-[#003432] tracking-tight">
-                  VaultAtlantic Bank's Previous Record
+                  VaultProvenance Bank's Previous Record
                 </h2>
                 <h4 class="text-lg font-bold text-[#0BB4D2]">
                   More than 15 years experience
@@ -135,11 +135,11 @@ import { RouterLink } from '@angular/router';
               </div>
 
               <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
-                Over the past 15 years, VaultAtlantic Bank Plc. has evolved from an obscure British Bank into a world-class financial institution. Today, we are one of the largest banks in UK in terms of assets, loans, deposits and branch network; a feat which has been achieved through a robust long-term approach to client solutions – providing committed and innovative advice.
+                Over the past 15 years, VaultProvenance Bank Plc. has evolved from an obscure British Bank into a world-class financial institution. Today, we are one of the largest banks in UK in terms of assets, loans, deposits and branch network; a feat which has been achieved through a robust long-term approach to client solutions – providing committed and innovative advice.
               </p>
               
               <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
-                VaultAtlantic Bank has built its strength and success in corporate banking and is now applying that expertise to the personal and business banking platforms. VaultAtlantic Bank is focused on mainstreaming sustainable business practices into its operations. The Bank strives to deliver sustainable economic growth that is profitable, environmentally responsible, and socially relevant.
+                VaultProvenance Bank has built its strength and success in corporate banking and is now applying that expertise to the personal and business banking platforms. VaultProvenance Bank is focused on mainstreaming sustainable business practices into its operations. The Bank strives to deliver sustainable economic growth that is profitable, environmentally responsible, and socially relevant.
               </p>
 
               <div class="flex items-center gap-6 pt-2">
@@ -169,7 +169,7 @@ import { RouterLink } from '@angular/router';
 
             <!-- Right Image -->
             <div class="lg:col-span-5 rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
-              <img src="images/previous_record-2.jpg" alt="VaultAtlantic Bank Headquarters" class="w-full h-auto object-cover">
+              <img src="images/previous_record-2.jpg" alt="VaultProvenance Bank Headquarters" class="w-full h-auto object-cover">
             </div>
 
           </div>
@@ -195,7 +195,7 @@ import { RouterLink } from '@angular/router';
                 <img src="images/icons/step-1.png" alt="Fast Loan Approval" class="h-16 w-auto">
               </div>
               <p class="text-xs text-slate-600 leading-relaxed">
-                Existing VaultAtlantic Bank customers looking to borrow money can get a loan from &pound;1,000 to &pound;50,000 with fixed repayments over 1 to 7 years.
+                Existing VaultProvenance Bank customers looking to borrow money can get a loan from &pound;1,000 to &pound;50,000 with fixed repayments over 1 to 7 years.
               </p>
             </div>
 
@@ -233,7 +233,7 @@ import { RouterLink } from '@angular/router';
             
             <!-- Left Card Image -->
             <div class="lg:col-span-6 flex justify-center">
-              <img src="images/loan-card.png" alt="VaultAtlantic Card" class="max-w-md w-full h-auto drop-shadow-2xl">
+              <img src="images/loan-card.png" alt="VaultProvenance Card" class="max-w-md w-full h-auto drop-shadow-2xl">
             </div>
 
             <!-- Right E-Banking Features -->
@@ -320,7 +320,7 @@ import { RouterLink } from '@angular/router';
                 </div>
               </div>
               <p class="text-sm text-slate-600 leading-relaxed italic">
-                &ldquo;Banking with VaultAtlantic Bank has been an experience from inception till date and they have the best banking staffs have met. they are the best in all of UK.&rdquo;
+                &ldquo;Banking with VaultProvenance Bank has been an experience from inception till date and they have the best banking staffs have met. they are the best in all of UK.&rdquo;
               </p>
             </div>
 

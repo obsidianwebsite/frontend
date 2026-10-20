@@ -67,7 +67,7 @@ import { ModalService } from '../../../core/services/modal.service';
               <div>
                 <label class="block text-slate-700 font-bold uppercase tracking-wider text-[10px] mb-1.5">Website / Institution Name *</label>
                 <input type="text" [(ngModel)]="form.site_name" required
-                       placeholder="e.g. VaultAtlantic Bank Plc"
+                       placeholder="e.g. VaultProvenance Bank Plc"
                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs font-bold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0BB4D2]/40 transition" />
               </div>
 
@@ -148,7 +148,7 @@ import { ModalService } from '../../../core/services/modal.service';
               <div>
                 <label class="block text-slate-700 font-bold uppercase tracking-wider text-[10px] mb-1.5">Executive Admin Notification Email *</label>
                 <input type="email" [(ngModel)]="form.admin_notification_email" required
-                       placeholder="admin@vaultatlantic.com"
+                       placeholder="admin@vaultprovenance.com"
                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs font-mono font-bold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0BB4D2]/40 transition" />
                 <span class="text-[10px] text-slate-400 mt-1 block">Inquiries dispatched by customers are routed to this inbox.</span>
               </div>
@@ -156,7 +156,7 @@ import { ModalService } from '../../../core/services/modal.service';
               <div>
                 <label class="block text-slate-700 font-bold uppercase tracking-wider text-[10px] mb-1.5">Public Support Email *</label>
                 <input type="email" [(ngModel)]="form.contact_email" required
-                       placeholder="support@vaultatlantic.com"
+                       placeholder="support@vaultprovenance.com"
                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs font-mono font-bold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0BB4D2]/40 transition" />
                 <span class="text-[10px] text-slate-400 mt-1 block">Displayed on public footer and account statement contacts.</span>
               </div>
@@ -195,7 +195,7 @@ import { ModalService } from '../../../core/services/modal.service';
               <div>
                 <label class="block text-slate-700 font-bold uppercase tracking-wider text-[10px] mb-1.5">SWIFT / BIC Clearing Code</label>
                 <input type="text" [(ngModel)]="form.swift_code"
-                       placeholder="VAUTGB2L"
+                       placeholder="VPVNGB2L"
                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs font-mono font-bold text-slate-800 uppercase focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0BB4D2]/40 transition" />
               </div>
 
@@ -217,7 +217,7 @@ import { ModalService } from '../../../core/services/modal.service';
               <div>
                 <label class="block text-slate-700 font-bold uppercase tracking-wider text-[10px] mb-1.5">Official Copyright Notice</label>
                 <input type="text" [(ngModel)]="form.copyright_text"
-                       placeholder="© 2026 VaultAtlantic Bank Plc."
+                       placeholder="© 2026 VaultProvenance Bank Plc."
                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs font-medium text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0BB4D2]/40 transition" />
               </div>
 
@@ -261,13 +261,13 @@ import { ModalService } from '../../../core/services/modal.service';
                     </div>
                   }
                   <div>
-                    <span class="text-sm font-black tracking-tight text-white block">{{ form.site_name || 'VaultAtlantic' }}</span>
+                    <span class="text-sm font-black tracking-tight text-white block">{{ form.site_name || 'VaultProvenance' }}</span>
                     <span class="text-[9px] tracking-widest text-[#0BB4D2] uppercase font-bold block -mt-0.5">{{ form.site_tagline || 'Private Banking' }}</span>
                   </div>
                 </div>
 
                 <span class="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-500/30">
-                  {{ form.swift_code || 'VAUTGB2L' }}
+                  {{ form.swift_code || 'VPVNGB2L' }}
                 </span>
               </div>
             </div>
@@ -278,7 +278,7 @@ import { ModalService } from '../../../core/services/modal.service';
               <div class="rounded-2xl bg-gradient-to-tr from-[#003432] via-[#002625] to-[#004d4a] p-5 text-white shadow-lg relative overflow-hidden border border-teal-500/20">
                 <div class="flex justify-between items-start mb-6">
                   <div>
-                    <span class="text-xs font-black tracking-wider text-white block">{{ form.site_name || 'VaultAtlantic' }}</span>
+                    <span class="text-xs font-black tracking-wider text-white block">{{ form.site_name || 'VaultProvenance' }}</span>
                     <span class="text-[9px] text-[#5eead4] uppercase font-bold tracking-widest">Master Private Debit</span>
                   </div>
                   <span class="text-sm font-bold text-teal-300">✦</span>

@@ -91,7 +91,7 @@ import { ModalService } from '../../../../core/services/modal.service';
                       [ngClass]="isStepCompleted(claim.refund_stage, 4) ? 'bg-[#003432] text-white' : 'bg-slate-200 text-slate-600'">4</span>
                 <span class="font-extrabold text-xs">Funds Disbursed</span>
               </div>
-              <p class="text-[11px] text-slate-500">Credited to your VaultAtlantic checking account.</p>
+              <p class="text-[11px] text-slate-500">Credited to your VaultProvenance checking account.</p>
             </div>
 
           </div>
@@ -114,7 +114,7 @@ import { ModalService } from '../../../../core/services/modal.service';
         <div class="p-5 sm:p-6 border-b border-slate-100 flex items-center justify-between">
           <div>
             <h2 class="text-base font-extrabold text-[#003432]">Tax Returns &amp; Refund History</h2>
-            <p class="text-xs text-slate-500">Official filing identifiers linked to your VaultAtlantic profile.</p>
+            <p class="text-xs text-slate-500">Official filing identifiers linked to your VaultProvenance profile.</p>
           </div>
           <button (click)="loadClaims()" class="p-2 text-slate-400 hover:text-[#003432] transition">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>

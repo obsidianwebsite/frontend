@@ -1,7 +1,7 @@
 {
-  "name": "vaultatlantic-frontend",
+  "name": "vaultprovenance-frontend",
   "version": "1.0.0",
-  "description": "VaultAtlantic Core Banking Web Application (Angular 18 & Tailwind CSS)",
+  "description": "VaultProvenance Core Banking Web Application (Angular 18 & Tailwind CSS)",
   "private": true,
   "scripts": {
     "ng": "node ./node_modules/@angular/cli/bin/ng.js",

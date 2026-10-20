@@ -244,7 +244,7 @@ export class StatementComponent implements OnInit {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `VaultAtlantic_Bank_Statement_${Date.now()}.pdf`;
+        a.download = `VaultProvenance_Bank_Statement_${Date.now()}.pdf`;
         a.click();
         window.URL.revokeObjectURL(url);
       },

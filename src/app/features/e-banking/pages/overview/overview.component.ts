@@ -278,7 +278,7 @@ import { DashboardSummary, Transaction } from '../../../../core/models/bank.mode
             <!-- Card Visual -->
             <div class="w-full rounded-2xl p-5 bg-gradient-to-tr from-[#003432] to-[#0BB4D2] text-white shadow-md relative overflow-hidden flex flex-col justify-between h-44">
               <div class="flex justify-between items-start">
-                <span class="text-xs font-black uppercase tracking-wider">VaultAtlantic Debit</span>
+                <span class="text-xs font-black uppercase tracking-wider">VaultProvenance Debit</span>
                 <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-white/20 text-white">VISA</span>
               </div>
               <div class="font-mono text-base tracking-widest text-slate-100">

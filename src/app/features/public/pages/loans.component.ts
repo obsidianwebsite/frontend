@@ -318,7 +318,7 @@ import { FormsModule } from '@angular/forms';
             </div>
             <h3 class="text-lg font-bold text-slate-900">Same-day funding</h3>
             <p class="text-xs text-slate-600 leading-relaxed">
-              Once approved, funds are deposited directly into your VaultAtlantic checking account within 24 business hours.
+              Once approved, funds are deposited directly into your VaultProvenance checking account within 24 business hours.
             </p>
           </div>
 
@@ -335,7 +335,7 @@ import { FormsModule } from '@angular/forms';
           <div class="obsidian-card p-6 bg-white space-y-2">
             <h4 class="font-bold text-slate-900 text-sm">Can I pay off my loan early without penalty?</h4>
             <p class="text-xs text-slate-600 leading-relaxed">
-              Yes, absolutely. VaultAtlantic Bank never charges prepayment or early termination fees. Pay off all or part of your balance anytime to save on interest.
+              Yes, absolutely. VaultProvenance Bank never charges prepayment or early termination fees. Pay off all or part of your balance anytime to save on interest.
             </p>
           </div>
 

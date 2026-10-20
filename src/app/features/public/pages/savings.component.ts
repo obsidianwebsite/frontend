@@ -170,7 +170,7 @@ import { FormsModule } from '@angular/forms';
           <div class="text-center max-w-2xl mx-auto space-y-3">
             <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Rate Comparison</span>
             <h2 class="text-3xl font-black text-slate-900 tracking-tight">
-              See how much more you earn with VaultAtlantic
+              See how much more you earn with VaultProvenance
             </h2>
             <p class="text-sm text-slate-600">
               National average savings rates are stuck at 0.01% to 0.40%. Here's the difference on a $25,000 deposit over 1 year:
@@ -193,7 +193,7 @@ import { FormsModule } from '@angular/forms';
 
             <div class="p-6 rounded-3xl bg-slate-950 text-white border-2 border-emerald-500 shadow-xl space-y-3 relative overflow-hidden">
               <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-emerald-500/20 rounded-full blur-xl"></div>
-              <span class="text-xs font-black text-emerald-400 uppercase tracking-wider">VaultAtlantic Bank</span>
+              <span class="text-xs font-black text-emerald-400 uppercase tracking-wider">VaultProvenance Bank</span>
               <div class="text-4xl font-black text-emerald-400 font-tabular">&#36;1,125.00</div>
               <p class="text-[11px] text-slate-300 font-medium">Earn over 450x more interest on your cash</p>
             </div>

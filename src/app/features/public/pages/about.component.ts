@@ -20,7 +20,7 @@ import { RouterLink } from '@angular/router';
             Built for people who want better banking.
           </h1>
           <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
-            We started VaultAtlantic Bank with a simple goal: make managing, saving, and moving money honest, easy, and completely stress-free.
+            We started VaultProvenance Bank with a simple goal: make managing, saving, and moving money honest, easy, and completely stress-free.
           </p>
         </div>
       </section>
@@ -37,7 +37,7 @@ import { RouterLink } from '@angular/router';
               For too long, traditional banks have relied on confusing fees, endless paperwork, and long branch lines. We believe you deserve better.
             </p>
             <p class="text-base text-slate-600 leading-relaxed">
-              VaultAtlantic Bank combines the security of a regulated commercial bank with the ease of modern technology. Today, we proudly serve over 45,000 personal and business customers across the UK, Europe, North America, and worldwide.
+              VaultProvenance Bank combines the security of a regulated commercial bank with the ease of modern technology. Today, we proudly serve over 45,000 personal and business customers across the UK, Europe, North America, and worldwide.
             </p>
             <div class="pt-2 flex items-center gap-6">
               <div>

@@ -130,7 +130,7 @@ import { RouterLink } from '@angular/router';
             <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
               <div>
                 <span class="text-xs font-mono text-cyan-400 font-bold uppercase tracking-widest">Global Security Infrastructure</span>
-                <h3 class="text-xl font-black text-white mt-1">VaultAtlantic Core Financial Node Status</h3>
+                <h3 class="text-xl font-black text-white mt-1">VaultProvenance Core Financial Node Status</h3>
               </div>
               <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950 border border-emerald-700 text-emerald-400 text-xs font-bold">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -167,7 +167,7 @@ import { RouterLink } from '@angular/router';
       <!-- CALL TO ACTION -->
       <section class="py-20 bg-slate-950 text-white text-center">
         <div class="max-w-3xl mx-auto px-5 sm:px-8 space-y-6">
-          <h2 class="text-3xl sm:text-4xl font-black tracking-tight">Your money is safe with VaultAtlantic.</h2>
+          <h2 class="text-3xl sm:text-4xl font-black tracking-tight">Your money is safe with VaultProvenance.</h2>
           <p class="text-slate-400 text-sm sm:text-base">
             Open a fully protected commercial checking and savings account today.
           </p>

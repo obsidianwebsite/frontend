@@ -25,20 +25,20 @@ export interface SystemSettings {
 
 const DEFAULT_SETTINGS: SystemSettings = {
   id: 'main_settings',
-  site_name: 'VaultAtlantic Bank Plc',
+  site_name: 'VaultProvenance Bank Plc',
   site_tagline: 'Commercial Banking & Institutional Treasury',
   site_logo_url: '',
   site_favicon_url: '',
-  contact_email: 'support@vaultatlantic.com',
-  admin_notification_email: 'admin@vaultatlantic.com',
+  contact_email: 'support@vaultprovenance.com',
+  admin_notification_email: 'admin@vaultprovenance.com',
   phone_number: '+44 20 7946 0912',
   address: '12 Bridlesmith Walk, Nottingham, NG1 2HB, United Kingdom',
-  swift_code: 'VAUTGB2L',
+  swift_code: 'VPVNGB2L',
   routing_number: '026009593',
   currency_code: 'USD',
   currency_symbol: '$',
-  about_summary: 'VaultAtlantic Bank Plc is an authorized and regulated British-Atlantic commercial banking and institutional treasury corporation providing private wealth management, corporate escrow, multi-currency clearing, and structured capital facilities.',
-  copyright_text: '© 2026 VaultAtlantic Bank Plc. Authorized & Regulated Commercial Banking Institution.',
+  about_summary: 'VaultProvenance Bank Plc is an authorized and regulated British-Atlantic commercial banking and institutional treasury corporation providing private wealth management, corporate escrow, multi-currency clearing, and structured capital facilities.',
+  copyright_text: '© 2026 VaultProvenance Bank Plc. Authorized & Regulated Commercial Banking Institution.',
   support_hours: '24/7 Global Treasury Support Desk',
   is_setup_completed: true
 };
@@ -54,14 +54,14 @@ export class SystemSettingsService {
   loading = signal<boolean>(false);
 
   // Computed convenient accessors
-  siteName = computed(() => this.settings().site_name || 'VaultAtlantic Bank Plc');
+  siteName = computed(() => this.settings().site_name || 'VaultProvenance Bank Plc');
   siteTagline = computed(() => this.settings().site_tagline || 'Commercial Banking & Institutional Treasury');
   siteLogoUrl = computed(() => this.settings().site_logo_url || '');
-  contactEmail = computed(() => this.settings().contact_email || 'support@vaultatlantic.com');
-  adminEmail = computed(() => this.settings().admin_notification_email || 'admin@vaultatlantic.com');
+  contactEmail = computed(() => this.settings().contact_email || 'support@vaultprovenance.com');
+  adminEmail = computed(() => this.settings().admin_notification_email || 'admin@vaultprovenance.com');
   phoneNumber = computed(() => this.settings().phone_number || '+44 20 7946 0912');
   address = computed(() => this.settings().address || '12 Bridlesmith Walk, Nottingham, NG1 2HB, United Kingdom');
-  swiftCode = computed(() => this.settings().swift_code || 'VAUTGB2L');
+  swiftCode = computed(() => this.settings().swift_code || 'VPVNGB2L');
   routingNumber = computed(() => this.settings().routing_number || '026009593');
   currencySymbol = computed(() => this.settings().currency_symbol || '$');
   currencyCode = computed(() => this.settings().currency_code || 'USD');
