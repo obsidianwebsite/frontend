@@ -170,8 +170,15 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
         </div>
 
         <!-- Footer Notice -->
-        <div class="text-center py-4 text-xs text-slate-400">
-          &copy; 2026 {{ systemSettings.siteName() }}. Authorized and Regulated Banking Institution.
+        <div class="text-center py-4 text-xs text-slate-400 space-y-1">
+          <div>&copy; 2026 {{ systemSettings.siteName() }}. Authorized and Regulated Banking Institution.</div>
+          <div class="flex items-center justify-center gap-3 text-slate-500 text-[11px] pt-1">
+            <a routerLink="/terms" class="hover:text-cyan-400 transition">Terms &amp; Conditions</a>
+            <span>&bull;</span>
+            <a routerLink="/privacy" class="hover:text-cyan-400 transition">Privacy Policy</a>
+            <span>&bull;</span>
+            <a routerLink="/security" class="hover:text-cyan-400 transition">Security</a>
+          </div>
         </div>
 
       </div>

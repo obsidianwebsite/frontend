@@ -46,6 +46,14 @@ export const routes: Routes = [
       {
         path: 'contact',
         loadComponent: () => import('./features/public/pages/contact.component').then(m => m.ContactComponent)
+      },
+      {
+        path: 'terms',
+        loadComponent: () => import('./features/public/pages/terms.component').then(m => m.TermsComponent)
+      },
+      {
+        path: 'privacy',
+        loadComponent: () => import('./features/public/pages/privacy.component').then(m => m.PrivacyComponent)
       }
     ]
   },

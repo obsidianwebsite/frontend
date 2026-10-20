@@ -231,15 +231,15 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
               </div>
             </div>
 
-            <!-- Col 2: About -->
+            <!-- Col 2: About & Legal -->
             <div class="lg:col-span-2 space-y-3 text-xs">
-              <h4 class="font-bold text-white text-base tracking-wide border-b border-teal-800/80 pb-2">About</h4>
+              <h4 class="font-bold text-white text-base tracking-wide border-b border-teal-800/80 pb-2">About &amp; Legal</h4>
               <ul class="space-y-2 text-slate-300">
-                <li><a routerLink="/about" class="hover:text-[#0BB4D2] transition">How it Works</a></li>
-                <li><a routerLink="/security" class="hover:text-[#0BB4D2] transition">Guarantee</a></li>
-                <li><a routerLink="/security" class="hover:text-[#0BB4D2] transition">Security</a></li>
-                <li><a routerLink="/contact" class="hover:text-[#0BB4D2] transition">Contact</a></li>
-                <li><a routerLink="/about" class="hover:text-[#0BB4D2] transition">Our story</a></li>
+                <li><a routerLink="/about" class="hover:text-[#0BB4D2] transition">Our Story</a></li>
+                <li><a routerLink="/terms" class="hover:text-[#0BB4D2] text-teal-300 font-semibold transition">Terms &amp; Conditions</a></li>
+                <li><a routerLink="/privacy" class="hover:text-[#0BB4D2] text-teal-300 font-semibold transition">Privacy Policy</a></li>
+                <li><a routerLink="/security" class="hover:text-[#0BB4D2] transition">Guarantee &amp; Security</a></li>
+                <li><a routerLink="/contact" class="hover:text-[#0BB4D2] transition">Contact Us</a></li>
               </ul>
             </div>
 
@@ -278,10 +278,24 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
 
           </div>
 
-          <!-- Bottom Branch Address Strip -->
-          <div class="mt-12 pt-8 border-t border-teal-900/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-            <p>{{ systemSettings.siteName() }}, {{ systemSettings.address() }}</p>
-            <p>Customer Support: <span class="text-white font-semibold">{{ systemSettings.phoneNumber() }}</span> | {{ systemSettings.contactEmail() }}</p>
+          <!-- Bottom Legal & Regulatory Strip -->
+          <div class="mt-12 pt-8 border-t border-teal-900/80 space-y-4">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+              <p>{{ systemSettings.siteName() }}, {{ systemSettings.address() }}</p>
+              <p>Customer Support: <span class="text-white font-semibold">{{ systemSettings.phoneNumber() }}</span> | {{ systemSettings.contactEmail() }}</p>
+            </div>
+            <div class="pt-3 border-t border-teal-950/80 flex flex-col md:flex-row items-center justify-between gap-3 text-[11px] text-slate-400">
+              <p>
+                {{ systemSettings.siteName() }} operates in full compliance with international banking standards, AML directives, and capital adequacy frameworks.
+              </p>
+              <div class="flex items-center gap-3 text-teal-300 font-medium">
+                <a routerLink="/terms" class="hover:text-white transition underline underline-offset-4">Terms &amp; Conditions</a>
+                <span class="text-slate-600">&bull;</span>
+                <a routerLink="/privacy" class="hover:text-white transition underline underline-offset-4">Privacy Policy</a>
+                <span class="text-slate-600">&bull;</span>
+                <a routerLink="/security" class="hover:text-white transition underline underline-offset-4">Security Disclosures</a>
+              </div>
+            </div>
           </div>
         </div>
       </footer>

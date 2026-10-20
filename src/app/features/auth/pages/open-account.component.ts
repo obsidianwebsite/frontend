@@ -211,7 +211,12 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
               <label class="flex items-center gap-3 cursor-pointer text-xs text-slate-700">
                 <input type="checkbox" [(ngModel)]="form.agreeTerms" name="agreeTerms" required
                        class="rounded border-slate-300 text-cyan-600 focus:ring-cyan-500 w-4 h-4 cursor-pointer">
-                <span class="font-medium">I Agree With VaultProvenance Bank Plc Terms &amp; Conditions and Electronic Banking Privacy Protocols.</span>
+                <span class="font-medium">
+                  I agree to the 
+                  <a routerLink="/terms" target="_blank" class="text-teal-700 hover:text-teal-900 underline font-semibold">Terms &amp; Conditions</a> 
+                  and 
+                  <a routerLink="/privacy" target="_blank" class="text-teal-700 hover:text-teal-900 underline font-semibold">Electronic Banking Privacy Protocols</a>.
+                </span>
               </label>
             </div>
 
