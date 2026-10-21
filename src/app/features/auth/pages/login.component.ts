@@ -225,12 +225,6 @@ export class LoginComponent {
         this.isLoading = false;
         if (res.status === 'PIN_REQUIRED' || res.nextStep === 'PIN_VERIFICATION') {
           this.router.navigate(['/pin']);
-        } else if (res.status === 'INACTIVE' || res.status === 'ACCOUNT_INACTIVE') {
-          this.modalService.alert({
-            title: 'Account Inactive',
-            message: 'The Selected Account Is Inactive; Kindly Contact your home branch to resolve the issue.',
-            type: 'danger'
-          });
         }
       },
       error: (err) => {
@@ -238,10 +232,10 @@ export class LoginComponent {
         const msg = err.error?.message || 'Invalid Email or Password. Try Again or contact support to recover your password.';
         const status = err.error?.status;
         
-        if (status === 'INACTIVE' || status === 'ACCOUNT_INACTIVE' || err.status === 403) {
+        if (status === 'SUSPENDED') {
           this.modalService.alert({
-            title: 'Account Inactive',
-            message: 'The Selected Account Is Inactive; Kindly Contact your home branch to resolve the issue.',
+            title: 'Account Suspended',
+            message: msg || 'Your account has been suspended. Please contact customer support.',
             type: 'danger'
           });
         } else {

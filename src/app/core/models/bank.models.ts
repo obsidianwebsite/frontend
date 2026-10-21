@@ -14,6 +14,7 @@ export interface User {
   lastLoginAt?: string;
   lastLoginIp?: string;
   clientIp?: string;
+  status?: 'ACTIVE' | 'INACTIVE' | 'SUSPENDED';
 }
 
 export interface Account {
@@ -32,7 +33,7 @@ export interface Account {
   kycStatus?: 'UNVERIFIED' | 'PENDING' | 'VERIFIED' | 'REJECTED';
   kycDocumentType?: string;
   percentageChange?: string;
-  status: 'ACTIVE' | 'DORMANT' | 'FROZEN' | 'CLOSED';
+  status: 'ACTIVE' | 'INACTIVE' | 'DORMANT' | 'FROZEN' | 'CLOSED';
 }
 
 export interface Transaction {

@@ -24,6 +24,19 @@ import { Deposit } from '../../../../core/models/bank.models';
         </a>
       </div>
 
+      <!-- Inactive Account Banner -->
+      @if (accountStatus === 'INACTIVE') {
+        <div class="rounded-2xl p-4 bg-amber-50 border border-amber-300 text-amber-900 flex items-start gap-3 shadow-sm">
+          <svg class="w-5 h-5 text-amber-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+          <div class="text-xs sm:text-sm">
+            <p class="font-bold text-amber-900">Account Inactive — Deposits Disabled</p>
+            <p class="text-amber-800 mt-0.5">This account is currently inactive. Inward remittances and check deposits are disabled. Please contact customer support to activate your account.</p>
+          </div>
+        </div>
+      }
+
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         <!-- Left: Deposit Simulator Submission Form -->
@@ -205,6 +218,8 @@ export class DepositComponent implements OnInit {
   deposits = signal<Deposit[]>([]);
   submitting = false;
 
+  accountStatus: string = 'ACTIVE';
+
   form = {
     method: 'BANK_TRANSFER' as 'BANK_TRANSFER' | 'CHECK_DEPOSIT' | 'WIRE_DEPOSIT',
     amount: null as number | null,
@@ -217,6 +232,13 @@ export class DepositComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDeposits();
+    this.accountService.getSummary().subscribe({
+      next: (res) => {
+        if (res.data?.account) {
+          this.accountStatus = res.data.account.status || 'ACTIVE';
+        }
+      }
+    });
   }
 
   loadDeposits(): void {
@@ -230,6 +252,11 @@ export class DepositComponent implements OnInit {
   }
 
   submitDeposit(): void {
+    if (this.accountStatus === 'INACTIVE') {
+      this.modalService.alert('Account Inactive', 'This account is currently inactive. Deposits are disabled. Kindly contact customer support.', 'error');
+      return;
+    }
+
     if (!this.form.amount || this.form.amount <= 0) {
       this.modalService.alert('Invalid Amount', 'Please provide a valid deposit amount greater than zero.', 'warning');
       return;

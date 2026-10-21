@@ -42,6 +42,19 @@ import { DashboardSummary, Transaction } from '../../../../core/models/bank.mode
         </div>
       </div>
 
+      <!-- Inactive Account Banner -->
+      @if (summary()?.account?.status === 'INACTIVE') {
+        <div class="rounded-2xl p-4 bg-amber-50 border border-amber-300 text-amber-900 flex items-start gap-3 shadow-sm">
+          <svg class="w-5 h-5 text-amber-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+          <div class="text-xs sm:text-sm">
+            <p class="font-bold text-amber-900">Account Inactive (Read-Only Mode)</p>
+            <p class="text-amber-800 mt-0.5">Your account is currently inactive. You can view your statements and ledger history, but deposits, wire transfers, and withdrawals are restricted. Please contact customer support to reactivate transactional access.</p>
+          </div>
+        </div>
+      }
+
       <!-- Main Balance Hero Card (Deep Forest Teal & Cyan Glow) -->
       <div [class.ring-4]="tourService.isOpen() && tourService.currentTourTargetId() === 'overview'"
            [class.ring-amber-400]="tourService.isOpen() && tourService.currentTourTargetId() === 'overview'"
@@ -85,7 +98,7 @@ import { DashboardSummary, Transaction } from '../../../../core/models/bank.mode
             <div class="text-xs text-slate-300 flex items-center gap-4 pt-1">
               <span>Ledger: <strong class="text-white">{{ hideBalance() ? '••••' : (currencySymbol() + (summary()?.account?.ledgerBalance || '0.00' | number:'1.2-2')) }}</strong></span>
               <span>&bull;</span>
-              <span>Status: <strong class="text-emerald-400 font-bold uppercase">{{ summary()?.account?.status || 'Active' }}</strong></span>
+              <span>Status: <strong [ngClass]="summary()?.account?.status === 'INACTIVE' ? 'text-amber-400' : 'text-emerald-400'" class="font-bold uppercase">{{ summary()?.account?.status || 'Active' }}</strong></span>
             </div>
           </div>
 

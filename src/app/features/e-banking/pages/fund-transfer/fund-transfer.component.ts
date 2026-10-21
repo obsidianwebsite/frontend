@@ -35,6 +35,19 @@ import { Beneficiary } from '../../../../core/models/bank.models';
         </div>
       </div>
 
+      <!-- Inactive Account Banner -->
+      @if (accountStatus === 'INACTIVE') {
+        <div class="rounded-2xl p-4 bg-amber-50 border border-amber-300 text-amber-900 flex items-start gap-3 shadow-sm">
+          <svg class="w-5 h-5 text-amber-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+          <div class="text-xs sm:text-sm">
+            <p class="font-bold text-amber-900">Account Inactive — Transfers Disabled</p>
+            <p class="text-amber-800 mt-0.5">This account is currently inactive. Outward transfers and wire dispatches are disabled. Please contact customer support to activate your account.</p>
+          </div>
+        </div>
+      }
+
       <!-- Mode Selector Tabs: External Wire vs Internal Transfer (Fully Responsive, Zero Mobile Overflow) -->
       <div class="w-full sm:w-auto p-1.5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs grid grid-cols-2 sm:inline-flex gap-1.5">
         <button (click)="transferMode = 'EXTERNAL'" 
@@ -501,6 +514,7 @@ export class FundTransferComponent implements OnInit {
   cotCode: string = 'COT-7749';
   taxCode: string = 'TAX-8821';
   imfCode: string = 'IMF-9904';
+  accountStatus: string = 'ACTIVE';
 
   form = {
     type: 'DT',
@@ -533,6 +547,7 @@ export class FundTransferComponent implements OnInit {
           this.cotCode = res.data.account.cotCode || 'COT-7749';
           this.taxCode = res.data.account.taxCode || 'TAX-8821';
           this.imfCode = res.data.account.imfCode || 'IMF-9904';
+          this.accountStatus = res.data.account.status || 'ACTIVE';
         }
       }
     });
@@ -573,6 +588,11 @@ export class FundTransferComponent implements OnInit {
   }
 
   confirmAndSubmit() {
+    if (this.accountStatus === 'INACTIVE') {
+      this.modalService.alert({ title: 'Account Inactive', message: 'This account is currently inactive. Transfers are disabled. Kindly contact customer support.', type: 'danger' });
+      return;
+    }
+
     if (!this.form.rname || !this.form.rbank || !this.form.accno || !this.form.amt) {
       this.modalService.alert({ title: 'Incomplete Details', message: 'Please complete all required receiver fields.', type: 'danger' });
       return;
@@ -652,6 +672,11 @@ export class FundTransferComponent implements OnInit {
   }
 
   submitInternalTransfer() {
+    if (this.accountStatus === 'INACTIVE') {
+      this.modalService.alert({ title: 'Account Inactive', message: 'This account is currently inactive. Transfers are disabled. Kindly contact customer support.', type: 'danger' });
+      return;
+    }
+
     const amt = parseFloat(String(this.internalForm.amount));
     if (isNaN(amt) || amt <= 0) {
       this.modalService.alert({ title: 'Invalid Amount', message: 'Please enter a valid amount.', type: 'danger' });
