@@ -1,7 +1,7 @@
 {
-  "name": "vaultprovenance-frontend",
+  "name": "obsidiantrustbancorp-frontend",
   "version": "1.0.0",
-  "description": "VaultProvenance Core Banking Web Application (Angular 18 & Tailwind CSS)",
+  "description": "Obsidian Trust Bancorp Core Banking Web Application (Angular 18 & Tailwind CSS)",
   "private": true,
   "scripts": {
     "ng": "node ./node_modules/@angular/cli/bin/ng.js",

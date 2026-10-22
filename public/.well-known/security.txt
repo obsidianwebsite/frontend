@@ -1,5 +1,5 @@
-Contact: mailto:security@vaultprovenance.com
-Contact: mailto:support@vaultprovenance.com
+Contact: mailto:security@obsidiantrustbancorp.com
+Contact: mailto:support@obsidiantrustbancorp.com
 Expires: 2027-12-31T23:59:59.000Z
 Preferred-Languages: en
 Policy: /security

@@ -36,7 +36,7 @@ import { RouterLink } from '@angular/router';
           <div class="pt-2 flex flex-wrap justify-center items-center gap-4">
             <a routerLink="/open-account" 
                class="px-8 py-4 rounded-2xl bg-gradient-to-r from-[#003432] to-[#0BB4D2] hover:opacity-95 text-white font-bold text-sm sm:text-base shadow-xl shadow-teal-950/40 transition transform hover:-translate-y-0.5">
-              Order Your VaultProvenance Card
+              Order Your Obsidian Trust Bancorp Card
             </a>
             <a routerLink="/login" 
                class="px-7 py-4 rounded-2xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold text-sm sm:text-base transition">
@@ -93,7 +93,7 @@ import { RouterLink } from '@angular/router';
               <div class="w-full max-w-md h-64 sm:h-72 rounded-3xl p-7 card-metal-dark text-white shadow-2xl border border-slate-700 relative overflow-hidden flex flex-col justify-between animate-fade-in">
                 <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-cyan-500/20 rounded-full blur-2xl"></div>
                 <div class="flex items-center justify-between relative z-10">
-                  <span class="text-xs font-black tracking-widest text-[#0BB4D2]">VAULTPROVENANCE BANK</span>
+                  <span class="text-xs font-black tracking-widest text-[#0BB4D2]">OBSIDIANTRUSTBANCORP BANK</span>
                   <span class="text-[9px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded bg-white/10 border border-white/20">BLACK METAL</span>
                 </div>
                 <div class="w-12 h-9 rounded-lg bg-gradient-to-br from-slate-400 to-slate-600 border border-slate-500/50 relative z-10"></div>
@@ -117,7 +117,7 @@ import { RouterLink } from '@angular/router';
             @if (activeTier() === 'PLATINUM') {
               <div class="w-full max-w-md h-64 sm:h-72 rounded-3xl p-7 card-metal-cyan text-white shadow-2xl border border-cyan-400/30 relative overflow-hidden flex flex-col justify-between animate-fade-in">
                 <div class="flex items-center justify-between relative z-10">
-                  <span class="text-xs font-black tracking-widest text-white">VAULTPROVENANCE</span>
+                  <span class="text-xs font-black tracking-widest text-white">OBSIDIANTRUSTBANCORP</span>
                   <span class="text-[9px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded bg-white/20 border border-white/30">PLATINUM PRESTIGE</span>
                 </div>
                 <div class="w-12 h-9 rounded-lg bg-gradient-to-br from-amber-200 to-amber-400 border border-amber-600/40 relative z-10"></div>
@@ -141,7 +141,7 @@ import { RouterLink } from '@angular/router';
             @if (activeTier() === 'GOLD') {
               <div class="w-full max-w-md h-64 sm:h-72 rounded-3xl p-7 card-metal-gold text-white shadow-2xl border border-amber-400/40 relative overflow-hidden flex flex-col justify-between animate-fade-in">
                 <div class="flex items-center justify-between relative z-10">
-                  <span class="text-xs font-black tracking-widest text-amber-200">VAULTPROVENANCE</span>
+                  <span class="text-xs font-black tracking-widest text-amber-200">OBSIDIANTRUSTBANCORP</span>
                   <span class="text-[9px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded bg-black/20 border border-white/20">GOLD EXECUTIVE</span>
                 </div>
                 <div class="w-12 h-9 rounded-lg bg-gradient-to-br from-amber-200 to-amber-500 border border-amber-700/50 relative z-10"></div>
@@ -165,7 +165,7 @@ import { RouterLink } from '@angular/router';
             @if (activeTier() === 'STANDARD') {
               <div class="w-full max-w-md h-64 sm:h-72 rounded-3xl p-7 card-metal-emerald text-white shadow-2xl border border-emerald-400/30 relative overflow-hidden flex flex-col justify-between animate-fade-in">
                 <div class="flex items-center justify-between relative z-10">
-                  <span class="text-xs font-black tracking-widest text-emerald-200">VAULTPROVENANCE</span>
+                  <span class="text-xs font-black tracking-widest text-emerald-200">OBSIDIANTRUSTBANCORP</span>
                   <span class="text-[9px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded bg-white/10 border border-white/20">SAPPHIRE DEBIT</span>
                 </div>
                 <div class="w-12 h-9 rounded-lg bg-gradient-to-br from-amber-200 to-amber-400 border border-amber-600/40 relative z-10"></div>
@@ -253,7 +253,7 @@ import { RouterLink } from '@angular/router';
                 <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Everyday Smart Banking</span>
                 <h3 class="text-3xl font-black text-slate-900">Sapphire Debit</h3>
                 <p class="text-sm text-slate-600 leading-relaxed">
-                  The standard card included free with all VaultProvenance checking accounts. Contactless NFC payments, instant Apple Pay integration, and access to over 55,000 free ATMs nationwide.
+                  The standard card included free with all Obsidian Trust Bancorp checking accounts. Contactless NFC payments, instant Apple Pay integration, and access to over 55,000 free ATMs nationwide.
                 </p>
                 <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-950 flex items-center justify-between text-xs">
                   <div>

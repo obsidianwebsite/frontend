@@ -306,7 +306,7 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
             <!-- PRINT / DOWNLOAD BUTTONS -->
             <div class="pt-6 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
               <div class="text-xs text-slate-400">
-                Document Ref: <span class="font-mono font-medium text-slate-600">VP-BSA-2026-V4</span>
+                Document Ref: <span class="font-mono font-medium text-slate-600">OTB-BSA-2026-V4</span>
               </div>
               <div class="flex items-center gap-3">
                 <button type="button" 

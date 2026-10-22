@@ -147,7 +147,7 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
               </form>
 
               <p class="mt-6 text-center text-xs sm:text-sm text-slate-500">
-                New to VaultProvenance? 
+                New to Obsidian Trust Bancorp? 
                 <a routerLink="/open-account" class="font-bold text-cyan-700 hover:underline">Open an account</a>
               </p>
 

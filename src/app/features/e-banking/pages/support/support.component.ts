@@ -195,7 +195,7 @@ import { SystemSettingsService } from '../../../../core/services/system-settings
                       @if (m.sender_role === 'ADMIN') {
                         <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                         <span class="text-[10px] font-black text-[#003432] uppercase tracking-wide">
-                          VaultProvenance Support Officer
+                          Obsidian Trust Bancorp Support Officer
                         </span>
                       } @else {
                         <span class="text-[10px] font-bold text-slate-500">
@@ -252,7 +252,7 @@ import { SystemSettingsService } from '../../../../core/services/system-settings
             <div class="flex items-center justify-between border-b border-slate-100 pb-4">
               <div>
                 <h3 class="font-black text-lg text-[#003432]">Open Support Ticket</h3>
-                <p class="text-xs text-slate-500">Directly dispatched to the VaultProvenance executive desk</p>
+                <p class="text-xs text-slate-500">Directly dispatched to the Obsidian Trust Bancorp executive desk</p>
               </div>
               <button (click)="showNewTicketModal.set(false)" class="p-1.5 rounded-full text-slate-400 hover:bg-slate-100">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>

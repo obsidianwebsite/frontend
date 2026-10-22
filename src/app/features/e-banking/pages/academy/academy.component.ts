@@ -18,7 +18,7 @@ import { AcademyCourse } from '../../../../core/models/bank.models';
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#0BB4D2]/20 text-[#0BB4D2] border border-[#0BB4D2]/30">
               <span>Financial Intelligence Hub</span>
             </div>
-            <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">VaultProvenance Financial Academy</h1>
+            <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">Obsidian Trust Bancorp Financial Academy</h1>
             <p class="text-xs sm:text-sm text-slate-300">
               Master capital preservation, algorithmic liquidity, institutional grant procurement, and risk-hedged market mechanics.
             </p>

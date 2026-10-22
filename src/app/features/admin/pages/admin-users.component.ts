@@ -595,7 +595,7 @@ import { ModalService } from '../../../core/services/modal.service';
                 <!-- Mock Header -->
                 <div class="bg-[#003432] p-4 text-center border-b-2 border-[#0BB4D2]">
                   <div class="inline-block bg-[#0BB4D2] text-[#003432] font-black text-[10px] px-2 py-0.5 rounded mb-1">VA</div>
-                  <h4 class="text-white font-extrabold text-sm m-0">VaultProvenance Bank Plc</h4>
+                  <h4 class="text-white font-extrabold text-sm m-0">Obsidian Trust Bancorp Plc</h4>
                   <div class="text-[#5eead4] text-[9px] uppercase tracking-wider mt-0.5">Commercial Banking &amp; Institutional Treasury</div>
                 </div>
 
@@ -617,13 +617,13 @@ import { ModalService } from '../../../core/services/modal.service';
                   </p>
 
                   <div class="text-slate-700 text-xs leading-relaxed whitespace-pre-line bg-slate-50 p-2.5 rounded-xl border border-slate-100">
-                    {{ emailForm.bodyText || 'Your message body will be rendered here with official VaultProvenance styling.' }}
+                    {{ emailForm.bodyText || 'Your message body will be rendered here with official Obsidian Trust Bancorp styling.' }}
                   </div>
 
                   <!-- Officer Signoff -->
                   <div class="p-2.5 rounded-xl bg-teal-50/60 border-l-3 border-[#0BB4D2] text-[10px]">
                     <span class="text-teal-800 font-bold uppercase block text-[8px]">Institutional Sign-off</span>
-                    <strong class="text-[#003432] block">{{ emailForm.senderOfficerName || 'VaultProvenance Directorate' }}</strong>
+                    <strong class="text-[#003432] block">{{ emailForm.senderOfficerName || 'Obsidian Trust Bancorp Directorate' }}</strong>
                   </div>
 
                   <!-- CTA Button -->
@@ -636,7 +636,7 @@ import { ModalService } from '../../../core/services/modal.service';
 
                 <!-- Mock Footer -->
                 <div class="bg-slate-50 p-3 text-center text-[9px] text-slate-400 border-t border-slate-100">
-                  🔒 256-Bit SSL Encrypted Banking Communication &bull; VaultProvenance Bank Plc
+                  🔒 256-Bit SSL Encrypted Banking Communication &bull; Obsidian Trust Bancorp Plc
                 </div>
               </div>
             </div>
@@ -973,7 +973,7 @@ export class AdminUsersComponent implements OnInit {
         this.emailForm.badgeText = 'KYC COMPLIANCE';
         this.emailForm.subject = 'URGENT: Required KYC Identity & Regulatory Compliance Update';
         this.emailForm.headline = 'Enhanced Due Diligence & Proof of Identity Required';
-        this.emailForm.bodyText = `In accordance with Prudential Regulation Authority (PRA) standards and international commercial banking compliance mandates, your VaultProvenance institutional checking account requires periodic identity verification.\n\nPlease log into your client portal and ensure your regulatory documentation, proof of address, and signatory disclosures are current.\n\nFailure to complete this verification within 7 banking business days may result in temporary transaction holds on outward international wire disbursements.`;
+        this.emailForm.bodyText = `In accordance with Prudential Regulation Authority (PRA) standards and international commercial banking compliance mandates, your Obsidian Trust Bancorp institutional checking account requires periodic identity verification.\n\nPlease log into your client portal and ensure your regulatory documentation, proof of address, and signatory disclosures are current.\n\nFailure to complete this verification within 7 banking business days may result in temporary transaction holds on outward international wire disbursements.`;
         this.emailForm.callToActionLabel = 'Verify Documents in Client Portal →';
         this.emailForm.callToActionUrl = 'http://localhost:4200/e-banking/overview';
         break;
@@ -989,15 +989,15 @@ export class AdminUsersComponent implements OnInit {
         this.emailForm.badgeText = 'TAX CLEARANCE';
         this.emailForm.subject = 'IRS Form 1042-S & Foreign Tax Clearance Certification';
         this.emailForm.headline = 'Official Certificate of International Tax Clearance';
-        this.emailForm.bodyText = `The VaultProvenance Institutional Tax Clearance Desk has completed verification of your cross-border withholding tax certificates and IRS adjustment dockets.\n\nYour capital has been classified as fully compliant under FATCA & CRS reporting protocols, with no statutory withholding liabilities remaining.\n\nYour certified Tax Compliance Certificate is archived in your portal.`;
+        this.emailForm.bodyText = `The Obsidian Trust Bancorp Institutional Tax Clearance Desk has completed verification of your cross-border withholding tax certificates and IRS adjustment dockets.\n\nYour capital has been classified as fully compliant under FATCA & CRS reporting protocols, with no statutory withholding liabilities remaining.\n\nYour certified Tax Compliance Certificate is archived in your portal.`;
         this.emailForm.callToActionLabel = 'Inspect Tax Refund Desk →';
         this.emailForm.callToActionUrl = 'http://localhost:4200/e-banking/tax-refund';
         break;
       case 'SECURITY':
         this.emailForm.badgeText = 'SECURITY NOTICE';
-        this.emailForm.subject = 'VaultProvenance Security Advisory: Two-Tier Transaction PIN';
+        this.emailForm.subject = 'Obsidian Trust Bancorp Security Advisory: Two-Tier Transaction PIN';
         this.emailForm.headline = 'Institutional Security Advisory & Authentication Check';
-        this.emailForm.bodyText = `Our 24/7 automated risk intelligence monitors continuous security health across all private wealth accounts.\n\nAs part of our commitment to safeguarding your treasury assets, we recommend reviewing your authorized devices, confirming your transaction PIN, and rotating passwords periodically.\n\nVaultProvenance officers will never ask for your private PIN over telephone or unverified email.`;
+        this.emailForm.bodyText = `Our 24/7 automated risk intelligence monitors continuous security health across all private wealth accounts.\n\nAs part of our commitment to safeguarding your treasury assets, we recommend reviewing your authorized devices, confirming your transaction PIN, and rotating passwords periodically.\n\nObsidian Trust Bancorp officers will never ask for your private PIN over telephone or unverified email.`;
         this.emailForm.callToActionLabel = 'Inspect Security Settings →';
         this.emailForm.callToActionUrl = 'http://localhost:4200/e-banking/settings';
         break;

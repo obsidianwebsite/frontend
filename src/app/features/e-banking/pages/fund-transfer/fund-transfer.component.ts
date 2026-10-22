@@ -258,7 +258,7 @@ import { Beneficiary } from '../../../../core/models/bank.models';
               <div class="p-3.5 sm:p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-950 text-xs font-semibold flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
                 <div class="flex items-center gap-2.5">
                   <span class="text-lg">⚡</span>
-                  <span class="leading-relaxed">Instant Internal Peer-to-Peer Transfer: Zero Network Fees, Atomic Settlement within VaultProvenance Network.</span>
+                  <span class="leading-relaxed">Instant Internal Peer-to-Peer Transfer: Zero Network Fees, Atomic Settlement within Obsidian Trust Bancorp Network.</span>
                 </div>
                 <span class="text-[11px] font-bold text-emerald-800 bg-white px-2.5 py-1 rounded-lg border border-emerald-200 self-start sm:self-center shrink-0">
                   0% Fee • Instant
@@ -271,7 +271,7 @@ import { Beneficiary } from '../../../../core/models/bank.models';
                   <input type="text" [(ngModel)]="internalForm.recipient" name="recipient" required
                          placeholder="e.g. client@example.com or VA-1029384756"
                          class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs font-bold text-slate-800 bg-white focus:ring-2 focus:ring-[#003432] focus:border-transparent outline-none transition">
-                  <span class="text-[11px] text-slate-400 mt-1 block">You can send funds to any registered client using their email or VaultProvenance account number.</span>
+                  <span class="text-[11px] text-slate-400 mt-1 block">You can send funds to any registered client using their email or Obsidian Trust Bancorp account number.</span>
                 </div>
 
                 <div>

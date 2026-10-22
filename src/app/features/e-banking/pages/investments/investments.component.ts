@@ -19,7 +19,7 @@ import { ModalService } from '../../../../core/services/modal.service';
           <div class="space-y-2 max-w-2xl">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-[#0BB4D2]/20 text-[#0BB4D2] border border-[#0BB4D2]/40">
               <span class="w-2 h-2 rounded-full bg-[#0BB4D2] animate-pulse"></span>
-              <span>VaultProvenance Prime Yield Desk</span>
+              <span>Obsidian Trust Bancorp Prime Yield Desk</span>
             </div>
             <h1 class="text-xl sm:text-2xl lg:text-3xl font-black font-nunito tracking-tight text-white">
               Fixed-Yield Investment Portfolios

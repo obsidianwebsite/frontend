@@ -51,7 +51,7 @@ import { RouterLink } from '@angular/router';
         <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
           <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest">Choose Your Plan</span>
           <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-            Three simple ways to bank with VaultProvenance
+            Three simple ways to bank with Obsidian Trust Bancorp
           </h2>
           <p class="text-slate-600 text-sm sm:text-base">
             Whether you need simple everyday debit, international multi-currency tools, or bespoke corporate treasury accounts.
@@ -203,7 +203,7 @@ import { RouterLink } from '@angular/router';
             
             <div class="rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
               <img src="https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=1000&q=80" 
-                   alt="Modern cafe contactless payment with VaultProvenance Visa debit card" 
+                   alt="Modern cafe contactless payment with Obsidian Trust Bancorp Visa debit card" 
                    class="w-full h-[440px] object-cover">
             </div>
 
@@ -213,7 +213,7 @@ import { RouterLink } from '@angular/router';
                 Smart banking controls right from your phone.
               </h2>
               <p class="text-base text-slate-600 leading-relaxed">
-                Enjoy complete peace of mind. Every VaultProvenance checking account gives you instant transaction notifications, the ability to lock and freeze your card instantly, and zero liability fraud protection.
+                Enjoy complete peace of mind. Every Obsidian Trust Bancorp checking account gives you instant transaction notifications, the ability to lock and freeze your card instantly, and zero liability fraud protection.
               </p>
 
               <div class="space-y-4 text-xs sm:text-sm text-slate-700">

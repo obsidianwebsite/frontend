@@ -1,6 +1,6 @@
-# VaultProvenance Core Banking Web Application
+# Obsidian Trust Bancorp Core Banking Web Application
 
-Enterprise client-facing and administrative web portal for the **VaultProvenance** core banking platform. Built with **Angular 18** (Standalone Components, Signals) and styled with **Tailwind CSS**.
+Enterprise client-facing and administrative web portal for the **Obsidian Trust Bancorp** core banking platform. Built with **Angular 18** (Standalone Components, Signals) and styled with **Tailwind CSS**.
 
 ---
 
@@ -70,7 +70,7 @@ frontend/
 
 - **Node.js**: `v18.0.0` or higher
 - **npm**: `v9.0.0` or higher
-- **VaultProvenance Core Backend**: Running on port `5000` ([Backend Repo](https://github.com/vaultatlantic1/backend))
+- **Obsidian Trust Bancorp Core Backend**: Running on port `5000` ([Backend Repo](https://github.com/vaultatlantic1/backend))
 
 ---
 
@@ -80,7 +80,7 @@ frontend/
 
 ```bash
 git clone https://github.com/vaultatlantic1/frontend.git
-cd vaultprovenance-frontend
+cd obsidiantrustbancorp-frontend
 npm install
 ```
 

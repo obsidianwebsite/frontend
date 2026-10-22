@@ -324,7 +324,7 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
               <h1 class="text-sm sm:text-base font-bold text-slate-900">
                 Welcome back, {{ currentUser()?.firstName || 'Valued Client' }}
               </h1>
-              <p class="text-xs text-slate-500">VaultProvenance Digital Banking &amp; Institutional Treasury</p>
+              <p class="text-xs text-slate-500">Obsidian Trust Bancorp Digital Banking &amp; Institutional Treasury</p>
             </div>
 
             <div class="flex items-center gap-3">
@@ -358,7 +358,7 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
         <footer class="py-5 px-5 sm:px-8 border-t border-slate-200 text-xs text-slate-500 bg-white hidden lg:block">
           <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
             <div>
-              &copy; 2026 <strong>VaultProvenance Bank Plc</strong>. All rights reserved.
+              &copy; 2026 <strong>Obsidian Trust Bancorp Plc</strong>. All rights reserved.
             </div>
             <div class="text-[11px] text-slate-400">
               Licensed Institutional &amp; Commercial Bank &bull; London &bull; New York
@@ -455,7 +455,7 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
                   VA
                 </div>
                 <div>
-                  <h3 class="text-sm font-extrabold text-[#003432]">VaultProvenance Services</h3>
+                  <h3 class="text-sm font-extrabold text-[#003432]">Obsidian Trust Bancorp Services</h3>
                   <p class="text-[11px] text-slate-500">Tap any module to launch</p>
                 </div>
               </div>
