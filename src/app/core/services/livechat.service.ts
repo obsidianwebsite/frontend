@@ -23,39 +23,61 @@ export class LiveChatService {
   /**
    * Initializes third-party livechat inside the authenticated user dashboard.
    */
-  initDashboardLiveChat(): void {
+  initDashboardLiveChat(userName?: string, userEmail?: string): void {
     if (typeof window === 'undefined' || typeof document === 'undefined') return;
+
+    // Check if script is already injected
+    if (document.getElementById('otb-thirdparty-livechat')) {
+      this.isScriptLoaded.set(true);
+      if (userName && userEmail && window.Tawk_API && typeof window.Tawk_API.setAttributes === 'function') {
+        window.Tawk_API.setAttributes({ name: userName, email: userEmail }, () => {});
+      }
+      return;
+    }
 
     const enabled = this.systemSettings.livechatEnabled();
     if (!enabled) return;
 
-    const provider = this.systemSettings.livechatProvider();
-    const widgetId = this.systemSettings.livechatWidgetId();
+    const provider = this.systemSettings.livechatProvider() || 'TAWK_TO';
+    // User's verified Tawk.to ID: 6adfca7d13dd5f34744951c9/1k5t2tvp5
+    const widgetId = (this.systemSettings.livechatWidgetId() || '6adfca7d13dd5f34744951c9/1k5t2tvp5').trim();
     const customScript = this.systemSettings.livechatCustomScript();
 
     this.activeProvider.set(provider);
 
-    // Prevent duplicate script injection
-    if (document.getElementById('otb-thirdparty-livechat')) {
-      this.isScriptLoaded.set(true);
-      return;
-    }
-
     try {
       if (provider === 'TAWK_TO' && widgetId) {
-        // Tawk.to direct integration
+        // Tawk.to integration with direct DOM insertion matching official snippet
         window.Tawk_API = window.Tawk_API || {};
         window.Tawk_LoadStart = new Date();
-        const s = document.createElement('script');
-        s.id = 'otb-thirdparty-livechat';
-        s.async = true;
-        // Format: propertyId/widgetId or direct embed URL
+
+        if (userName || userEmail) {
+          window.Tawk_API.visitor = {
+            name: userName || 'Valued Client',
+            email: userEmail || ''
+          };
+        }
+
+        const s1 = document.createElement('script');
+        s1.id = 'otb-thirdparty-livechat';
+        s1.async = true;
         const cleanId = widgetId.trim();
-        s.src = cleanId.startsWith('http') ? cleanId : `https://embed.tawk.to/${cleanId}`;
-        s.charset = 'UTF-8';
-        s.setAttribute('crossorigin', '*');
-        s.onload = () => this.isScriptLoaded.set(true);
-        document.body.appendChild(s);
+        s1.src = cleanId.startsWith('http') ? cleanId : `https://embed.tawk.to/${cleanId}`;
+        s1.charset = 'UTF-8';
+        s1.setAttribute('crossorigin', '*');
+        s1.onload = () => {
+          this.isScriptLoaded.set(true);
+          if (userName && userEmail && window.Tawk_API && typeof window.Tawk_API.setAttributes === 'function') {
+            window.Tawk_API.setAttributes({ name: userName, email: userEmail }, () => {});
+          }
+        };
+
+        const s0 = document.getElementsByTagName('script')[0];
+        if (s0 && s0.parentNode) {
+          s0.parentNode.insertBefore(s1, s0);
+        } else {
+          document.body.appendChild(s1);
+        }
       } else if (provider === 'CRISP' && widgetId) {
         // Crisp direct integration
         window.$crisp = [];

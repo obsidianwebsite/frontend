@@ -577,7 +577,9 @@ export class DashboardLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
-      this.liveChatService.initDashboardLiveChat();
+      const u = this.authService.currentUser();
+      const clientName = u ? `${u.firstName || ''} ${u.lastName || ''}`.trim() : undefined;
+      this.liveChatService.initDashboardLiveChat(clientName, u?.email);
       setTimeout(() => {
         this.tourService.startUserTour(false);
       }, 1200);

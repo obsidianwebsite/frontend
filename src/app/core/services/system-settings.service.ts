@@ -47,7 +47,7 @@ const DEFAULT_SETTINGS: SystemSettings = {
   is_setup_completed: true,
   livechat_enabled: true,
   livechat_provider: 'TAWK_TO',
-  livechat_widget_id: '',
+  livechat_widget_id: '6adfca7d13dd5f34744951c9/1k5t2tvp5',
   livechat_custom_script: ''
 };
 
