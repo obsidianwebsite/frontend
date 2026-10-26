@@ -248,3 +248,49 @@
   padding-bottom: max(0.6rem, env(safe-area-inset-bottom));
 }
 
+/* ========================================================================= */
+/* SCROLL REVEAL & CONTENT FADE-IN ANIMATIONS (Scroll-Up & Scroll-Down)      */
+/* ========================================================================= */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.scroll-reveal.is-revealed {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+.scroll-reveal-left {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.scroll-reveal-left.is-revealed {
+  opacity: 1 !important;
+  transform: translateX(0) !important;
+}
+
+.scroll-reveal-right {
+  opacity: 0;
+  transform: translateX(32px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.scroll-reveal-right.is-revealed {
+  opacity: 1 !important;
+  transform: translateX(0) !important;
+}
+
+/* Stagger delay utility classes */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+

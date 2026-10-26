@@ -20,6 +20,10 @@ export interface SystemSettings {
   copyright_text: string;
   support_hours: string;
   is_setup_completed: boolean | number;
+  livechat_enabled?: boolean | number;
+  livechat_provider?: string;
+  livechat_widget_id?: string;
+  livechat_custom_script?: string;
   updated_at?: string;
 }
 
@@ -40,7 +44,11 @@ const DEFAULT_SETTINGS: SystemSettings = {
   about_summary: 'Obsidian Trust Bancorp Plc is an authorized and regulated British-Atlantic commercial banking and institutional treasury corporation providing private wealth management, corporate escrow, multi-currency clearing, and structured capital facilities.',
   copyright_text: '© 2026 Obsidian Trust Bancorp Plc. Authorized & Regulated Commercial Banking Institution.',
   support_hours: '24/7 Global Treasury Support Desk',
-  is_setup_completed: true
+  is_setup_completed: true,
+  livechat_enabled: true,
+  livechat_provider: 'TAWK_TO',
+  livechat_widget_id: '',
+  livechat_custom_script: ''
 };
 
 @Injectable({
@@ -66,6 +74,10 @@ export class SystemSettingsService {
   currencySymbol = computed(() => this.settings().currency_symbol || '$');
   currencyCode = computed(() => this.settings().currency_code || 'USD');
   copyrightText = computed(() => this.settings().copyright_text || `© 2026 ${this.siteName()}. All rights reserved.`);
+  livechatEnabled = computed(() => this.settings().livechat_enabled !== false && this.settings().livechat_enabled !== 0);
+  livechatProvider = computed(() => this.settings().livechat_provider || 'TAWK_TO');
+  livechatWidgetId = computed(() => this.settings().livechat_widget_id || '');
+  livechatCustomScript = computed(() => this.settings().livechat_custom_script || '');
 
   constructor() {
     this.loadSettings();

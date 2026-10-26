@@ -7,6 +7,7 @@ import { ChatbotWidgetComponent } from '../../../shared/components/chatbot-widge
 import { TourGuideComponent } from '../../../shared/components/tour-guide.component';
 import { TourService } from '../../../core/services/tour.service';
 import { SystemSettingsService } from '../../../core/services/system-settings.service';
+import { LiveChatService } from '../../../core/services/livechat.service';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -564,6 +565,7 @@ export class DashboardLayoutComponent implements OnInit {
   authService = inject(AuthService);
   tourService = inject(TourService);
   systemSettings = inject(SystemSettingsService);
+  liveChatService = inject(LiveChatService);
   private router = inject(Router);
 
   currentUser = this.authService.currentUser;
@@ -575,9 +577,17 @@ export class DashboardLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
+      this.liveChatService.initDashboardLiveChat();
       setTimeout(() => {
         this.tourService.startUserTour(false);
       }, 1200);
+    }
+  }
+
+  openLiveChat(): void {
+    const opened = this.liveChatService.openLiveChat();
+    if (!opened) {
+      this.router.navigate(['/e-banking/support']);
     }
   }
 

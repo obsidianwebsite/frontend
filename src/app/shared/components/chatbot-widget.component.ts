@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { SupportService, ChatbotSuggestedAction } from '../../core/services/support.service';
+import { LiveChatService } from '../../core/services/livechat.service';
+import { SystemSettingsService } from '../../core/services/system-settings.service';
 
 interface ChatMessage {
   id: string;
@@ -18,10 +20,22 @@ interface ChatMessage {
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   template: `
-    <!-- Floating Trigger Launcher Button -->
-    <div class="fixed bottom-20 lg:bottom-6 right-4 sm:right-6 z-40 select-none">
+    <!-- Floating Trigger Launcher Button Dock -->
+    <div class="fixed bottom-20 lg:bottom-6 right-4 sm:right-6 z-40 select-none flex items-center gap-2">
       
       @if (!isOpen()) {
+        <!-- Live Human Support Chat Launcher -->
+        @if (systemSettings.livechatEnabled()) {
+          <button (click)="openThirdPartyLiveChat()"
+                  class="group relative flex items-center gap-2 px-3.5 py-3 rounded-full bg-emerald-700 hover:bg-emerald-800 text-white shadow-xl shadow-emerald-950/40 border border-emerald-400/40 transition-all duration-300 transform hover:scale-105 active:scale-95"
+                  title="Open Live Support Agent">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-300 animate-ping"></span>
+            <span class="text-xs font-black tracking-tight hidden sm:inline">Live Chat</span>
+            <span class="sm:hidden text-xs">💬</span>
+          </button>
+        }
+
+        <!-- AI Banking Concierge Launcher -->
         <button (click)="toggleOpen()"
                 class="group relative flex items-center gap-2.5 px-4 py-3 rounded-full bg-[#003432] hover:bg-[#002625] text-white shadow-xl shadow-teal-950/40 border border-[#0BB4D2]/40 transition-all duration-300 transform hover:scale-105 active:scale-95"
                 aria-label="Open VaultBot Banking Chatbot">
@@ -40,7 +54,7 @@ interface ChatMessage {
               <span>VaultBot</span>
               <span class="text-[9px] px-1.5 py-0.2 rounded bg-teal-400/20 text-[#0BB4D2] font-mono font-bold uppercase">AI</span>
             </div>
-            <div class="text-[10px] text-teal-200/80">Banking Assistant</div>
+            <div class="text-[10px] text-teal-200/80">Banking Concierge</div>
           </div>
 
           <!-- Pulsing ping ring -->
@@ -79,6 +93,15 @@ interface ChatMessage {
                       aria-label="Restart Chat">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
               </button>
+
+              @if (systemSettings.livechatEnabled()) {
+                <button (click)="openThirdPartyLiveChat()" 
+                        title="Switch to Live Support Agent"
+                        class="px-2 py-1 rounded-lg bg-emerald-600/30 hover:bg-emerald-600 text-emerald-200 hover:text-white transition text-[11px] font-bold flex items-center gap-1 shadow-2xs">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span>Live Agent</span>
+                </button>
+              }
 
               <a routerLink="/e-banking/support" (click)="toggleOpen()" 
                  title="Open Human Support Desk"
@@ -234,6 +257,8 @@ interface ChatMessage {
 export class ChatbotWidgetComponent implements AfterViewChecked {
   private supportService = inject(SupportService);
   private router = inject(Router);
+  liveChatService = inject(LiveChatService);
+  systemSettings = inject(SystemSettingsService);
 
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
@@ -241,6 +266,16 @@ export class ChatbotWidgetComponent implements AfterViewChecked {
   isThinking = signal<boolean>(false);
   copiedId = signal<string | null>(null);
   userInput = '';
+
+  openThirdPartyLiveChat(): void {
+    const opened = this.liveChatService.openLiveChat();
+    if (!opened) {
+      this.router.navigate(['/e-banking/support']);
+      if (this.isOpen()) {
+        this.toggleOpen();
+      }
+    }
+  }
 
   messages = signal<ChatMessage[]>([
     {

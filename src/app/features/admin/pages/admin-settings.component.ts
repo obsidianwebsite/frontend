@@ -314,6 +314,96 @@ import { ModalService } from '../../../core/services/modal.service';
             </div>
           </div>
 
+          <!-- Category 4: Customer Dashboard Live Chat & Third-Party Integration -->
+          <div class="bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-6 shadow-xs space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-xl bg-teal-50 text-[#003432] flex items-center justify-center text-sm font-bold">
+                  💬
+                </div>
+                <div>
+                  <h3 class="font-bold text-sm text-[#003432]">Customer Dashboard Live Chat Integration</h3>
+                  <p class="text-[11px] text-slate-400">Connect third-party live chat services (Tawk.to, Crisp, Tidio, Chatpot, or Custom Script)</p>
+                </div>
+              </div>
+
+              <!-- Enable/Disable toggle -->
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" [(ngModel)]="form.livechat_enabled" class="sr-only peer">
+                <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#003432]"></div>
+                <span class="ml-2 text-xs font-bold" [ngClass]="form.livechat_enabled ? 'text-teal-700' : 'text-slate-400'">
+                  {{ form.livechat_enabled ? 'Active' : 'Disabled' }}
+                </span>
+              </label>
+            </div>
+
+            @if (form.livechat_enabled) {
+              <div class="space-y-4 text-xs">
+                <div>
+                  <label class="block text-slate-700 font-bold uppercase tracking-wider text-[10px] mb-1.5">Live Chat Provider</label>
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <button type="button" (click)="form.livechat_provider = 'TAWK_TO'"
+                            [ngClass]="form.livechat_provider === 'TAWK_TO' ? 'border-[#0BB4D2] bg-teal-50/70 font-bold text-[#003432]' : 'border-slate-200 hover:bg-slate-50 text-slate-600'"
+                            class="p-2.5 rounded-xl border text-[11px] transition text-center flex flex-col items-center gap-1">
+                      <span class="text-base">🦜</span>
+                      <span>Tawk.to</span>
+                    </button>
+                    <button type="button" (click)="form.livechat_provider = 'CRISP'"
+                            [ngClass]="form.livechat_provider === 'CRISP' ? 'border-[#0BB4D2] bg-teal-50/70 font-bold text-[#003432]' : 'border-slate-200 hover:bg-slate-50 text-slate-600'"
+                            class="p-2.5 rounded-xl border text-[11px] transition text-center flex flex-col items-center gap-1">
+                      <span class="text-base">💬</span>
+                      <span>Crisp Chat</span>
+                    </button>
+                    <button type="button" (click)="form.livechat_provider = 'TIDIO'"
+                            [ngClass]="form.livechat_provider === 'TIDIO' ? 'border-[#0BB4D2] bg-teal-50/70 font-bold text-[#003432]' : 'border-slate-200 hover:bg-slate-50 text-slate-600'"
+                            class="p-2.5 rounded-xl border text-[11px] transition text-center flex flex-col items-center gap-1">
+                      <span class="text-base">⚡</span>
+                      <span>Tidio</span>
+                    </button>
+                    <button type="button" (click)="form.livechat_provider = 'CUSTOM'"
+                            [ngClass]="form.livechat_provider === 'CUSTOM' ? 'border-[#0BB4D2] bg-teal-50/70 font-bold text-[#003432]' : 'border-slate-200 hover:bg-slate-50 text-slate-600'"
+                            class="p-2.5 rounded-xl border text-[11px] transition text-center flex flex-col items-center gap-1">
+                      <span class="text-base">🔧</span>
+                      <span>Custom Script</span>
+                    </button>
+                  </div>
+                </div>
+
+                @if (form.livechat_provider !== 'CUSTOM') {
+                  <div>
+                    <label class="block text-slate-700 font-bold uppercase tracking-wider text-[10px] mb-1.5">
+                      @if (form.livechat_provider === 'TAWK_TO') {
+                        Tawk.to Direct Chat Link or Property/Widget ID (e.g., https://tawk.to/chat/xxx/yyy or xxx/yyy)
+                      } @else if (form.livechat_provider === 'CRISP') {
+                        Crisp Website ID (UUID format, e.g., 12345678-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
+                      } @else {
+                        Tidio Public Key / Project Key
+                      }
+                    </label>
+                    <input type="text" [(ngModel)]="form.livechat_widget_id"
+                           placeholder="Enter widget ID or direct link..."
+                           class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs font-mono font-bold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0BB4D2]/40 transition" />
+                    <p class="text-[10px] text-slate-400 mt-1">
+                      When configured, clients logged into their dashboard can instantly connect to your live support desk.
+                    </p>
+                  </div>
+                } @else {
+                  <div>
+                    <label class="block text-slate-700 font-bold uppercase tracking-wider text-[10px] mb-1.5">Custom Live Chat / Chatpot Embed Script</label>
+                    <textarea [(ngModel)]="form.livechat_custom_script" rows="4"
+                              placeholder="Paste external script tag or JavaScript embed snippet (e.g. Chatpot, Intercom, LiveChat)..."
+                              class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs font-mono text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0BB4D2]/40 transition"></textarea>
+                  </div>
+                }
+              </div>
+            } @else {
+              <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-slate-500 text-xs flex items-center gap-2">
+                <span>ℹ️</span>
+                <span>Third-party live chat is currently deactivated. Customer dashboard provides the native VaultBot AI Assistant.</span>
+              </div>
+            }
+          </div>
+
         </div>
 
         <!-- Right Column: Live Branding & Appearance Preview Canvas (5 Cols) -->
@@ -434,12 +524,22 @@ export class AdminSettingsComponent implements OnInit {
     about_summary: '',
     copyright_text: '',
     support_hours: '',
-    is_setup_completed: true
+    is_setup_completed: true,
+    livechat_enabled: true,
+    livechat_provider: 'TAWK_TO',
+    livechat_widget_id: '',
+    livechat_custom_script: ''
   };
 
   ngOnInit(): void {
     const current = this.systemSettingsService.settings();
-    this.form = { ...current };
+    this.form = { 
+      ...current,
+      livechat_enabled: current.livechat_enabled === undefined ? true : Boolean(current.livechat_enabled),
+      livechat_provider: current.livechat_provider || 'TAWK_TO',
+      livechat_widget_id: current.livechat_widget_id || '',
+      livechat_custom_script: current.livechat_custom_script || ''
+    };
     if (this.form.site_logo_url) {
       this.activeLogoPreset = 'CUSTOM';
     }

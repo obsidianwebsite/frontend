@@ -66,7 +66,7 @@ import { RouterLink } from '@angular/router';
           <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             
             <!-- Card 1: Personal Loan -->
-            <div class="p-8 rounded-xl bg-white border border-slate-200 hover:shadow-xl transition-all duration-300 text-center space-y-4 group">
+            <div class="scroll-reveal delay-100 p-8 rounded-xl bg-white border border-slate-200 hover:shadow-xl transition-all duration-300 text-center space-y-4 group">
               <div class="w-20 h-20 mx-auto flex items-center justify-center">
                 <img src="images/icons/banker.png" alt="Personal Loan" class="h-16 w-auto group-hover:scale-110 transition-transform">
               </div>
@@ -82,7 +82,7 @@ import { RouterLink } from '@angular/router';
             </div>
 
             <!-- Card 2: Mutual Funds -->
-            <div class="p-8 rounded-xl bg-white border border-slate-200 hover:shadow-xl transition-all duration-300 text-center space-y-4 group">
+            <div class="scroll-reveal delay-200 p-8 rounded-xl bg-white border border-slate-200 hover:shadow-xl transition-all duration-300 text-center space-y-4 group">
               <div class="w-20 h-20 mx-auto flex items-center justify-center">
                 <img src="images/icons/money-bag.png" alt="Mutual Funds" class="h-16 w-auto group-hover:scale-110 transition-transform">
               </div>
@@ -98,7 +98,7 @@ import { RouterLink } from '@angular/router';
             </div>
 
             <!-- Card 3: Savings & Investment -->
-            <div class="p-8 rounded-xl bg-white border border-slate-200 hover:shadow-xl transition-all duration-300 text-center space-y-4 group">
+            <div class="scroll-reveal delay-300 p-8 rounded-xl bg-white border border-slate-200 hover:shadow-xl transition-all duration-300 text-center space-y-4 group">
               <div class="w-20 h-20 mx-auto flex items-center justify-center">
                 <img src="images/icons/money-bag-2.png" alt="Savings & Investment" class="h-16 w-auto group-hover:scale-110 transition-transform">
               </div>
