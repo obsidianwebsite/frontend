@@ -43,7 +43,7 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
           <!-- Left Column (Desktop Value Proposition) -->
           <section class="hidden lg:block space-y-8">
             <a routerLink="/" class="inline-flex items-center gap-3">
-              @if (systemSettings.siteLogoUrl().startsWith('http') || systemSettings.siteLogoUrl().startsWith('/assets') || systemSettings.siteLogoUrl().startsWith('data:image')) {
+              @if (systemSettings.siteLogoUrl()) {
                 <img [src]="systemSettings.siteLogoUrl()" [alt]="systemSettings.siteName()" class="w-12 h-12 rounded-2xl object-contain bg-white p-1 border border-slate-200 shadow-md" />
               } @else {
                 <div class="w-12 h-12 rounded-2xl bg-[#003432] text-[#0BB4D2] flex items-center justify-center shadow-md font-black text-xl">

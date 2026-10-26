@@ -33,7 +33,7 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
               <img [src]="systemSettings.siteLogoUrl()" alt="Logo" class="w-9 h-9 object-contain rounded-xl bg-white/10 p-1" />
             } @else {
               <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#0BB4D2] to-[#089bb5] flex items-center justify-center font-black text-white text-sm shadow-md tracking-wider">
-                {{ systemSettings.siteName().charAt(0) || 'V' }}
+                {{ systemSettings.siteName().charAt(0) || 'O' }}
               </div>
             }
             <div>

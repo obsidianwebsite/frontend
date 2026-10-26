@@ -34,7 +34,7 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
             <!-- Center Brand Logo -->
             <div class="text-center">
               <a routerLink="/" class="inline-flex items-center gap-2.5">
-                @if (systemSettings.siteLogoUrl().startsWith('http') || systemSettings.siteLogoUrl().startsWith('/assets') || systemSettings.siteLogoUrl().startsWith('data:image')) {
+                @if (systemSettings.siteLogoUrl()) {
                   <img [src]="systemSettings.siteLogoUrl()" [alt]="systemSettings.siteName()" class="w-10 h-10 rounded-xl object-contain shadow-sm border border-slate-200 bg-white p-1" />
                 } @else {
                   <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#003432] to-[#0BB4D2] text-white flex items-center justify-center font-black text-base shadow-sm">
@@ -77,7 +77,7 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
             
             <!-- Mobile Brand Logo -->
             <a routerLink="/" class="md:hidden flex items-center gap-2">
-              @if (systemSettings.siteLogoUrl().startsWith('http') || systemSettings.siteLogoUrl().startsWith('/assets') || systemSettings.siteLogoUrl().startsWith('data:image')) {
+              @if (systemSettings.siteLogoUrl()) {
                 <img [src]="systemSettings.siteLogoUrl()" [alt]="systemSettings.siteName()" class="w-8 h-8 rounded-lg object-contain bg-white p-0.5" />
               } @else {
                 <div class="w-8 h-8 rounded-lg bg-[#0BB4D2] text-[#003432] flex items-center justify-center font-black text-xs">
@@ -200,7 +200,7 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
             <!-- Col 1: Logo & Copyright -->
             <div class="lg:col-span-4 space-y-4">
               <a routerLink="/" class="inline-flex items-center gap-3">
-                @if (systemSettings.siteLogoUrl().startsWith('http') || systemSettings.siteLogoUrl().startsWith('/assets') || systemSettings.siteLogoUrl().startsWith('data:image')) {
+                @if (systemSettings.siteLogoUrl()) {
                   <img [src]="systemSettings.siteLogoUrl()" [alt]="systemSettings.siteName()" class="w-10 h-10 rounded-xl object-contain bg-white p-1 shadow-sm" />
                 } @else {
                   <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#0BB4D2] to-teal-400 text-[#003432] flex items-center justify-center font-black text-base shadow-sm">

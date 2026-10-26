@@ -81,6 +81,7 @@ export class SystemSettingsService {
             ...DEFAULT_SETTINGS,
             ...res.data
           });
+          this.applyBrandingToDom();
         }
       },
       error: () => {
@@ -100,8 +101,26 @@ export class SystemSettingsService {
             ...this.settings(),
             ...res.data
           });
+          this.applyBrandingToDom();
         }
       })
     );
+  }
+
+  private applyBrandingToDom(): void {
+    try {
+      const s = this.settings();
+      if (s.site_favicon_url) {
+        let link: HTMLLinkElement | null = document.querySelector("link[rel*='icon']");
+        if (!link) {
+          link = document.createElement('link');
+          link.rel = 'icon';
+          document.head.appendChild(link);
+        }
+        link.href = s.site_favicon_url;
+      }
+    } catch {
+      // DOM access guard
+    }
   }
 }

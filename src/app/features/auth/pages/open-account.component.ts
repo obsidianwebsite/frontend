@@ -18,7 +18,7 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
         <!-- Top Heading & Logo -->
         <div class="text-center space-y-3">
           <a routerLink="/" class="inline-flex items-center gap-2.5">
-            @if (systemSettings.siteLogoUrl().startsWith('http') || systemSettings.siteLogoUrl().startsWith('/assets') || systemSettings.siteLogoUrl().startsWith('data:image')) {
+            @if (systemSettings.siteLogoUrl()) {
               <img [src]="systemSettings.siteLogoUrl()" [alt]="systemSettings.siteName()" class="w-10 h-10 rounded-2xl object-contain bg-teal-950 p-1 border border-[#0BB4D2]/40 shadow-lg" />
             } @else {
               <div class="w-10 h-10 rounded-2xl bg-teal-950 border border-[#0BB4D2]/40 flex items-center justify-center text-[#0BB4D2] font-black text-base shadow-lg">

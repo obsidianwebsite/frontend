@@ -78,53 +78,124 @@ import { ModalService } from '../../../core/services/modal.service';
                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs font-semibold text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0BB4D2]/40 transition" />
               </div>
 
-              <!-- Logo Presets or Custom URL -->
-              <div>
-                <label class="block text-slate-700 font-bold uppercase tracking-wider text-[10px] mb-1.5">Logo Selection / Presets</label>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
+              <!-- Logo Presets, Direct Upload, or Custom URL -->
+              <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                  <label class="block text-slate-700 font-bold uppercase tracking-wider text-[10px]">Institutional Logo &amp; Crest</label>
+                  @if (form.site_logo_url) {
+                    <button type="button" (click)="clearLogo()" class="text-[11px] font-bold text-rose-600 hover:text-rose-700 flex items-center gap-1 transition">
+                      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                      <span>Remove Logo</span>
+                    </button>
+                  }
+                </div>
+
+                <!-- Presets Selection Bar -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
                   <button type="button" (click)="selectLogoPreset('DEFAULT')"
                           [ngClass]="activeLogoPreset === 'DEFAULT' ? 'border-[#0BB4D2] bg-teal-50/70 font-bold text-[#003432]' : 'border-slate-200 hover:bg-slate-50 text-slate-600'"
                           class="p-2.5 rounded-xl border text-[11px] transition text-center flex flex-col items-center gap-1">
-                    <span class="w-6 h-6 rounded-md bg-[#003432] text-[#0BB4D2] font-black text-[10px] flex items-center justify-center">VA</span>
-                    <span>Cyan &amp; Teal Crest</span>
+                    <span class="w-6 h-6 rounded-md bg-[#003432] text-[#0BB4D2] font-black text-[10px] flex items-center justify-center">OTB</span>
+                    <span>Default Monogram</span>
                   </button>
 
                   <button type="button" (click)="selectLogoPreset('GOLD')"
                           [ngClass]="activeLogoPreset === 'GOLD' ? 'border-amber-400 bg-amber-50 font-bold text-amber-900' : 'border-slate-200 hover:bg-slate-50 text-slate-600'"
                           class="p-2.5 rounded-xl border text-[11px] transition text-center flex flex-col items-center gap-1">
-                    <span class="w-6 h-6 rounded-md bg-slate-900 text-amber-400 font-black text-[10px] flex items-center justify-center">✦</span>
-                    <span>Gold Monogram</span>
+                    <span class="w-6 h-6 rounded-md bg-[#001f1e] text-amber-400 font-black text-[10px] flex items-center justify-center">✦</span>
+                    <span>Obsidian Gold</span>
+                  </button>
+
+                  <button type="button" (click)="selectLogoPreset('CYAN')"
+                          [ngClass]="activeLogoPreset === 'CYAN' ? 'border-[#0BB4D2] bg-teal-50 font-bold text-[#003432]' : 'border-slate-200 hover:bg-slate-50 text-slate-600'"
+                          class="p-2.5 rounded-xl border text-[11px] transition text-center flex flex-col items-center gap-1">
+                    <span class="w-6 h-6 rounded-md bg-[#003432] text-[#0BB4D2] font-black text-[10px] flex items-center justify-center">🛡️</span>
+                    <span>Sovereign Crest</span>
                   </button>
 
                   <button type="button" (click)="selectLogoPreset('PLATINUM')"
                           [ngClass]="activeLogoPreset === 'PLATINUM' ? 'border-slate-400 bg-slate-100 font-bold text-slate-900' : 'border-slate-200 hover:bg-slate-50 text-slate-600'"
                           class="p-2.5 rounded-xl border text-[11px] transition text-center flex flex-col items-center gap-1">
-                    <span class="w-6 h-6 rounded-md bg-slate-700 text-slate-100 font-black text-[10px] flex items-center justify-center">🛡️</span>
-                    <span>Platinum Shield</span>
-                  </button>
-
-                  <button type="button" (click)="selectLogoPreset('CUSTOM')"
-                          [ngClass]="activeLogoPreset === 'CUSTOM' ? 'border-[#0BB4D2] bg-teal-50 font-bold text-[#003432]' : 'border-slate-200 hover:bg-slate-50 text-slate-600'"
-                          class="p-2.5 rounded-xl border text-[11px] transition text-center flex flex-col items-center gap-1">
-                    <span class="w-6 h-6 rounded-md bg-teal-100 text-[#003432] font-bold text-[10px] flex items-center justify-center">🔗</span>
-                    <span>Custom URL</span>
+                    <span class="w-6 h-6 rounded-md bg-slate-900 text-sky-400 font-black text-[10px] flex items-center justify-center">OTB</span>
+                    <span>Modern Platinum</span>
                   </button>
                 </div>
 
-                <div class="space-y-1.5">
-                  <span class="text-[10px] text-slate-400 font-medium">Custom Logo Image URL (PNG / SVG / WebP):</span>
+                <!-- Direct Upload & Custom URL Controls -->
+                <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-3">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <span class="text-[11px] font-bold text-slate-700 flex items-center gap-1.5">
+                      <span>📁</span> Direct File Upload or Image URL
+                    </span>
+
+                    <div class="flex items-center gap-2">
+                      <input type="file" #logoFileInput (change)="onLogoFileSelected($event)" accept="image/png,image/jpeg,image/webp,image/svg+xml,image/gif" class="hidden" />
+                      <button type="button" (click)="logoFileInput.click()"
+                              class="px-3 py-1.5 rounded-lg bg-[#003432] hover:bg-[#002625] text-white text-[11px] font-bold transition flex items-center gap-1.5 shadow-2xs">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                        <span>Choose Image File...</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  @if (logoFileName()) {
+                    <div class="flex items-center justify-between text-[11px] bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-lg px-2.5 py-1">
+                      <span class="font-semibold truncate">Uploaded: {{ logoFileName() }}</span>
+                      <span class="font-bold text-emerald-600">Ready</span>
+                    </div>
+                  }
+
                   <div class="flex items-center gap-2">
                     <input type="text" [(ngModel)]="form.site_logo_url"
-                           (input)="activeLogoPreset = 'CUSTOM'"
-                           placeholder="https://example.com/logo.png or data:image/..."
-                           class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-xs font-mono text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0BB4D2]/40 transition" />
+                           (input)="onLogoUrlInput()"
+                           placeholder="https://example.com/logo.png or data:image/... or click Choose Image File above"
+                           class="flex-1 bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-mono text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0BB4D2]/40 transition" />
+                    
                     @if (form.site_logo_url) {
-                      <div class="w-9 h-9 rounded-xl border border-slate-200 bg-white p-1 flex items-center justify-center shrink-0 overflow-hidden shadow-2xs">
-                        <img [src]="form.site_logo_url" alt="Logo Preview" class="max-h-full max-w-full object-contain" (error)="onLogoLoadError()" />
+                      <div class="w-10 h-10 rounded-xl border border-slate-200 bg-white p-1 flex items-center justify-center shrink-0 overflow-hidden shadow-2xs relative" title="Logo Preview">
+                        <img [src]="form.site_logo_url" alt="Logo Preview" class="max-h-full max-w-full object-contain" 
+                             (load)="logoPreviewError.set(false)" 
+                             (error)="logoPreviewError.set(true)" />
+                      </div>
+                    }
+                  </div>
+
+                  @if (logoPreviewError() && form.site_logo_url) {
+                    <div class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1 flex items-center gap-1.5">
+                      <span>⚠️</span>
+                      <span>Unable to preview image from URL. You can upload an image file directly using the button above.</span>
+                    </div>
+                  }
+                </div>
+
+                <!-- Custom Favicon Support -->
+                <div class="pt-2">
+                  <div class="flex items-center justify-between mb-1.5">
+                    <label class="block text-slate-700 font-bold uppercase tracking-wider text-[10px]">Browser Favicon (Optional)</label>
+                    @if (form.site_favicon_url) {
+                      <button type="button" (click)="clearFavicon()" class="text-[10px] font-bold text-slate-500 hover:text-rose-600 transition">
+                        Clear Favicon
+                      </button>
+                    }
+                  </div>
+
+                  <div class="flex items-center gap-2">
+                    <input type="file" #faviconFileInput (change)="onFaviconFileSelected($event)" accept="image/png,image/x-icon,image/svg+xml" class="hidden" />
+                    <input type="text" [(ngModel)]="form.site_favicon_url"
+                           placeholder="Browser tab favicon URL or data:image/..."
+                           class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-mono text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#0BB4D2]/40 transition" />
+                    <button type="button" (click)="faviconFileInput.click()"
+                            class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1">
+                      <span>Upload</span>
+                    </button>
+                    @if (form.site_favicon_url) {
+                      <div class="w-8 h-8 rounded-lg border border-slate-200 bg-white p-1 flex items-center justify-center shrink-0">
+                        <img [src]="form.site_favicon_url" alt="Favicon" class="w-5 h-5 object-contain" />
                       </div>
                     }
                   </div>
                 </div>
+
               </div>
 
             </div>
@@ -257,7 +328,7 @@ import { ModalService } from '../../../core/services/modal.service';
                     <img [src]="form.site_logo_url" alt="Logo" class="w-9 h-9 object-contain rounded-xl bg-white/10 p-1" />
                   } @else {
                     <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#0BB4D2] to-[#089bb5] flex items-center justify-center font-black text-white text-sm shadow-md">
-                      {{ form.site_name.charAt(0) || 'V' }}
+                      {{ form.site_name.charAt(0) || 'O' }}
                     </div>
                   }
                   <div>
@@ -337,7 +408,9 @@ export class AdminSettingsComponent implements OnInit {
   private modalService = inject(ModalService);
 
   isSaving = signal<boolean>(false);
-  activeLogoPreset: 'DEFAULT' | 'GOLD' | 'PLATINUM' | 'CUSTOM' = 'DEFAULT';
+  activeLogoPreset: 'DEFAULT' | 'GOLD' | 'CYAN' | 'PLATINUM' | 'CUSTOM' = 'DEFAULT';
+  logoFileName = signal<string>('');
+  logoPreviewError = signal<boolean>(false);
 
   form: SystemSettings = {
     site_name: '',
@@ -366,32 +439,104 @@ export class AdminSettingsComponent implements OnInit {
     }
   }
 
-  selectLogoPreset(preset: 'DEFAULT' | 'GOLD' | 'PLATINUM' | 'CUSTOM'): void {
+  selectLogoPreset(preset: 'DEFAULT' | 'GOLD' | 'CYAN' | 'PLATINUM' | 'CUSTOM'): void {
     this.activeLogoPreset = preset;
+    this.logoPreviewError.set(false);
+    this.logoFileName.set('');
+
     switch (preset) {
       case 'DEFAULT':
         this.form.site_logo_url = '';
         break;
       case 'GOLD':
-        // High quality gold crest SVG data URL
-        this.form.site_logo_url = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="%230f172a"/><path d="M50 15 L85 80 L15 80 Z" fill="%23f59e0b"/><circle cx="50" cy="55" r="15" fill="%230f172a"/><text x="50" y="60" font-family="sans-serif" font-weight="900" font-size="16" fill="%23fbbf24" text-anchor="middle">VA</text></svg>';
+        // High quality Obsidian Gold monogram crest SVG data URL
+        this.form.site_logo_url = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" rx="28" fill="%23001f1e"/><circle cx="60" cy="60" r="50" fill="none" stroke="%23f59e0b" stroke-width="2.5" stroke-dasharray="4 2"/><polygon points="60,20 95,85 25,85" fill="none" stroke="%23fbbf24" stroke-width="3"/><text x="60" y="74" font-family="sans-serif" font-weight="900" font-size="20" fill="%23fbbf24" text-anchor="middle" letter-spacing="1">OTB</text></svg>';
+        break;
+      case 'CYAN':
+        // Deep Obsidian & Sovereign Cyan shield crest SVG data URL
+        this.form.site_logo_url = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" rx="28" fill="%23003432"/><polygon points="60,12 105,32 105,82 60,108 15,82 15,32" fill="none" stroke="%230BB4D2" stroke-width="3.5"/><polygon points="60,22 93,38 93,76 60,96 27,76 27,38" fill="%23002625" stroke="%2310b981" stroke-width="1.5"/><text x="60" y="72" font-family="sans-serif" font-weight="900" font-size="22" fill="%23ffffff" text-anchor="middle" letter-spacing="1.5">OTB</text></svg>';
         break;
       case 'PLATINUM':
-        // Platinum shield crest SVG data URL
-        this.form.site_logo_url = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon points="50,5 90,25 90,75 50,95 10,75 10,25" fill="%23003432" stroke="%230BB4D2" stroke-width="4"/><text x="50" y="62" font-family="sans-serif" font-weight="900" font-size="28" fill="%23ffffff" text-anchor="middle">VA</text></svg>';
+        // Modern Platinum & Sky Blue geometric crest SVG data URL
+        this.form.site_logo_url = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" rx="28" fill="%230f172a"/><circle cx="60" cy="60" r="44" fill="none" stroke="%2394a3b8" stroke-width="3"/><path d="M60 26 L88 78 L32 78 Z" fill="none" stroke="%2338bdf8" stroke-width="3"/><text x="60" y="71" font-family="sans-serif" font-weight="900" font-size="19" fill="%23f8fafc" text-anchor="middle">OTB</text></svg>';
         break;
       case 'CUSTOM':
-        // Keep or allow input
         break;
     }
   }
 
-  onLogoLoadError(): void {
-    this.modalService.alert({
-      title: 'Invalid Logo Image URL',
-      message: 'The custom logo URL provided could not be loaded as an image. Please verify the URL.',
-      type: 'warning'
-    });
+  onLogoUrlInput(): void {
+    this.activeLogoPreset = 'CUSTOM';
+    this.logoFileName.set('');
+    this.logoPreviewError.set(false);
+  }
+
+  onLogoFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+
+    const file = input.files[0];
+    if (file.size > 5 * 1024 * 1024) {
+      this.modalService.alert({
+        title: 'File Too Large',
+        message: 'The selected logo image exceeds the 5MB size limit. Please choose a smaller file.',
+        type: 'warning'
+      });
+      input.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.form.site_logo_url = reader.result as string;
+      this.logoFileName.set(file.name);
+      this.activeLogoPreset = 'CUSTOM';
+      this.logoPreviewError.set(false);
+      input.value = '';
+    };
+    reader.onerror = () => {
+      this.modalService.alert({
+        title: 'File Read Error',
+        message: 'Unable to read the chosen image file. Please try another file.',
+        type: 'danger'
+      });
+      input.value = '';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  onFaviconFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+
+    const file = input.files[0];
+    if (file.size > 2 * 1024 * 1024) {
+      this.modalService.alert({
+        title: 'File Too Large',
+        message: 'The selected favicon image exceeds 2MB. Please choose a smaller icon file.',
+        type: 'warning'
+      });
+      input.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.form.site_favicon_url = reader.result as string;
+      input.value = '';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  clearLogo(): void {
+    this.form.site_logo_url = '';
+    this.logoFileName.set('');
+    this.activeLogoPreset = 'DEFAULT';
+    this.logoPreviewError.set(false);
+  }
+
+  clearFavicon(): void {
+    this.form.site_favicon_url = '';
   }
 
   saveSettings(): void {

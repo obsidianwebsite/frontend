@@ -22,7 +22,7 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
             <img [src]="systemSettings.siteLogoUrl()" alt="Logo" class="w-8 h-8 object-contain rounded-lg bg-white/10 p-1 shadow-xs" />
           } @else {
             <div class="w-8 h-8 rounded-lg bg-[#0BB4D2] text-[#003432] flex items-center justify-center font-black text-xs shadow-xs">
-              {{ systemSettings.siteName().charAt(0) || 'V' }}
+              {{ systemSettings.siteName().charAt(0) || 'O' }}
             </div>
           }
           <div class="leading-tight">
@@ -70,7 +70,7 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
               <img [src]="systemSettings.siteLogoUrl()" alt="Logo" class="w-9 h-9 object-contain rounded-xl bg-white/10 p-1" />
             } @else {
               <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#0BB4D2] to-teal-400 text-[#003432] flex items-center justify-center font-black text-sm shadow-sm group-hover:scale-105 transition-transform">
-                {{ systemSettings.siteName().charAt(0) || 'V' }}
+                {{ systemSettings.siteName().charAt(0) || 'O' }}
               </div>
             }
             <div>
