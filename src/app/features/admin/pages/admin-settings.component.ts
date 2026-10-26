@@ -161,9 +161,15 @@ import { ModalService } from '../../../core/services/modal.service';
                   </div>
 
                   @if (logoPreviewError() && form.site_logo_url) {
-                    <div class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1 flex items-center gap-1.5">
-                      <span>⚠️</span>
-                      <span>Unable to preview image from URL. You can upload an image file directly using the button above.</span>
+                    <div class="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5 flex flex-col gap-1">
+                      <div class="flex items-center gap-1.5 font-bold">
+                        <span>⚠️</span>
+                        <span>Image could not be loaded from this URL</span>
+                      </div>
+                      <p class="text-[10px] text-amber-800 leading-normal">
+                        Cloud storage links (like Google Drive viewer URLs) are protected web pages, not direct image files. 
+                        <strong>Solution:</strong> Open your Google Drive link, download the image to your device, and click <strong>"Choose Image File..."</strong> above to upload it directly.
+                      </p>
                     </div>
                   }
                 </div>
@@ -469,6 +475,14 @@ export class AdminSettingsComponent implements OnInit {
     this.activeLogoPreset = 'CUSTOM';
     this.logoFileName.set('');
     this.logoPreviewError.set(false);
+
+    // Auto-detect and convert Google Drive share links to direct embed if possible
+    if (this.form.site_logo_url && this.form.site_logo_url.includes('drive.google.com')) {
+      const match = this.form.site_logo_url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+      if (match && match[1]) {
+        this.form.site_logo_url = `https://lh3.googleusercontent.com/d/${match[1]}`;
+      }
+    }
   }
 
   onLogoFileSelected(event: Event): void {
