@@ -12,12 +12,29 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
     <div class="min-h-screen flex flex-col bg-[#f9f9f9] text-[#4d4e4f] font-sans selection:bg-[#0BB4D2] selection:text-white pb-16 md:pb-0">
       
       <!-- HEADER TOP AREA (Exact otbplc.com header_top_area hta_2) -->
-      <!-- TOP BAR AREA (Institutional Contact & Right-Aligned Brand Identity) -->
+      <!-- TOP BAR AREA (Institutional Brand Identity on Left & Contacts on Right) -->
       <div class="bg-white border-b border-slate-200/80 py-3 hidden md:block">
         <div class="max-w-7xl mx-auto px-4 sm:px-8">
           <div class="flex items-center justify-between gap-6">
             
-            <!-- Left Top Menu: Contacts & Quick Links -->
+            <!-- Left Brand Logo Identity -->
+            <div class="text-left">
+              <a routerLink="/" class="inline-flex items-center gap-3 group">
+                @if (systemSettings.siteLogoUrl()) {
+                  <img [src]="systemSettings.siteLogoUrl()" [alt]="systemSettings.siteName()" class="w-11 h-11 rounded-xl object-contain shadow-sm border border-slate-200 bg-white p-1 group-hover:scale-105 transition-transform" />
+                } @else {
+                  <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-[#003432] to-[#0BB4D2] text-white flex items-center justify-center font-black text-base shadow-sm group-hover:scale-105 transition-transform">
+                    {{ systemSettings.siteName().substring(0, 2).toUpperCase() }}
+                  </div>
+                }
+                <div class="text-left">
+                  <div class="text-xl font-black text-[#003432] tracking-tight leading-none group-hover:text-[#0BB4D2] transition">{{ systemSettings.siteName() }}</div>
+                  <div class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider mt-0.5">{{ systemSettings.siteTagline() }}</div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Right Top Menu: Contacts & Quick Links -->
             <div class="flex items-center gap-6 text-xs text-slate-600 font-semibold">
               <div class="flex items-center gap-1.5 text-[#003432]">
                 <svg class="w-3.5 h-3.5 text-[#0BB4D2]" fill="currentColor" viewBox="0 0 20 20">
@@ -42,46 +59,26 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
               </a>
             </div>
 
-            <!-- Right Brand Logo Identity (Aligned on User's Right) -->
-            <div class="text-right">
-              <a routerLink="/" class="inline-flex items-center gap-3 group">
-                <div class="text-right">
-                  <div class="text-xl font-black text-[#003432] tracking-tight leading-none group-hover:text-[#0BB4D2] transition">{{ systemSettings.siteName() }}</div>
-                  <div class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider mt-0.5">{{ systemSettings.siteTagline() }}</div>
-                </div>
-                @if (systemSettings.siteLogoUrl()) {
-                  <img [src]="systemSettings.siteLogoUrl()" [alt]="systemSettings.siteName()" class="w-11 h-11 rounded-xl object-contain shadow-sm border border-slate-200 bg-white p-1 group-hover:scale-105 transition-transform" />
-                } @else {
-                  <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-[#003432] to-[#0BB4D2] text-white flex items-center justify-center font-black text-base shadow-sm group-hover:scale-105 transition-transform">
-                    {{ systemSettings.siteName().substring(0, 2).toUpperCase() }}
-                  </div>
-                }
-              </a>
-            </div>
-
           </div>
         </div>
       </div>
 
-      <!-- MAIN HEADER AREA (Sticky Header with Left Navigation & Right Logo / Action) -->
+      <!-- MAIN HEADER AREA (Sticky Header with Menu Navigation & CTA Buttons - Logo Removed) -->
       <header class="bg-[#003432] sticky top-0 z-50 shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-8">
           <div class="flex items-center justify-between h-16">
             
-            <!-- Mobile Navigation Toggle on Left -->
-            <div class="flex items-center gap-2 md:hidden">
-              <button (click)="mobileMenuOpen.set(!mobileMenuOpen())"
-                      class="text-white hover:text-[#0BB4D2] p-2 rounded focus:outline-none transition"
-                      aria-label="Toggle navigation">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  @if (!mobileMenuOpen()) {
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                  } @else {
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                  }
-                </svg>
-              </button>
-            </div>
+            <!-- Mobile Brand Logo on Left (Only shown on mobile) -->
+            <a routerLink="/" class="md:hidden flex items-center gap-2">
+              @if (systemSettings.siteLogoUrl()) {
+                <img [src]="systemSettings.siteLogoUrl()" [alt]="systemSettings.siteName()" class="w-8 h-8 rounded-lg object-contain bg-white p-0.5" />
+              } @else {
+                <div class="w-8 h-8 rounded-lg bg-[#0BB4D2] text-[#003432] flex items-center justify-center font-black text-xs">
+                  {{ systemSettings.siteName().substring(0, 2).toUpperCase() }}
+                </div>
+              }
+              <span class="text-sm font-bold tracking-tight text-white">{{ systemSettings.siteName() }}</span>
+            </a>
 
             <!-- Desktop Navigation Menu on Left -->
             <nav class="hidden md:flex items-center gap-1 lg:gap-2">
@@ -128,33 +125,17 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
               </a>
             </nav>
 
-            <!-- Right Header Section (CTA Buttons & Pinned Brand Logo on the Right) -->
-            <div class="flex items-center gap-3">
-              <div class="hidden sm:flex items-center gap-3">
-                <a routerLink="/open-account" class="theme_btn text-xs font-bold">
-                  Open An Account
-                </a>
-                <a routerLink="/login" class="theme_btn apply_btn text-xs font-bold">
-                  Online Banking
-                </a>
-              </div>
-
-              <!-- Brand Logo Anchored on Right -->
-              <a routerLink="/" class="flex items-center gap-2.5 pl-2 sm:pl-3 sm:border-l sm:border-white/20 group">
-                <span class="hidden xl:inline text-xs font-black tracking-tight text-white group-hover:text-[#0BB4D2] transition">
-                  {{ systemSettings.siteName() }}
-                </span>
-                @if (systemSettings.siteLogoUrl()) {
-                  <img [src]="systemSettings.siteLogoUrl()" [alt]="systemSettings.siteName()" class="w-8 h-8 rounded-lg object-contain bg-white p-0.5 shadow-sm group-hover:scale-105 transition-transform" />
-                } @else {
-                  <div class="w-8 h-8 rounded-lg bg-[#0BB4D2] text-[#003432] flex items-center justify-center font-black text-xs shadow-sm group-hover:scale-105 transition-transform">
-                    {{ systemSettings.siteName().substring(0, 2).toUpperCase() }}
-                  </div>
-                }
+            <!-- Right Header Section (CTA Buttons Only - No Logo in the Menu Bar) -->
+            <div class="hidden sm:flex items-center gap-3">
+              <a routerLink="/open-account" class="theme_btn text-xs font-bold">
+                Open An Account
+              </a>
+              <a routerLink="/login" class="theme_btn apply_btn text-xs font-bold">
+                Online Banking
               </a>
             </div>
 
-            <!-- Mobile Hamburger Button -->
+            <!-- Mobile Controls (Login + Hamburger) -->
             <div class="flex items-center gap-2 md:hidden">
               <a routerLink="/login" class="px-3 py-1.5 rounded bg-[#0BB4D2] text-white text-xs font-bold">
                 Login
@@ -163,10 +144,10 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
                       aria-label="Toggle navigation menu"
                       class="p-2 text-white hover:text-[#0BB4D2] transition">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  @if (mobileMenuOpen()) {
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                  @if (!mobileMenuOpen()) {
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                   } @else {
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                   }
                 </svg>
               </button>
