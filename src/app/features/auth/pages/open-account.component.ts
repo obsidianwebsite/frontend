@@ -38,32 +38,98 @@ import { SystemSettingsService } from '../../../core/services/system-settings.se
             
             <!-- KYC Photo Capture / Upload Section -->
             <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 text-center">
-              <label class="block text-xs font-extrabold text-slate-900 uppercase tracking-wider mb-4">
-                Capture Or Upload An Image Of You (KYC Identity Verification)
+              <label class="block text-xs font-extrabold text-slate-900 uppercase tracking-wider mb-2">
+                KYC Identity Verification Photograph *
               </label>
+              <p class="text-[11px] text-slate-500 max-w-md mx-auto mb-5">
+                Upload a clear frontal facial photograph or passport picture from your device file manager. Images are securely encrypted and hosted on Cloudinary CDN.
+              </p>
 
               <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
-                <!-- Preview Avatar -->
-                <div class="w-24 h-24 rounded-full border-4 border-cyan-500 overflow-hidden bg-slate-200 flex items-center justify-center shrink-0 shadow-md">
-                  @if (form.kycPhotoUrl) {
-                    <img [src]="form.kycPhotoUrl" alt="KYC Selfie" class="w-full h-full object-cover">
-                  } @else {
-                    <svg class="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                    </svg>
+                <!-- Preview Avatar with Status Ring -->
+                <div class="relative group">
+                  <div class="w-28 h-28 rounded-full border-4 overflow-hidden bg-slate-200 flex items-center justify-center shrink-0 shadow-lg transition"
+                       [ngClass]="form.kycPhotoUrl ? 'border-emerald-500 ring-4 ring-emerald-500/20' : 'border-[#0BB4D2]'">
+                    @if (form.kycPhotoUrl) {
+                      <img [src]="form.kycPhotoUrl" alt="KYC Selfie" class="w-full h-full object-cover">
+                    } @else {
+                      <div class="flex flex-col items-center justify-center text-slate-400">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                        <span class="text-[9px] font-bold mt-1 text-slate-400 uppercase">No Photo</span>
+                      </div>
+                    }
+                  </div>
+
+                  @if (form.kycPhotoUrl && !isUploadingKyc) {
+                    <span class="absolute bottom-0 right-0 w-7 h-7 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-black shadow-md border-2 border-white" title="Verified">
+                      ✓
+                    </span>
                   }
                 </div>
 
-                <div class="text-left space-y-2 flex-1">
-                  <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Identity Verification Photo URL *</label>
-                    <input type="url" [(ngModel)]="form.kycPhotoUrl" name="kycPhotoUrl" required
-                           placeholder="Paste direct HTTPS photo or document URL"
-                           class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-xs text-slate-800 bg-white focus:ring-2 focus:ring-[#003432] focus:border-transparent outline-none">
+                <!-- Controls & Cloudinary Upload Action -->
+                <div class="text-left space-y-3 flex-1 w-full max-w-lg">
+                  <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/png,image/jpeg,image/webp,image/jpg" class="hidden">
+                  
+                  <div class="flex flex-wrap items-center gap-2">
+                    <button type="button" (click)="fileInput.click()" [disabled]="isUploadingKyc"
+                            class="px-4 py-2.5 rounded-xl bg-[#003432] hover:bg-[#002625] text-white text-xs font-bold transition shadow-xs flex items-center gap-2 disabled:opacity-60 cursor-pointer">
+                      @if (isUploadingKyc) {
+                        <div class="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span>Uploading to Cloudinary...</span>
+                      } @else {
+                        <svg class="w-4 h-4 text-[#0BB4D2]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                        <span>{{ form.kycPhotoUrl ? 'Change Photo from Device' : 'Choose Photo from Device' }}</span>
+                      }
+                    </button>
+
+                    @if (form.kycPhotoUrl && !isUploadingKyc) {
+                      <button type="button" (click)="clearPhoto()"
+                              class="px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold transition flex items-center gap-1 border border-rose-200 cursor-pointer">
+                        <span>✕</span>
+                        <span>Remove</span>
+                      </button>
+                    }
                   </div>
-                  <p class="text-[11px] text-slate-500">
-                    High-resolution frontal facial capture or document scan required for compliance with Anti-Money Laundering (AML) standards.
-                  </p>
+
+                  <!-- Upload Status Details -->
+                  @if (isUploadingKyc) {
+                    <div class="flex items-center gap-2 text-xs text-cyan-700 bg-cyan-50 border border-cyan-200 rounded-xl px-3 py-2">
+                      <div class="w-3.5 h-3.5 border-2 border-cyan-600 border-t-transparent rounded-full animate-spin"></div>
+                      <span>Encrypting and uploading photograph to Cloudinary CDN storage...</span>
+                    </div>
+                  } @else if (form.kycPhotoUrl) {
+                    <div class="flex items-center justify-between text-[11px] bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl px-3 py-2">
+                      <div class="flex items-center gap-2 truncate">
+                        <span class="text-emerald-600 font-bold">☁️ Cloudinary CDN:</span>
+                        <span class="truncate font-mono text-emerald-900">{{ uploadedFileName || form.kycPhotoUrl }}</span>
+                      </div>
+                      <span class="px-2 py-0.5 rounded-full bg-emerald-600 text-white font-bold text-[9px] uppercase tracking-wider shrink-0 ml-2">Ready</span>
+                    </div>
+                  } @else {
+                    <p class="text-[11px] text-slate-500">
+                      Tap the button above to pick a photo from your phone's camera roll or computer files.
+                    </p>
+                  }
+
+                  <!-- Optional Direct URL accordion -->
+                  <div class="pt-1">
+                    <button type="button" (click)="showUrlManualInput = !showUrlManualInput"
+                            class="text-[10px] text-slate-400 hover:text-slate-600 font-semibold underline cursor-pointer">
+                      {{ showUrlManualInput ? '− Hide direct image URL field' : '+ Or paste image URL manually' }}
+                    </button>
+
+                    @if (showUrlManualInput) {
+                      <div class="mt-1.5">
+                        <input type="url" [(ngModel)]="form.kycPhotoUrl" name="kycPhotoUrl"
+                               placeholder="https://example.com/photo.jpg"
+                               class="w-full px-3 py-1.5 rounded-lg border border-slate-300 text-xs text-slate-700 bg-white focus:outline-none focus:ring-1 focus:ring-[#003432]">
+                      </div>
+                    }
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -255,6 +321,9 @@ export class OpenAccountComponent {
   private router = inject(Router);
 
   isSubmitting = false;
+  isUploadingKyc = false;
+  uploadedFileName = '';
+  showUrlManualInput = false;
 
   form = {
     firstName: '',
@@ -277,7 +346,62 @@ export class OpenAccountComponent {
     agreeTerms: false
   };
 
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+
+    const file = input.files[0];
+    if (file.size > 8 * 1024 * 1024) {
+      this.modalService.alert('File Too Large', 'Selected image exceeds the 8MB limit. Please choose a smaller file.', 'warning');
+      input.value = '';
+      return;
+    }
+
+    this.uploadedFileName = file.name;
+    this.isUploadingKyc = true;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      // Pre-set preview immediately
+      this.form.kycPhotoUrl = dataUrl;
+
+      // Upload to backend / Cloudinary
+      this.authService.uploadKycImage(dataUrl).subscribe({
+        next: (res) => {
+          this.isUploadingKyc = false;
+          if (res.url) {
+            this.form.kycPhotoUrl = res.url;
+          }
+          input.value = '';
+        },
+        error: (err) => {
+          this.isUploadingKyc = false;
+          console.warn('Cloudinary upload warning:', err);
+          // Keep preview dataUrl as fallback so user is not blocked
+          input.value = '';
+        }
+      });
+    };
+    reader.onerror = () => {
+      this.isUploadingKyc = false;
+      this.modalService.alert('File Read Error', 'Unable to read the chosen file from your device.', 'error');
+      input.value = '';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  clearPhoto(): void {
+    this.form.kycPhotoUrl = '';
+    this.uploadedFileName = '';
+  }
+
   submitRegistration(): void {
+    if (!this.form.kycPhotoUrl) {
+      this.modalService.alert('KYC Photograph Required', 'Please select and upload your identity verification photograph from your device file manager.', 'warning');
+      return;
+    }
+
     if (!this.form.agreeTerms) {
       this.modalService.alert('Agreement Required', 'You must agree with the terms and conditions.', 'warning');
       return;

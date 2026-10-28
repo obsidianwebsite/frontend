@@ -105,6 +105,14 @@ export class AuthService {
     }
   }
 
+  // Upload KYC Image to Cloudinary via backend
+  uploadKycImage(imageData: string, folder?: string): Observable<{ success: boolean; url: string; public_id?: string; message?: string }> {
+    return this.http.post<{ success: boolean; url: string; public_id?: string; message?: string }>(
+      '/api/v1/upload/kyc',
+      { image: imageData, folder }
+    );
+  }
+
   // Customer Onboarding (/open-account)
   register(payload: any): Observable<any> {
     return this.http.post('/api/v1/auth/register', payload);
