@@ -47,9 +47,16 @@ import { ModalService } from '../../../core/services/modal.service';
 
           <!-- Compose Custom Email Button -->
           <button (click)="openCustomEmailModal(null)"
-                  class="bg-[#003432] hover:bg-[#002625] text-white px-3.5 py-2 rounded-xl text-xs font-bold transition shadow-xs flex items-center gap-1.5 border border-teal-600/30 shrink-0">
+                  class="bg-[#003432] hover:bg-[#002625] text-white px-3.5 py-2 rounded-xl text-xs font-bold transition shadow-xs flex items-center gap-1.5 border border-teal-600/30 shrink-0 cursor-pointer">
             <span>✉️</span>
             <span>Compose Client Email</span>
+          </button>
+
+          <!-- Insert Transaction History Button -->
+          <button (click)="openGlobalHistoryModal()"
+                  class="bg-[#0BB4D2] hover:bg-[#089bb5] text-[#003432] px-3.5 py-2 rounded-xl text-xs font-black transition shadow-xs flex items-center gap-1.5 shrink-0 cursor-pointer">
+            <span>⚡</span>
+            <span>Insert History from Date</span>
           </button>
         </div>
       </div>
@@ -179,9 +186,16 @@ import { ModalService } from '../../../core/services/modal.service';
 
                   <!-- Adjust Balance (Credit / Debit) -->
                   <button (click)="openBalanceModal(u)"
-                          class="px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 transition flex items-center gap-1.5 shadow-xs">
+                          class="px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 transition flex items-center gap-1.5 shadow-xs cursor-pointer">
                     <span>💳</span>
                     <span>Adjust Balance</span>
+                  </button>
+
+                  <!-- Insert History Button -->
+                  <button (click)="openHistoryModal(u)"
+                          class="px-3 py-1.5 rounded-lg bg-cyan-50 hover:bg-cyan-100 border border-cyan-200 text-xs font-bold text-cyan-900 transition flex items-center gap-1.5 shadow-xs cursor-pointer">
+                    <span>📜</span>
+                    <span>Insert History</span>
                   </button>
 
                   <!-- KYC Status Modal -->
@@ -227,6 +241,370 @@ import { ModalService } from '../../../core/services/modal.service';
       }
 
     </div>
+
+    <!-- Transaction History Insertion Modal (From Selected Date to Date) -->
+    @if (activeHistoryModal()) {
+      <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs animate-fade-in font-sans overflow-y-auto">
+        <div class="bg-white border border-slate-200 rounded-3xl max-w-2xl w-full p-5 sm:p-7 shadow-2xl space-y-5 my-8 max-h-[90vh] flex flex-col">
+          
+          <!-- Modal Header -->
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3 shrink-0">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-xl bg-cyan-50 text-cyan-700 flex items-center justify-center text-base font-bold">
+                📜
+              </div>
+              <div>
+                <h3 class="text-base font-bold font-nunito text-[#003432]">
+                  Automated Transaction History Insertion
+                </h3>
+                <p class="text-[11px] text-slate-400">Generate realistic institutional transactions from selected date to date</p>
+              </div>
+            </div>
+            <button (click)="closeHistoryModal()" class="text-slate-400 hover:text-slate-700 text-2xl font-bold cursor-pointer">&times;</button>
+          </div>
+
+          <!-- Customer Selection Banner -->
+          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shrink-0">
+            <div class="flex-1">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Target Customer</span>
+              @if (isGlobalHistoryMode()) {
+                <select (change)="onSelectCustomer($event)"
+                        class="mt-1 w-full bg-white border border-slate-300 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-800">
+                  <option value="">-- Choose Customer Account --</option>
+                  @for (usr of allUsers(); track usr.id) {
+                    <option [value]="usr.id" [selected]="usr.id === selectedUser()?.id">
+                      {{ usr.first_name }} {{ usr.last_name }} ({{ usr.account_number || usr.email }})
+                    </option>
+                  }
+                </select>
+              } @else {
+                <strong class="text-xs text-slate-800 font-bold block mt-0.5">
+                  {{ selectedUser()?.first_name }} {{ selectedUser()?.last_name }} 
+                  <span class="text-slate-400 font-normal">({{ selectedUser()?.email }})</span>
+                </strong>
+              }
+            </div>
+            <div class="flex items-center gap-4 text-xs font-mono shrink-0">
+              <div>
+                <span class="text-[10px] text-slate-400 block font-sans">Account No:</span>
+                <strong class="text-slate-700">{{ selectedUser()?.account_number || 'N/A' }}</strong>
+              </div>
+              <div>
+                <span class="text-[10px] text-slate-400 block font-sans">Live Balance:</span>
+                <strong class="text-emerald-600 font-bold">&#36;{{ selectedUser()?.available_balance || '0.00' }}</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabs Navigation -->
+          <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl text-xs font-bold shrink-0">
+            <button type="button" (click)="historyTab.set('AUTO')"
+                    [ngClass]="historyTab() === 'AUTO' ? 'bg-white text-[#003432] shadow-xs' : 'text-slate-500 hover:text-slate-800'"
+                    class="flex-1 py-2 rounded-lg transition text-center flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>⚡</span>
+              <span>Auto Date-to-Date Generator</span>
+            </button>
+            <button type="button" (click)="historyTab.set('MANUAL')"
+                    [ngClass]="historyTab() === 'MANUAL' ? 'bg-white text-[#003432] shadow-xs' : 'text-slate-500 hover:text-slate-800'"
+                    class="flex-1 py-2 rounded-lg transition text-center flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>✍️</span>
+              <span>Single Custom Entry</span>
+            </button>
+            <button type="button" (click)="loadUserTransactions()"
+                    [ngClass]="historyTab() === 'VIEW' ? 'bg-white text-[#003432] shadow-xs' : 'text-slate-500 hover:text-slate-800'"
+                    class="flex-1 py-2 rounded-lg transition text-center flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>📋</span>
+              <span>View History ({{ userTransactions().length }})</span>
+            </button>
+          </div>
+
+          <!-- Modal Body (Scrollable) -->
+          <div class="flex-1 overflow-y-auto space-y-4 pr-1 text-xs">
+            
+            <!-- TAB 1: AUTO GENERATOR (Date to Date) -->
+            @if (historyTab() === 'AUTO') {
+              <div class="space-y-4">
+                
+                <!-- Quick Date Presets -->
+                <div>
+                  <label class="block text-slate-600 font-bold uppercase text-[10px] mb-1.5">Quick Date Range Presets:</label>
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <button type="button" (click)="applyHistoryDatePreset('30D')"
+                            class="px-2.5 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-[11px] font-bold text-slate-700 transition cursor-pointer">
+                      Last 30 Days
+                    </button>
+                    <button type="button" (click)="applyHistoryDatePreset('90D')"
+                            class="px-2.5 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-[11px] font-bold text-slate-700 transition cursor-pointer">
+                      Last 90 Days
+                    </button>
+                    <button type="button" (click)="applyHistoryDatePreset('6M')"
+                            class="px-2.5 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-[11px] font-bold text-slate-700 transition cursor-pointer">
+                      Last 6 Months
+                    </button>
+                    <button type="button" (click)="applyHistoryDatePreset('YTD')"
+                            class="px-2.5 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-[11px] font-bold text-slate-700 transition cursor-pointer">
+                      Year to Date (2026)
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Date Pickers Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 bg-teal-50/50 rounded-2xl border border-teal-100">
+                  <div>
+                    <label class="block text-[#003432] font-black uppercase tracking-wider text-[10px] mb-1">
+                      📅 Start Date (From) *
+                    </label>
+                    <input type="date" [(ngModel)]="autoForm.startDate" required
+                           class="w-full bg-white border border-teal-200 rounded-xl px-3.5 py-2 text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0BB4D2]">
+                    <span class="text-[10px] text-slate-400 mt-0.5 block">Earliest transaction date in generated batch</span>
+                  </div>
+
+                  <div>
+                    <label class="block text-[#003432] font-black uppercase tracking-wider text-[10px] mb-1">
+                      📅 End Date (To) *
+                    </label>
+                    <input type="date" [(ngModel)]="autoForm.endDate" required
+                           class="w-full bg-white border border-teal-200 rounded-xl px-3.5 py-2 text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-[#0BB4D2]">
+                    <span class="text-[10px] text-slate-400 mt-0.5 block">Latest transaction date in generated batch</span>
+                  </div>
+                </div>
+
+                <!-- Quantity & Amounts -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div>
+                    <label class="block text-slate-700 font-bold uppercase text-[10px] mb-1">Number of Transactions</label>
+                    <select [(ngModel)]="autoForm.count" 
+                            class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800">
+                      <option [value]="5">5 Transactions</option>
+                      <option [value]="10">10 Transactions (Recommended)</option>
+                      <option [value]="15">15 Transactions</option>
+                      <option [value]="20">20 Transactions</option>
+                      <option [value]="30">30 Transactions</option>
+                      <option [value]="50">50 Transactions</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label class="block text-slate-700 font-bold uppercase text-[10px] mb-1">Min Amount ($)</label>
+                    <input type="number" [(ngModel)]="autoForm.minAmount" min="10" step="50"
+                           class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono font-bold text-slate-800">
+                  </div>
+
+                  <div>
+                    <label class="block text-slate-700 font-bold uppercase text-[10px] mb-1">Max Amount ($)</label>
+                    <input type="number" [(ngModel)]="autoForm.maxAmount" min="100" step="100"
+                           class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono font-bold text-slate-800">
+                  </div>
+                </div>
+
+                <!-- Flow Distribution Pattern -->
+                <div>
+                  <label class="block text-slate-700 font-bold uppercase text-[10px] mb-1.5">Credit / Debit Distribution Pattern</label>
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <button type="button" (click)="autoForm.distribution = 'BALANCED'"
+                            [ngClass]="autoForm.distribution === 'BALANCED' ? 'border-[#0BB4D2] bg-teal-50 text-[#003432] font-bold' : 'border-slate-200 text-slate-600'"
+                            class="p-2 rounded-xl border text-[11px] transition text-center cursor-pointer">
+                      <div>Balanced</div>
+                      <span class="text-[9px] text-slate-400">65% In / 35% Out</span>
+                    </button>
+                    <button type="button" (click)="autoForm.distribution = 'INFLOW_HEAVY'"
+                            [ngClass]="autoForm.distribution === 'INFLOW_HEAVY' ? 'border-[#0BB4D2] bg-teal-50 text-[#003432] font-bold' : 'border-slate-200 text-slate-600'"
+                            class="p-2 rounded-xl border text-[11px] transition text-center cursor-pointer">
+                      <div>Wealth Inflow</div>
+                      <span class="text-[9px] text-slate-400">85% In / 15% Out</span>
+                    </button>
+                    <button type="button" (click)="autoForm.distribution = 'ALL_CREDIT'"
+                            [ngClass]="autoForm.distribution === 'ALL_CREDIT' ? 'border-emerald-500 bg-emerald-50 text-emerald-900 font-bold' : 'border-slate-200 text-slate-600'"
+                            class="p-2 rounded-xl border text-[11px] transition text-center cursor-pointer">
+                      <div>All Credits</div>
+                      <span class="text-[9px] text-slate-400">100% Inflow</span>
+                    </button>
+                    <button type="button" (click)="autoForm.distribution = 'OUTFLOW_HEAVY'"
+                            [ngClass]="autoForm.distribution === 'OUTFLOW_HEAVY' ? 'border-amber-400 bg-amber-50 text-amber-900 font-bold' : 'border-slate-200 text-slate-600'"
+                            class="p-2 rounded-xl border text-[11px] transition text-center cursor-pointer">
+                      <div>Active Spend</div>
+                      <span class="text-[9px] text-slate-400">25% In / 75% Out</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Balance Recalculation Checkbox -->
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <label class="flex items-center gap-2.5 cursor-pointer">
+                    <input type="checkbox" [(ngModel)]="autoForm.updateBalance"
+                           class="rounded border-slate-300 text-teal-700 focus:ring-teal-600 w-4 h-4 cursor-pointer">
+                    <div>
+                      <span class="font-bold text-slate-800 text-xs">Update Live Account Balance</span>
+                      <p class="text-[10px] text-slate-500">
+                        Recalculates customer's available and ledger balance by adding net credits and subtracting debits.
+                      </p>
+                    </div>
+                  </label>
+                </div>
+
+              </div>
+            }
+
+            <!-- TAB 2: MANUAL SINGLE TRANSACTION ENTRY -->
+            @if (historyTab() === 'MANUAL') {
+              <div class="space-y-3.5">
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-slate-700 font-bold text-[10px] uppercase mb-1">Transaction Type *</label>
+                    <div class="grid grid-cols-2 gap-2">
+                      <button type="button" (click)="manualForm.type = 'CREDIT'"
+                              [ngClass]="manualForm.type === 'CREDIT' ? 'bg-emerald-600 text-white font-bold shadow-xs' : 'bg-slate-100 text-slate-600'"
+                              class="py-2 rounded-xl text-center text-xs transition cursor-pointer">
+                        + CREDIT (Inflow)
+                      </button>
+                      <button type="button" (click)="manualForm.type = 'DEBIT'"
+                              [ngClass]="manualForm.type === 'DEBIT' ? 'bg-rose-600 text-white font-bold shadow-xs' : 'bg-slate-100 text-slate-600'"
+                              class="py-2 rounded-xl text-center text-xs transition cursor-pointer">
+                        − DEBIT (Outflow)
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label class="block text-slate-700 font-bold text-[10px] uppercase mb-1">Amount ($ USD) *</label>
+                    <input type="number" [(ngModel)]="manualForm.amount" min="1" step="0.01" required
+                           class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono font-bold text-slate-800">
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-slate-700 font-bold text-[10px] uppercase mb-1">Execution / Post Date &amp; Time *</label>
+                    <input type="datetime-local" [(ngModel)]="manualForm.postDate" required
+                           class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800">
+                  </div>
+
+                  <div>
+                    <label class="block text-slate-700 font-bold text-[10px] uppercase mb-1">Clearing Channel</label>
+                    <select [(ngModel)]="manualForm.channel"
+                            class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800">
+                      <option value="DOMESTIC_TRANSFER">DOMESTIC WIRE TRANSFER</option>
+                      <option value="LOCAL_TRANSFER">LOCAL ELECTRONIC CLEARING</option>
+                      <option value="INTERNATIONAL_WIRE">INTERNATIONAL SWIFT WIRE</option>
+                      <option value="DEPOSIT">DIRECT DEPOSIT / PAYROLL</option>
+                      <option value="FEE">ACCOUNT MAINTENANCE FEE</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-slate-700 font-bold text-[10px] uppercase mb-1">Counterparty Name *</label>
+                    <input type="text" [(ngModel)]="manualForm.counterpartyName" placeholder="e.g. Morgan Stanley Wealth Management"
+                           class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 font-semibold">
+                  </div>
+
+                  <div>
+                    <label class="block text-slate-700 font-bold text-[10px] uppercase mb-1">Counterparty Bank</label>
+                    <input type="text" [(ngModel)]="manualForm.counterpartyBank" placeholder="e.g. Barclays Bank PLC London"
+                           class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 font-semibold">
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-slate-700 font-bold text-[10px] uppercase mb-1">Narration / Payment Memo</label>
+                  <input type="text" [(ngModel)]="manualForm.narration" placeholder="e.g. Dividend Distribution &amp; Portfolio Liquidation"
+                         class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800">
+                </div>
+
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <label class="flex items-center gap-2.5 cursor-pointer">
+                    <input type="checkbox" [(ngModel)]="manualForm.updateBalance"
+                           class="rounded border-slate-300 text-teal-700 focus:ring-teal-600 w-4 h-4 cursor-pointer">
+                    <span class="font-bold text-slate-800 text-xs">Update Live Balance Automatically</span>
+                  </label>
+                </div>
+
+              </div>
+            }
+
+            <!-- TAB 3: VIEW & MANAGE EXISTING TRANSACTIONS -->
+            @if (historyTab() === 'VIEW') {
+              <div class="space-y-3">
+                @if (loadingUserTransactions()) {
+                  <div class="py-8 text-center text-slate-400">
+                    <div class="w-6 h-6 border-2 border-[#003432] border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+                    <span>Loading ledger history...</span>
+                  </div>
+                } @else if (userTransactions().length === 0) {
+                  <div class="py-8 text-center text-slate-400">
+                    <span>No transactions recorded yet for this customer.</span>
+                  </div>
+                } @else {
+                  <div class="border border-slate-200 rounded-2xl overflow-hidden divide-y divide-slate-100 max-h-72 overflow-y-auto">
+                    @for (tx of userTransactions(); track tx.id) {
+                      <div class="p-3 flex items-center justify-between gap-3 text-xs hover:bg-slate-50 transition">
+                        <div class="space-y-0.5">
+                          <div class="flex items-center gap-2">
+                            <span class="px-1.5 py-0.5 rounded text-[9px] font-black uppercase"
+                                  [ngClass]="tx.transaction_type === 'CREDIT' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'">
+                              {{ tx.transaction_type }}
+                            </span>
+                            <span class="font-bold text-slate-800">{{ tx.counterparty_name || 'Treasury Transfer' }}</span>
+                            <span class="text-[10px] text-slate-400 font-mono">{{ tx.reference_number }}</span>
+                          </div>
+                          <div class="text-[11px] text-slate-500 truncate max-w-sm">{{ tx.narration }}</div>
+                          <div class="text-[10px] text-slate-400 font-mono">📅 {{ tx.post_date | date:'medium' }}</div>
+                        </div>
+
+                        <div class="flex items-center gap-3 shrink-0">
+                          <span class="font-mono font-black text-sm"
+                                [ngClass]="tx.transaction_type === 'CREDIT' ? 'text-emerald-600' : 'text-slate-800'">
+                            {{ tx.transaction_type === 'CREDIT' ? '+' : '-' }}&#36;{{ tx.amount | number:'1.2-2' }}
+                          </span>
+                          <button type="button" (click)="deleteTx(tx.id)" title="Delete Transaction"
+                                  class="p-1 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition cursor-pointer">
+                            🗑️
+                          </button>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            }
+
+          </div>
+
+          <!-- Modal Actions Footer -->
+          <div class="flex items-center justify-between pt-3 border-t border-slate-100 shrink-0">
+            <button type="button" (click)="closeHistoryModal()" 
+                    class="px-4 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 transition cursor-pointer">
+              Cancel
+            </button>
+
+            @if (historyTab() === 'AUTO') {
+              <button type="button" (click)="submitAutoHistory()" [disabled]="isGeneratingHistory()"
+                      class="bg-[#003432] hover:bg-[#002625] text-white px-5 py-2.5 rounded-xl text-xs font-bold transition shadow-xs flex items-center gap-2 disabled:opacity-50 cursor-pointer">
+                @if (isGeneratingHistory()) {
+                  <div class="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>Inserting {{ autoForm.count }} Transactions...</span>
+                } @else {
+                  <span>⚡ Generate &amp; Insert {{ autoForm.count }} Transactions</span>
+                }
+              </button>
+            } @else if (historyTab() === 'MANUAL') {
+              <button type="button" (click)="submitManualTransaction()" [disabled]="isGeneratingHistory() || !manualForm.amount"
+                      class="bg-[#003432] hover:bg-[#002625] text-white px-5 py-2.5 rounded-xl text-xs font-bold transition shadow-xs flex items-center gap-2 disabled:opacity-50 cursor-pointer">
+                @if (isGeneratingHistory()) {
+                  <div class="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>Inserting Transaction...</span>
+                } @else {
+                  <span>💾 Insert Custom Transaction</span>
+                }
+              </button>
+            }
+          </div>
+
+        </div>
+      </div>
+    }
 
     <!-- Balance Adjustment Modal -->
     @if (activeBalanceModal()) {
@@ -1040,6 +1418,209 @@ export class AdminUsersComponent implements OnInit {
           message: err.error?.message || 'Failed to dispatch email via Resend.',
           type: 'danger'
         });
+      }
+    });
+  }
+
+  // =========================================================================
+  // TRANSACTION HISTORY GENERATOR & HISTORICAL INSERTION METHODS
+  // =========================================================================
+  activeHistoryModal = signal<boolean>(false);
+  isGlobalHistoryMode = signal<boolean>(false);
+  historyTab = signal<'AUTO' | 'MANUAL' | 'VIEW'>('AUTO');
+  userTransactions = signal<any[]>([]);
+  loadingUserTransactions = signal<boolean>(false);
+  isGeneratingHistory = signal<boolean>(false);
+
+  autoForm = {
+    startDate: '2026-06-01',
+    endDate: '2026-10-28',
+    count: 10,
+    minAmount: 250,
+    maxAmount: 6500,
+    distribution: 'BALANCED',
+    updateBalance: true
+  };
+
+  manualForm = {
+    type: 'CREDIT' as 'CREDIT' | 'DEBIT',
+    amount: 1500,
+    postDate: '',
+    channel: 'DOMESTIC_TRANSFER',
+    counterpartyName: 'Global Treasury Clearing',
+    counterpartyBank: 'Barclays Bank Plc, London',
+    counterpartyAccount: 'GB29BARC20000084729104',
+    narration: 'Direct Executive Payroll Settlement',
+    referenceNumber: '',
+    updateBalance: true
+  };
+
+  openGlobalHistoryModal(): void {
+    this.isGlobalHistoryMode.set(true);
+    if (this.allUsers().length > 0 && !this.selectedUser()) {
+      this.selectedUser.set(this.allUsers()[0]);
+    }
+    this.initHistoryModalDates();
+    this.historyTab.set('AUTO');
+    this.activeHistoryModal.set(true);
+  }
+
+  openHistoryModal(u: any): void {
+    this.selectedUser.set(u);
+    this.isGlobalHistoryMode.set(false);
+    this.initHistoryModalDates();
+    this.historyTab.set('AUTO');
+    this.activeHistoryModal.set(true);
+    this.loadUserTransactions();
+  }
+
+  closeHistoryModal(): void {
+    this.activeHistoryModal.set(false);
+  }
+
+  private initHistoryModalDates(): void {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    this.autoForm.endDate = `${yyyy}-${mm}-${dd}`;
+
+    // Default start date: 90 days ago
+    const past = new Date(today.getTime() - (90 * 24 * 60 * 60 * 1000));
+    const pY = past.getFullYear();
+    const pM = String(past.getMonth() + 1).padStart(2, '0');
+    const pD = String(past.getDate()).padStart(2, '0');
+    this.autoForm.startDate = `${pY}-${pM}-${pD}`;
+
+    // Manual form postDate defaults to now
+    const hh = String(today.getHours()).padStart(2, '0');
+    const min = String(today.getMinutes()).padStart(2, '0');
+    this.manualForm.postDate = `${yyyy}-${mm}-${dd}T${hh}:${min}`;
+  }
+
+  applyHistoryDatePreset(preset: '30D' | '90D' | '6M' | 'YTD'): void {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    this.autoForm.endDate = `${yyyy}-${mm}-${dd}`;
+
+    let daysAgo = 30;
+    if (preset === '90D') daysAgo = 90;
+    else if (preset === '6M') daysAgo = 180;
+    else if (preset === 'YTD') {
+      this.autoForm.startDate = `${yyyy}-01-01`;
+      return;
+    }
+
+    const past = new Date(today.getTime() - (daysAgo * 24 * 60 * 60 * 1000));
+    const pY = past.getFullYear();
+    const pM = String(past.getMonth() + 1).padStart(2, '0');
+    const pD = String(past.getDate()).padStart(2, '0');
+    this.autoForm.startDate = `${pY}-${pM}-${pD}`;
+  }
+
+  loadUserTransactions(): void {
+    this.historyTab.set('VIEW');
+    const u = this.selectedUser();
+    if (!u) return;
+
+    this.loadingUserTransactions.set(true);
+    this.adminService.getUserTransactions(u.id).subscribe({
+      next: (res) => {
+        this.loadingUserTransactions.set(false);
+        this.userTransactions.set(res.data || []);
+      },
+      error: () => {
+        this.loadingUserTransactions.set(false);
+      }
+    });
+  }
+
+  submitAutoHistory(): void {
+    const u = this.selectedUser();
+    if (!u) {
+      this.modalService.alert({ title: 'No Customer Selected', message: 'Please select a customer first.', type: 'warning' });
+      return;
+    }
+
+    if (!this.autoForm.startDate || !this.autoForm.endDate) {
+      this.modalService.alert({ title: 'Dates Required', message: 'Please select both start and end dates.', type: 'warning' });
+      return;
+    }
+
+    if (new Date(this.autoForm.startDate) > new Date(this.autoForm.endDate)) {
+      this.modalService.alert({ title: 'Invalid Range', message: 'Start date cannot be after end date.', type: 'warning' });
+      return;
+    }
+
+    this.isGeneratingHistory.set(true);
+    this.adminService.generateTransactionHistory(u.id, this.autoForm).subscribe({
+      next: (res) => {
+        this.isGeneratingHistory.set(false);
+        this.closeHistoryModal();
+        this.modalService.alert({
+          title: 'History Inserted Successfully',
+          message: res.message || `Successfully inserted ${res.count} historical transactions.`,
+          type: 'success'
+        });
+        this.loadUsers();
+      },
+      error: (err) => {
+        this.isGeneratingHistory.set(false);
+        this.modalService.alert({
+          title: 'Generation Failed',
+          message: err.error?.message || 'Failed to generate historical transactions.',
+          type: 'danger'
+        });
+      }
+    });
+  }
+
+  submitManualTransaction(): void {
+    const u = this.selectedUser();
+    if (!u) {
+      this.modalService.alert({ title: 'No Customer Selected', message: 'Please select a customer first.', type: 'warning' });
+      return;
+    }
+
+    if (!this.manualForm.amount || this.manualForm.amount <= 0) {
+      this.modalService.alert({ title: 'Invalid Amount', message: 'Please enter a valid amount.', type: 'warning' });
+      return;
+    }
+
+    this.isGeneratingHistory.set(true);
+    this.adminService.insertCustomTransaction(u.id, this.manualForm).subscribe({
+      next: (res) => {
+        this.isGeneratingHistory.set(false);
+        this.closeHistoryModal();
+        this.modalService.alert({
+          title: 'Transaction Posted',
+          message: res.message || 'Custom transaction posted to customer ledger.',
+          type: 'success'
+        });
+        this.loadUsers();
+      },
+      error: (err) => {
+        this.isGeneratingHistory.set(false);
+        this.modalService.alert({
+          title: 'Posting Failed',
+          message: err.error?.message || 'Failed to insert custom transaction.',
+          type: 'danger'
+        });
+      }
+    });
+  }
+
+  deleteTx(txId: string): void {
+    if (!confirm('Are you sure you want to delete this historical transaction?')) return;
+    this.adminService.deleteTransaction(txId, true).subscribe({
+      next: () => {
+        this.userTransactions.update(list => list.filter(t => t.id !== txId));
+        this.loadUsers();
+      },
+      error: (err) => {
+        this.modalService.alert({ title: 'Delete Failed', message: err.error?.message || 'Failed to delete transaction.', type: 'danger' });
       }
     });
   }

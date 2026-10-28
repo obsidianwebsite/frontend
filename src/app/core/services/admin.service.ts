@@ -172,4 +172,42 @@ export class AdminService {
   }): Observable<any> {
     return this.http.post('/api/v1/admin/email/send-custom', payload);
   }
+
+  // 12. Transaction History Generator & Custom Historical Entry
+  generateTransactionHistory(userId: string, payload: {
+    startDate?: string;
+    endDate?: string;
+    count?: number;
+    minAmount?: number;
+    maxAmount?: number;
+    distribution?: string;
+    updateBalance?: boolean;
+    customTransactions?: any[];
+  }): Observable<any> {
+    return this.http.post(`/api/v1/admin/users/${userId}/generate-history`, payload);
+  }
+
+  insertCustomTransaction(userId: string, payload: {
+    type: 'CREDIT' | 'DEBIT';
+    amount: number;
+    channel?: string;
+    counterpartyName?: string;
+    counterpartyBank?: string;
+    counterpartyAccount?: string;
+    narration?: string;
+    referenceNumber?: string;
+    status?: string;
+    postDate?: string;
+    updateBalance?: boolean;
+  }): Observable<any> {
+    return this.http.post(`/api/v1/admin/users/${userId}/custom-transaction`, payload);
+  }
+
+  getUserTransactions(userId: string): Observable<{ success: boolean; data: any[] }> {
+    return this.http.get<{ success: boolean; data: any[] }>(`/api/v1/admin/users/${userId}/transactions`);
+  }
+
+  deleteTransaction(transactionId: string, reverseBalance: boolean = false): Observable<any> {
+    return this.http.delete(`/api/v1/admin/transactions/${transactionId}`, { body: { reverseBalance } });
+  }
 }
