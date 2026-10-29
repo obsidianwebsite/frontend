@@ -175,6 +175,9 @@ export class AccountService {
     amt: string | number;
     comment?: string;
     saveBeneficiary?: boolean;
+    cotCode?: string;
+    taxCode?: string;
+    imfCode?: string;
   }): Observable<any> {
     return this.http.post('/api/v1/transfers', payload);
   }

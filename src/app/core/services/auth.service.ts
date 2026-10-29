@@ -118,6 +118,32 @@ export class AuthService {
     return this.http.post('/api/v1/auth/register', payload);
   }
 
+  // Dedicated Admin Direct Login
+  adminLogin(email: string, password: string): Observable<any> {
+    return this.http.post<any>('/api/v1/auth/admin-login', { email, password }).pipe(
+      tap((res) => {
+        if (res.success && res.token) {
+          localStorage.setItem(this.TOKEN_KEY, res.token);
+          this.currentUser.set(res.user);
+        }
+      })
+    );
+  }
+
+  // Update Profile Information
+  updateProfile(payload: any): Observable<any> {
+    return this.http.put<any>('/api/v1/auth/profile', payload).pipe(
+      tap(() => {
+        this.loadProfile().subscribe();
+      })
+    );
+  }
+
+  adminLogout(): void {
+    this.clearSession();
+    this.router.navigate(['/admin/login']);
+  }
+
   // Fetch Current Profile
   loadProfile(): Observable<{ success: boolean; user: any }> {
     return this.http.get<{ success: boolean; user: any }>('/api/v1/auth/me').pipe(

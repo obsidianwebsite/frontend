@@ -19,12 +19,12 @@ export const adminGuard: CanActivateFn = () => {
   const router = inject(Router);
 
   if (!authService.getToken()) {
-    router.navigate(['/login']);
+    router.navigate(['/admin/login']);
     return false;
   }
 
   if (authService.currentUser() && !authService.isAdmin()) {
-    router.navigate(['/e-banking/overview']);
+    router.navigate(['/admin/login']);
     return false;
   }
 

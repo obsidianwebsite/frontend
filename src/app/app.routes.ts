@@ -64,6 +64,15 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/pages/login.component').then(m => m.LoginComponent)
   },
   {
+    path: 'admin/login',
+    loadComponent: () => import('./features/admin/pages/admin-login.component').then(m => m.AdminLoginComponent)
+  },
+  {
+    path: 'admin-login',
+    redirectTo: 'admin/login',
+    pathMatch: 'full'
+  },
+  {
     path: 'pin',
     canActivate: [pinStageGuard],
     loadComponent: () => import('./features/auth/pages/pin.component').then(m => m.PinComponent)
@@ -139,6 +148,10 @@ export const routes: Routes = [
       {
         path: 'academy',
         loadComponent: () => import('./features/e-banking/pages/academy/academy.component').then(m => m.AcademyComponent)
+      },
+      {
+        path: 'profile',
+        loadComponent: () => import('./features/e-banking/pages/profile/profile.component').then(m => m.ProfileComponent)
       },
       {
         path: 'settings',

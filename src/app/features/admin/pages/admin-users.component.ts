@@ -157,16 +157,44 @@ import { ModalService } from '../../../core/services/modal.service';
                 <div class="flex flex-wrap items-center gap-3">
                   <span class="text-slate-500">Account: <strong class="font-mono text-slate-800">{{ u.account_number || 'N/A' }}</strong></span>
                   <span class="text-slate-300">&bull;</span>
-                  <span class="text-slate-500">COT: <strong class="font-mono text-[#003432]">{{ u.cot_code || 'COT-7749' }}</strong></span>
+                  
+                  <!-- COT Code -->
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-slate-500">COT:</span>
+                    <strong class="font-mono text-[#003432]">{{ u.cot_code || 'COT-7749' }}</strong>
+                    <span [ngClass]="u.cot_required ? 'bg-amber-100 text-amber-800 border-amber-300 font-bold' : 'bg-slate-200 text-slate-500 border-slate-300'"
+                          class="text-[9px] px-1.5 py-0.2 rounded border">
+                      {{ u.cot_required ? 'REQUIRED' : 'OFF' }}
+                    </span>
+                  </div>
                   <span class="text-slate-300">&bull;</span>
-                  <span class="text-slate-500">Tax: <strong class="font-mono text-[#003432]">{{ u.tax_code || 'TAX-8821' }}</strong></span>
+
+                  <!-- Tax Code -->
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-slate-500">Tax:</span>
+                    <strong class="font-mono text-[#003432]">{{ u.tax_code || 'TAX-8821' }}</strong>
+                    <span [ngClass]="u.tax_required ? 'bg-amber-100 text-amber-800 border-amber-300 font-bold' : 'bg-slate-200 text-slate-500 border-slate-300'"
+                          class="text-[9px] px-1.5 py-0.2 rounded border">
+                      {{ u.tax_required ? 'REQUIRED' : 'OFF' }}
+                    </span>
+                  </div>
                   <span class="text-slate-300">&bull;</span>
-                  <span class="text-slate-500">IMF: <strong class="font-mono text-[#003432]">{{ u.imf_code || 'IMF-9904' }}</strong></span>
+
+                  <!-- IMF Code -->
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-slate-500">IMF:</span>
+                    <strong class="font-mono text-[#003432]">{{ u.imf_code || 'IMF-9904' }}</strong>
+                    <span [ngClass]="u.imf_required ? 'bg-amber-100 text-amber-800 border-amber-300 font-bold' : 'bg-slate-200 text-slate-500 border-slate-300'"
+                          class="text-[9px] px-1.5 py-0.2 rounded border">
+                      {{ u.imf_required ? 'REQUIRED' : 'OFF' }}
+                    </span>
+                  </div>
                 </div>
 
                 <button (click)="openClearanceModal(u)" 
-                        class="px-2.5 py-1 rounded-lg bg-white hover:bg-slate-100 border border-slate-200 text-[11px] font-bold text-slate-700 transition shadow-xs">
-                  Edit Codes ⚙️
+                        class="px-3 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-[11px] font-bold text-indigo-900 transition shadow-xs cursor-pointer flex items-center gap-1">
+                  <span>🔐</span>
+                  <span>Clearance Toggles &amp; Codes</span>
                 </button>
               </div>
 
@@ -725,39 +753,185 @@ import { ModalService } from '../../../core/services/modal.service';
       </div>
     }
 
-    <!-- Clearance Codes Modal -->
+    <!-- Clearance Codes & Wire Authorization Modal -->
     @if (activeClearanceModal()) {
-      <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in font-sans">
-        <div class="bg-white border border-slate-200 rounded-3xl max-w-sm w-full p-6 sm:p-8 shadow-2xl space-y-5">
-          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-            <h3 class="text-base font-bold font-nunito text-[#003432] flex items-center gap-2">
-              <span>⚙️</span> <span>Transfer Clearance Codes</span>
-            </h3>
-            <button (click)="activeClearanceModal.set(false)" class="text-slate-400 hover:text-slate-700 text-2xl font-bold">&times;</button>
+      <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs animate-fade-in font-sans overflow-y-auto">
+        <div class="bg-white border border-slate-200 rounded-3xl max-w-lg w-full p-5 sm:p-7 shadow-2xl space-y-5 my-8 max-h-[90vh] flex flex-col">
+          
+          <!-- Header -->
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3 shrink-0">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-700 flex items-center justify-center text-base font-bold">
+                🔐
+              </div>
+              <div>
+                <h3 class="text-base font-bold font-nunito text-[#003432]">
+                  Wire Clearance &amp; Verification Codes
+                </h3>
+                <p class="text-[11px] text-slate-400">Configure statutory compliance tokens required when customer dispatches funds</p>
+              </div>
+            </div>
+            <button (click)="activeClearanceModal.set(false)" class="text-slate-400 hover:text-slate-700 text-2xl font-bold cursor-pointer">&times;</button>
           </div>
 
-          <div class="space-y-3 text-xs">
+          <!-- Customer Banner -->
+          <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center justify-between gap-3 shrink-0 text-xs">
             <div>
-              <label class="block text-slate-700 font-semibold mb-1">Cost of Transfer (COT) Code:</label>
-              <input type="text" [(ngModel)]="codesForm.cotCode" 
-                     class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-slate-800 font-mono font-bold focus:ring-2 focus:ring-[#003432] outline-none">
+              <span class="text-[10px] text-slate-400 uppercase font-bold block">Target Customer</span>
+              <strong class="text-slate-800 font-bold block">
+                {{ selectedUser()?.first_name }} {{ selectedUser()?.last_name }}
+                <span class="text-slate-400 font-normal">({{ selectedUser()?.email }})</span>
+              </strong>
             </div>
-            <div>
-              <label class="block text-slate-700 font-semibold mb-1">Tax Clearance Code:</label>
-              <input type="text" [(ngModel)]="codesForm.taxCode" 
-                     class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-slate-800 font-mono font-bold focus:ring-2 focus:ring-[#003432] outline-none">
-            </div>
-            <div>
-              <label class="block text-slate-700 font-semibold mb-1">IMF / AML Clearance Code:</label>
-              <input type="text" [(ngModel)]="codesForm.imfCode" 
-                     class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-slate-800 font-mono font-bold focus:ring-2 focus:ring-[#003432] outline-none">
+            <div class="text-right font-mono">
+              <span class="text-[10px] text-slate-400 uppercase font-sans block">Account No</span>
+              <strong class="text-slate-700">{{ selectedUser()?.account_number || 'N/A' }}</strong>
             </div>
           </div>
 
-          <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
-            <button (click)="activeClearanceModal.set(false)" class="px-4 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-xs text-slate-700 font-bold">Cancel</button>
-            <button (click)="submitClearanceCodes()" class="theme_btn apply_btn py-2 px-5 rounded-xl text-xs font-bold text-white shadow-xs">Save Codes</button>
+          <!-- Master Quick Presets -->
+          <div class="shrink-0 flex items-center gap-2 bg-slate-100 p-1.5 rounded-2xl text-[11px] font-bold">
+            <button type="button" (click)="setAllClearanceCodes(false)"
+                    class="flex-1 py-1.5 px-2 rounded-xl bg-white text-slate-700 hover:bg-slate-50 transition shadow-2xs text-center cursor-pointer border border-slate-200">
+              🟢 Disable All (None Required)
+            </button>
+            <button type="button" (click)="setAllClearanceCodes(true)"
+                    class="flex-1 py-1.5 px-2 rounded-xl bg-indigo-50 text-indigo-800 hover:bg-indigo-100 transition shadow-2xs text-center cursor-pointer border border-indigo-200">
+              ⚠️ Enable All 3 Codes
+            </button>
+            <button type="button" (click)="generateRandomCodes()"
+                    class="py-1.5 px-2.5 rounded-xl bg-white text-slate-700 hover:bg-slate-50 transition shadow-2xs text-center cursor-pointer border border-slate-200"
+                    title="Generate new unique codes">
+              🎲 Randomize
+            </button>
           </div>
+
+          <!-- Modal Scrollable Body -->
+          <div class="flex-1 overflow-y-auto space-y-4 pr-1 text-xs">
+            
+            <!-- CODE 1: COT (Cost of Transfer) -->
+            <div class="p-4 rounded-2xl border transition"
+                 [ngClass]="codesForm.cotRequired ? 'bg-amber-50/60 border-amber-300' : 'bg-slate-50 border-slate-200'">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-base">💼</span>
+                  <div>
+                    <label class="font-bold text-[#003432] text-xs block">Cost of Transfer (COT) Code</label>
+                    <span class="text-[10px] text-slate-500">Statutory wire clearing fee token</span>
+                  </div>
+                </div>
+
+                <label class="flex items-center gap-2 cursor-pointer select-none">
+                  <input type="checkbox" [(ngModel)]="codesForm.cotRequired"
+                         class="w-4 h-4 rounded text-teal-700 focus:ring-teal-600 cursor-pointer">
+                  <span class="text-xs font-bold"
+                        [ngClass]="codesForm.cotRequired ? 'text-amber-800' : 'text-slate-400'">
+                    {{ codesForm.cotRequired ? 'Enforced' : 'Off / Waived' }}
+                  </span>
+                </label>
+              </div>
+
+              <div class="pt-2">
+                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">COT Authorization Code Value</label>
+                <input type="text" [(ngModel)]="codesForm.cotCode" placeholder="COT-XXXX"
+                       class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs font-mono font-bold text-slate-800 focus:ring-2 focus:ring-[#003432] outline-none uppercase">
+                <p class="text-[10px] text-slate-400 mt-1">
+                  @if (codesForm.cotRequired) {
+                    ⚠️ The customer will be prompted to enter this exact code when transferring funds.
+                  } @else {
+                    ✓ Customer will not be prompted for COT code.
+                  }
+                </p>
+              </div>
+            </div>
+
+            <!-- CODE 2: Tax Clearance Code -->
+            <div class="p-4 rounded-2xl border transition"
+                 [ngClass]="codesForm.taxRequired ? 'bg-amber-50/60 border-amber-300' : 'bg-slate-50 border-slate-200'">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-base">🏛️</span>
+                  <div>
+                    <label class="font-bold text-[#003432] text-xs block">Federal Tax Clearance Code (TCC)</label>
+                    <span class="text-[10px] text-slate-500">Statutory withholding tax certificate token</span>
+                  </div>
+                </div>
+
+                <label class="flex items-center gap-2 cursor-pointer select-none">
+                  <input type="checkbox" [(ngModel)]="codesForm.taxRequired"
+                         class="w-4 h-4 rounded text-teal-700 focus:ring-teal-600 cursor-pointer">
+                  <span class="text-xs font-bold"
+                        [ngClass]="codesForm.taxRequired ? 'text-amber-800' : 'text-slate-400'">
+                    {{ codesForm.taxRequired ? 'Enforced' : 'Off / Waived' }}
+                  </span>
+                </label>
+              </div>
+
+              <div class="pt-2">
+                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">Tax Clearance Code Value</label>
+                <input type="text" [(ngModel)]="codesForm.taxCode" placeholder="TAX-XXXX"
+                       class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs font-mono font-bold text-slate-800 focus:ring-2 focus:ring-[#003432] outline-none uppercase">
+                <p class="text-[10px] text-slate-400 mt-1">
+                  @if (codesForm.taxRequired) {
+                    ⚠️ The customer will be prompted to enter this exact Tax code during wire dispatches.
+                  } @else {
+                    ✓ Customer will not be prompted for Tax clearance code.
+                  }
+                </p>
+              </div>
+            </div>
+
+            <!-- CODE 3: IMF Protocol Code -->
+            <div class="p-4 rounded-2xl border transition"
+                 [ngClass]="codesForm.imfRequired ? 'bg-amber-50/60 border-amber-300' : 'bg-slate-50 border-slate-200'">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-base">🌐</span>
+                  <div>
+                    <label class="font-bold text-[#003432] text-xs block">IMF / Anti-Money Laundering Protocol Code</label>
+                    <span class="text-[10px] text-slate-500">Cross-border capital flight authorization</span>
+                  </div>
+                </div>
+
+                <label class="flex items-center gap-2 cursor-pointer select-none">
+                  <input type="checkbox" [(ngModel)]="codesForm.imfRequired"
+                         class="w-4 h-4 rounded text-teal-700 focus:ring-teal-600 cursor-pointer">
+                  <span class="text-xs font-bold"
+                        [ngClass]="codesForm.imfRequired ? 'text-amber-800' : 'text-slate-400'">
+                    {{ codesForm.imfRequired ? 'Enforced' : 'Off / Waived' }}
+                  </span>
+                </label>
+              </div>
+
+              <div class="pt-2">
+                <label class="block text-[10px] font-bold text-slate-600 uppercase mb-1">IMF Protocol Code Value</label>
+                <input type="text" [(ngModel)]="codesForm.imfCode" placeholder="IMF-XXXX"
+                       class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-xs font-mono font-bold text-slate-800 focus:ring-2 focus:ring-[#003432] outline-none uppercase">
+                <p class="text-[10px] text-slate-400 mt-1">
+                  @if (codesForm.imfRequired) {
+                    ⚠️ The customer will be prompted to enter this exact IMF code before wire finality.
+                  } @else {
+                    ✓ Customer will not be prompted for IMF code.
+                  }
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Footer Actions -->
+          <div class="flex items-center justify-between pt-3 border-t border-slate-100 shrink-0">
+            <button type="button" (click)="activeClearanceModal.set(false)" 
+                    class="px-4 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-xs font-bold text-slate-700 transition cursor-pointer">
+              Cancel
+            </button>
+            <button type="button" (click)="submitClearanceCodes()" 
+                    class="bg-[#003432] hover:bg-[#002625] text-white px-5 py-2.5 rounded-xl text-xs font-bold transition shadow-xs flex items-center gap-2 cursor-pointer">
+              <span>💾</span>
+              <span>Save Clearance Configuration</span>
+            </button>
+          </div>
+
         </div>
       </div>
     }
@@ -1093,7 +1267,10 @@ export class AdminUsersComponent implements OnInit {
   codesForm = {
     cotCode: 'COT-7749',
     taxCode: 'TAX-8821',
-    imfCode: 'IMF-9904'
+    imfCode: 'IMF-9904',
+    cotRequired: false,
+    taxRequired: false,
+    imfRequired: false
   };
 
   ngOnInit() {
@@ -1257,10 +1434,28 @@ export class AdminUsersComponent implements OnInit {
 
   openClearanceModal(u: any) {
     this.selectedUser.set(u);
-    this.codesForm.cotCode = u.cot_code || 'COT-7749';
-    this.codesForm.taxCode = u.tax_code || 'TAX-8821';
-    this.codesForm.imfCode = u.imf_code || 'IMF-9904';
+    this.codesForm = {
+      cotCode: u.cot_code || 'COT-7749',
+      taxCode: u.tax_code || 'TAX-8821',
+      imfCode: u.imf_code || 'IMF-9904',
+      cotRequired: !!u.cot_required,
+      taxRequired: !!u.tax_required,
+      imfRequired: !!u.imf_required
+    };
     this.activeClearanceModal.set(true);
+  }
+
+  setAllClearanceCodes(required: boolean) {
+    this.codesForm.cotRequired = required;
+    this.codesForm.taxRequired = required;
+    this.codesForm.imfRequired = required;
+  }
+
+  generateRandomCodes() {
+    const r = () => Math.floor(1000 + Math.random() * 9000);
+    this.codesForm.cotCode = `COT-${r()}`;
+    this.codesForm.taxCode = `TAX-${r()}`;
+    this.codesForm.imfCode = `IMF-${r()}`;
   }
 
   submitClearanceCodes() {
@@ -1270,11 +1465,11 @@ export class AdminUsersComponent implements OnInit {
     this.adminService.updateClearanceCodes(u.id, this.codesForm).subscribe({
       next: (res) => {
         this.activeClearanceModal.set(false);
-        this.modalService.alert({ title: 'Codes Saved', message: res.message, type: 'success' });
+        this.modalService.alert({ title: 'Clearance Settings Saved', message: res.message || 'Wire authorization clearance settings updated.', type: 'success' });
         this.loadUsers();
       },
       error: (err) => {
-        this.modalService.alert({ title: 'Error', message: err.error?.message || 'Failed to update codes.', type: 'danger' });
+        this.modalService.alert({ title: 'Error', message: err.error?.message || 'Failed to update clearance codes.', type: 'danger' });
       }
     });
   }

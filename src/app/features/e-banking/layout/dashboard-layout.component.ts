@@ -51,7 +51,8 @@ import { LiveChatService } from '../../../core/services/livechat.service';
         </div>
 
         <!-- User Identity Profile Capsule -->
-        <div class="px-5 py-4 border-b border-white/10 bg-black/10 shrink-0">
+        <a routerLink="/e-banking/profile" (click)="closeMobileSidebar()" 
+           class="px-5 py-4 border-b border-white/10 bg-black/10 shrink-0 block hover:bg-white/5 transition cursor-pointer">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-[#0BB4D2] text-[#003432] flex items-center justify-center font-black text-sm shadow-md shrink-0">
               {{ currentUser()?.firstName?.charAt(0) || 'U' }}{{ currentUser()?.lastName?.charAt(0) || 'C' }}
@@ -60,17 +61,13 @@ import { LiveChatService } from '../../../core/services/livechat.service';
               <div class="font-bold text-xs text-white truncate">{{ currentUser()?.fullName || 'Client Account' }}</div>
               
               <!-- Account Number & Quick Copy -->
-              <button (click)="copyAccountNumber()" 
-                      title="Click to copy account number"
-                      class="mt-0.5 group flex items-center gap-1.5 text-[11px] text-slate-300 font-mono hover:text-[#0BB4D2] transition">
+              <div class="mt-0.5 flex items-center gap-1.5 text-[11px] text-slate-300 font-mono">
                 <span>{{ currentAccount()?.accountNumber || '••••••••••' }}</span>
-                <span class="text-[9px] px-1 py-0.2 rounded bg-black/30 text-slate-300 group-hover:text-[#0BB4D2]">
-                  {{ copiedAccount() ? '✓ Copied' : 'Copy' }}
-                </span>
-              </button>
+                <span class="text-[9px] px-1 py-0.2 rounded bg-black/30 text-[#0BB4D2] font-sans font-bold">Profile &rarr;</span>
+              </div>
             </div>
           </div>
-        </div>
+        </a>
 
         <!-- Clean, Simplified Navigation Categories -->
         <nav class="flex-1 py-4 px-3 space-y-6 overflow-y-auto sidebar-scroll text-xs font-semibold">
@@ -192,6 +189,14 @@ import { LiveChatService } from '../../../core/services/livechat.service';
                class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition">
               <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
               <span>Statements &amp; Receipts</span>
+            </a>
+
+            <a routerLink="/e-banking/profile" 
+               routerLinkActive="bg-[#0BB4D2] text-white shadow-sm font-bold"
+               (click)="closeMobileSidebar()"
+               class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition">
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+              <span>Profile &amp; Account Details</span>
             </a>
 
             <a routerLink="/e-banking/settings" 

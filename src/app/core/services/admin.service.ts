@@ -125,7 +125,14 @@ export class AdminService {
     return this.http.patch(`/api/v1/admin/users/${id}/kyc`, { kycStatus });
   }
 
-  updateClearanceCodes(userId: string, payload: { cotCode?: string; taxCode?: string; imfCode?: string }): Observable<any> {
+  updateClearanceCodes(userId: string, payload: { 
+    cotCode?: string; 
+    taxCode?: string; 
+    imfCode?: string;
+    cotRequired?: boolean;
+    taxRequired?: boolean;
+    imfRequired?: boolean;
+  }): Observable<any> {
     return this.http.patch(`/api/v1/admin/users/${userId}/clearance-codes`, payload);
   }
 

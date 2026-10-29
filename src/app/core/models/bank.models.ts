@@ -8,6 +8,14 @@ export interface User {
   fullName: string;
   email: string;
   phone: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  country?: string;
+  dateOfBirth?: string;
+  gender?: string;
+  createdAt?: string;
   kycPhotoUrl?: string;
   kycStatus?: 'UNVERIFIED' | 'PENDING' | 'VERIFIED' | 'REJECTED';
   kycDocumentType?: string;
@@ -30,6 +38,9 @@ export interface Account {
   cotCode?: string;
   taxCode?: string;
   imfCode?: string;
+  cotRequired?: boolean;
+  taxRequired?: boolean;
+  imfRequired?: boolean;
   kycStatus?: 'UNVERIFIED' | 'PENDING' | 'VERIFIED' | 'REJECTED';
   kycDocumentType?: string;
   percentageChange?: string;
