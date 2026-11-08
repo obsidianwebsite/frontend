@@ -465,6 +465,6 @@ export class AdminLayoutComponent implements OnInit {
   }
 
   logout(): void {
-    this.authService.logout();
+    this.authService.adminLogout();
   }
 }

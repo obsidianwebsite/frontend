@@ -20,9 +20,17 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(modifiedReq).pipe(
     catchError((error: HttpErrorResponse) => {
-      // Auto-clear stale/expired session on 401 and redirect to login
-      if (error.status === 401 && !req.url.includes('/auth/login') && !req.url.includes('/auth/verify-pin')) {
-        authService.logout();
+      // Auto-clear stale/expired session on 401 and redirect to appropriate login portal
+      const isAuthEndpoint = req.url.includes('/auth/login') || 
+                             req.url.includes('/auth/verify-pin') || 
+                             req.url.includes('/auth/admin-login');
+
+      if (error.status === 401 && !isAuthEndpoint) {
+        if (authService.isAdmin()) {
+          authService.adminLogout();
+        } else {
+          authService.logout();
+        }
       }
       return throwError(() => error);
     })
