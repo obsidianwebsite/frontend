@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AccountService } from '../../../../core/services/account.service';
 import { CopyMaster, CopySubscription, TradingSignal } from '../../../../core/models/bank.models';
 import { ModalService } from '../../../../core/services/modal.service';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-copy-trading',
@@ -269,12 +270,13 @@ import { ModalService } from '../../../../core/services/modal.service';
 export class CopyTradingComponent implements OnInit {
   private accountService = inject(AccountService);
   private modalService = inject(ModalService);
+  private authService = inject(AuthService);
 
   activeTab = signal<'masters' | 'signals'>('masters');
   masters = signal<CopyMaster[]>([]);
   signals = signal<TradingSignal[]>([]);
   subscriptions = signal<CopySubscription[]>([]);
-  availableBalance = signal<number>(0);
+  availableBalance = signal<number>(parseFloat(this.authService.currentAccount()?.availableBalance || '0'));
   selectedMaster = signal<CopyMaster | null>(null);
   copyAmount: number = 1000;
   submitting = signal<boolean>(false);

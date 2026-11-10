@@ -20,7 +20,7 @@ import { DashboardSummary, Transaction } from '../../../../core/models/bank.mode
             Account Overview
           </h2>
           <p class="text-xs text-slate-500">
-            Welcome back, <span class="font-bold text-slate-700">{{ authService.currentUser()?.fullName || summary()?.user?.fullName || 'Client' }}</span>. Here is your financial summary.
+            Welcome back, <span class="font-bold text-slate-700">{{ currentUser()?.fullName || 'Client' }}</span>. Here is your financial summary.
           </p>
         </div>
 
@@ -28,7 +28,7 @@ import { DashboardSummary, Transaction } from '../../../../core/models/bank.mode
           <!-- Copyable Account Pill -->
           <div class="bg-white border border-slate-200 rounded-xl px-3.5 py-1.5 shadow-xs flex items-center gap-2">
             <span class="text-xs text-slate-500">Vault No:</span>
-            <span class="font-mono text-xs font-bold text-slate-900">{{ summary()?.account?.accountNumber || '••••••••••' }}</span>
+            <span class="font-mono text-xs font-bold text-slate-900">{{ currentAccount()?.accountNumber || '••••••••••' }}</span>
             <button (click)="copyAccountNumber()" 
                     class="text-[11px] font-bold text-[#0BB4D2] hover:text-[#003432] transition">
               {{ copiedAccount() ? 'Copied!' : 'Copy' }}
@@ -43,7 +43,7 @@ import { DashboardSummary, Transaction } from '../../../../core/models/bank.mode
       </div>
 
       <!-- Inactive Account Banner -->
-      @if (summary()?.account?.status === 'INACTIVE') {
+      @if (currentAccount()?.status === 'INACTIVE') {
         <div class="rounded-2xl p-4 bg-amber-50 border border-amber-300 text-amber-900 flex items-start gap-3 shadow-sm">
           <svg class="w-5 h-5 text-amber-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
@@ -87,18 +87,18 @@ import { DashboardSummary, Transaction } from '../../../../core/models/bank.mode
                 </span>
               } @else {
                 <span class="text-3xl sm:text-5xl font-black font-nunito tracking-tight text-white">
-                  {{ currencySymbol() }}{{ summary()?.account?.availableBalance || '0.00' | number:'1.2-2' }}
+                  {{ currencySymbol() }}{{ accountBalance() | number:'1.2-2' }}
                 </span>
               }
               <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-[#0BB4D2]/20 text-[#0BB4D2] border border-[#0BB4D2]/40">
-                {{ summary()?.account?.currency || 'USD' }} Vault
+                {{ currentAccount()?.currency || 'USD' }} Vault
               </span>
             </div>
 
             <div class="text-xs text-slate-300 flex items-center gap-4 pt-1">
-              <span>Ledger: <strong class="text-white">{{ hideBalance() ? '••••' : (currencySymbol() + (summary()?.account?.ledgerBalance || '0.00' | number:'1.2-2')) }}</strong></span>
+              <span>Ledger: <strong class="text-white">{{ hideBalance() ? '••••' : (currencySymbol() + (currentAccount()?.ledgerBalance || accountBalance() | number:'1.2-2')) }}</strong></span>
               <span>&bull;</span>
-              <span>Status: <strong [ngClass]="summary()?.account?.status === 'INACTIVE' ? 'text-amber-400' : 'text-emerald-400'" class="font-bold uppercase">{{ summary()?.account?.status || 'Active' }}</strong></span>
+              <span>Status: <strong [ngClass]="currentAccount()?.status === 'INACTIVE' ? 'text-amber-400' : 'text-emerald-400'" class="font-bold uppercase">{{ currentAccount()?.status || 'Active' }}</strong></span>
             </div>
           </div>
 
@@ -138,7 +138,7 @@ import { DashboardSummary, Transaction } from '../../../../core/models/bank.mode
           </div>
           <div>
             <div class="text-2xl font-black font-nunito text-[#003432]">
-              {{ hideBalance() ? '••••••••' : ('$' + (summary()?.account?.availableBalance || '0.00' | number:'1.2-2')) }}
+              {{ hideBalance() ? '••••••••' : (currencySymbol() + (accountBalance() | number:'1.2-2')) }}
             </div>
             <p class="text-xs text-slate-400 mt-0.5">Primary checking balance</p>
           </div>
@@ -158,7 +158,7 @@ import { DashboardSummary, Transaction } from '../../../../core/models/bank.mode
           </div>
           <div>
             <div class="text-2xl font-black font-nunito text-[#003432]">
-              {{ hideBalance() ? '••••••••' : ('$' + (summary()?.account?.savingsBalance || '45200.00' | number:'1.2-2')) }}
+              {{ hideBalance() ? '••••••••' : (currencySymbol() + (currentAccount()?.savingsBalance || '45200.00' | number:'1.2-2')) }}
             </div>
             <p class="text-xs text-slate-400 mt-0.5">Annual interest: 4.50% APY</p>
           </div>
@@ -298,7 +298,7 @@ import { DashboardSummary, Transaction } from '../../../../core/models/bank.mode
                 &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; 4242
               </div>
               <div class="flex justify-between items-center text-xs text-slate-200">
-                <span class="uppercase font-semibold">{{ authService.currentUser()?.fullName || summary()?.user?.fullName || 'Client' }}</span>
+                <span class="uppercase font-semibold">{{ currentUser()?.fullName || 'Client' }}</span>
                 <span>12/28</span>
               </div>
             </div>
@@ -319,7 +319,7 @@ import { DashboardSummary, Transaction } from '../../../../core/models/bank.mode
             <div class="space-y-2">
               <div class="flex justify-between items-center">
                 <span class="text-slate-600 flex items-center gap-2"><span>🇺🇸</span> USD Vault</span>
-                <strong class="text-slate-900">&#36;{{ summary()?.account?.availableBalance || '0.00' | number:'1.2-2' }}</strong>
+                <strong class="text-slate-900">&#36;{{ accountBalance() | number:'1.2-2' }}</strong>
               </div>
               <div class="flex justify-between items-center">
                 <span class="text-slate-600 flex items-center gap-2"><span>🇪🇺</span> EUR Ledger</span>
@@ -411,7 +411,24 @@ export class OverviewComponent implements OnInit {
   authService = inject(AuthService);
   tourService = inject(TourService);
   
-  summary = signal<DashboardSummary | null>(null);
+  summary = signal<DashboardSummary | null>(this.accountService.getCachedSummary());
+
+  currentAccount = computed(() => {
+    return this.summary()?.account || this.authService.currentAccount();
+  });
+
+  currentUser = computed(() => {
+    return this.summary()?.user || this.authService.currentUser();
+  });
+
+  accountBalance = computed(() => {
+    const acc = this.currentAccount();
+    if (acc && acc.availableBalance !== undefined && acc.availableBalance !== null) {
+      return acc.availableBalance;
+    }
+    return '0.00';
+  });
+
   copiedAccount = signal(false);
   hideBalance = signal(false);
   filterType = signal<'ALL' | 'CREDIT' | 'DEBIT'>('ALL');
@@ -426,7 +443,7 @@ export class OverviewComponent implements OnInit {
   });
 
   currencySymbol = computed(() => {
-    const c = this.summary()?.account?.currency;
+    const c = this.currentAccount()?.currency;
     if (c === 'GBP') return '£';
     if (c === 'EUR') return '€';
     if (c === 'NGN') return '₦';
@@ -442,6 +459,9 @@ export class OverviewComponent implements OnInit {
       next: (res) => {
         if (res.data) {
           this.summary.set(res.data);
+          if (res.data.account) {
+            this.authService.currentAccount.set(this.authService.normalizeAccount(res.data.account));
+          }
         }
       }
     });
@@ -452,7 +472,7 @@ export class OverviewComponent implements OnInit {
   }
 
   copyAccountNumber(): void {
-    const accNo = this.summary()?.account?.accountNumber;
+    const accNo = this.currentAccount()?.accountNumber;
     if (accNo && navigator.clipboard) {
       navigator.clipboard.writeText(accNo);
       this.copiedAccount.set(true);

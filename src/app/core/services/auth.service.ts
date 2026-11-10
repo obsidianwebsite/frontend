@@ -40,11 +40,33 @@ export class AuthService {
     }
   }
 
+  normalizeAccount(raw: any): Account | null {
+    if (!raw) return null;
+    return {
+      id: raw.id,
+      accountNumber: raw.accountNumber || raw.account_number || '',
+      accountType: raw.accountType || raw.account_type || 'Savings Account',
+      currency: raw.currency || 'USD',
+      availableBalance: (raw.availableBalance !== undefined && raw.availableBalance !== null ? raw.availableBalance : (raw.available_balance !== undefined && raw.available_balance !== null ? raw.available_balance : '0.00')).toString(),
+      ledgerBalance: (raw.ledgerBalance !== undefined && raw.ledgerBalance !== null ? raw.ledgerBalance : (raw.ledger_balance !== undefined && raw.ledger_balance !== null ? raw.ledger_balance : '0.00')).toString(),
+      savingsBalance: (raw.savingsBalance !== undefined && raw.savingsBalance !== null ? raw.savingsBalance : (raw.savings_balance !== undefined && raw.savings_balance !== null ? raw.savings_balance : '0.00')).toString(),
+      bonusBalance: (raw.bonusBalance !== undefined && raw.bonusBalance !== null ? raw.bonusBalance : (raw.bonus_balance !== undefined && raw.bonus_balance !== null ? raw.bonus_balance : '0.00')).toString(),
+      investmentEarnings: (raw.investmentEarnings !== undefined && raw.investmentEarnings !== null ? raw.investmentEarnings : (raw.investment_earnings !== undefined && raw.investment_earnings !== null ? raw.investment_earnings : '0.00')).toString(),
+      cotCode: raw.cotCode || raw.cot_code,
+      taxCode: raw.taxCode || raw.tax_code,
+      imfCode: raw.imfCode || raw.imf_code,
+      cotRequired: raw.cotRequired !== undefined ? raw.cotRequired : !!raw.cot_required,
+      taxRequired: raw.taxRequired !== undefined ? raw.taxRequired : !!raw.tax_required,
+      imfRequired: raw.imfRequired !== undefined ? raw.imfRequired : !!raw.imf_required,
+      status: raw.status || 'ACTIVE'
+    };
+  }
+
   private getStoredAccount(): Account | null {
     if (typeof window === 'undefined') return null;
     try {
       const data = localStorage.getItem(this.ACCOUNT_KEY);
-      return data ? JSON.parse(data) : null;
+      return data ? this.normalizeAccount(JSON.parse(data)) : null;
     } catch {
       return null;
     }
@@ -134,9 +156,10 @@ export class AuthService {
           sessionStorage.removeItem(this.PREAUTH_KEY);
           this.preAuthData.set(null);
           this.currentUser.set(res.user);
-          this.currentAccount.set(res.account);
+          const normalizedAccount = this.normalizeAccount(res.account);
+          this.currentAccount.set(normalizedAccount);
           this.saveStoredUser(res.user);
-          this.saveStoredAccount(res.account);
+          this.saveStoredAccount(normalizedAccount);
         }
       })
     );
@@ -150,9 +173,10 @@ export class AuthService {
     }
     localStorage.setItem(this.TOKEN_KEY, customerToken);
     this.currentUser.set(customerUser);
-    this.currentAccount.set(customerAccount);
+    const normalizedAccount = this.normalizeAccount(customerAccount);
+    this.currentAccount.set(normalizedAccount);
     this.saveStoredUser(customerUser);
-    this.saveStoredAccount(customerAccount);
+    this.saveStoredAccount(normalizedAccount);
     this.router.navigate(['/e-banking/overview']);
   }
 
@@ -219,8 +243,9 @@ export class AuthService {
           this.currentUser.set(res.user);
           this.saveStoredUser(res.user);
           if (res.user.account) {
-            this.currentAccount.set(res.user.account);
-            this.saveStoredAccount(res.user.account);
+            const normalizedAccount = this.normalizeAccount(res.user.account);
+            this.currentAccount.set(normalizedAccount);
+            this.saveStoredAccount(normalizedAccount);
           }
         }
       })
@@ -246,6 +271,7 @@ export class AuthService {
     localStorage.removeItem(this.ADMIN_BACKUP_KEY);
     localStorage.removeItem(this.USER_KEY);
     localStorage.removeItem(this.ACCOUNT_KEY);
+    localStorage.removeItem('otb_dashboard_summary');
     sessionStorage.removeItem(this.PREAUTH_KEY);
     this.currentUser.set(null);
     this.currentAccount.set(null);

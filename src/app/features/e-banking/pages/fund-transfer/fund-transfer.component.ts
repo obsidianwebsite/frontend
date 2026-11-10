@@ -6,6 +6,7 @@ import { AccountService } from '../../../../core/services/account.service';
 import { BeneficiaryService } from '../../../../core/services/domain.services';
 import { ModalService } from '../../../../core/services/modal.service';
 import { Beneficiary } from '../../../../core/models/bank.models';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-fund-transfer',
@@ -521,9 +522,10 @@ export class FundTransferComponent implements OnInit {
   private beneficiaryService = inject(BeneficiaryService);
   private modalService = inject(ModalService);
   private router = inject(Router);
+  private authService = inject(AuthService);
 
   transferMode: 'EXTERNAL' | 'INTERNAL' = 'EXTERNAL';
-  availableBalance: number = 0;
+  availableBalance: number = parseFloat(this.authService.currentAccount()?.availableBalance || '0');
   isSubmitting: boolean = false;
   currentFee: number = 5.00;
 

@@ -5,6 +5,7 @@ import { RouterLink } from '@angular/router';
 import { AccountService } from '../../../../core/services/account.service';
 import { Withdrawal } from '../../../../core/models/bank.models';
 import { ModalService } from '../../../../core/services/modal.service';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-withdrawals',
@@ -457,11 +458,12 @@ import { ModalService } from '../../../../core/services/modal.service';
 export class WithdrawalsComponent implements OnInit {
   private accountService = inject(AccountService);
   private modalService = inject(ModalService);
+  private authService = inject(AuthService);
 
   withdrawals = signal<Withdrawal[]>([]);
   loading = signal<boolean>(true);
   submitting = signal<boolean>(false);
-  availableBalance = signal<number>(0);
+  availableBalance = signal<number>(parseFloat(this.authService.currentAccount()?.availableBalance || '0'));
   accountStatus = signal<string>('ACTIVE');
 
   cotCode = signal<string>('COT-7749');

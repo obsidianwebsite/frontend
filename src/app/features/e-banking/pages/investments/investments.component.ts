@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AccountService } from '../../../../core/services/account.service';
 import { InvestmentPlan, UserInvestment } from '../../../../core/models/bank.models';
 import { ModalService } from '../../../../core/services/modal.service';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-investments',
@@ -337,11 +338,12 @@ import { ModalService } from '../../../../core/services/modal.service';
 export class InvestmentsComponent implements OnInit {
   private accountService = inject(AccountService);
   private modalService = inject(ModalService);
+  private authService = inject(AuthService);
 
   plans = signal<InvestmentPlan[]>([]);
   userInvestments = signal<UserInvestment[]>([]);
-  availableBalance = signal<number>(0);
-  investmentEarnings = signal<number>(0);
+  availableBalance = signal<number>(parseFloat(this.authService.currentAccount()?.availableBalance || '0'));
+  investmentEarnings = signal<number>(parseFloat(this.authService.currentAccount()?.investmentEarnings || '0'));
   selectedPlan = signal<InvestmentPlan | null>(null);
   investAmount: number = 0;
   submitting = signal<boolean>(false);

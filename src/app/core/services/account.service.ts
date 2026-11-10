@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { 
   DashboardSummary, 
   Deposit, 
@@ -23,9 +23,36 @@ import {
 })
 export class AccountService {
   private http = inject(HttpClient);
+  private readonly SUMMARY_KEY = 'otb_dashboard_summary';
+
+  getCachedSummary(): DashboardSummary | null {
+    if (typeof window === 'undefined') return null;
+    try {
+      const data = localStorage.getItem(this.SUMMARY_KEY);
+      return data ? JSON.parse(data) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  clearCachedSummary(): void {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem(this.SUMMARY_KEY);
+    }
+  }
 
   getSummary(): Observable<{ success: boolean; data: DashboardSummary }> {
-    return this.http.get<{ success: boolean; data: DashboardSummary }>('/api/v1/accounts/summary');
+    return this.http.get<{ success: boolean; data: DashboardSummary }>('/api/v1/accounts/summary').pipe(
+      tap((res) => {
+        if (res.data && typeof window !== 'undefined') {
+          try {
+            localStorage.setItem(this.SUMMARY_KEY, JSON.stringify(res.data));
+          } catch (e) {
+            console.warn('Failed to cache dashboard summary', e);
+          }
+        }
+      })
+    );
   }
 
   getStatement(params?: { from?: string; to?: string; type?: string; channel?: string; search?: string; limit?: number; offset?: number }): Observable<any> {
